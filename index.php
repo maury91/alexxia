@@ -5,6 +5,7 @@ header('Content-Type: text/html; charset=utf-8');
 header('CMS: Alexxia v'.__ALE_version.' http://alexxia.it');
 define('__base_path',dirname(__FILE__).'/');
 define('__http_path',dirname($_SERVER['SCRIPT_NAME']).'/');
+define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
 require(__base_path.'levels/2/loader.php');
 //Installazione
 if (file_exists('install/make.php')) {
@@ -33,7 +34,56 @@ if (GLOBALS::val('offline')) {
 		exit(0);
 	}
 }
+//Localizazione Script da chiamare
+if(POST::exists('page'))	$page 	= POST::val('page'); 	else $page 	= (GET::exists('page'))?GET::val('page') : '';
+if(POST::exists('com'))		$com 	= POST::val('com'); 	else $com 	= (GET::exists('com'))?GET::val('com') : '';
+if(POST::exists('zone'))	$zone 	= POST::val('zone'); 	else $zone 	= (GET::exists('zone'))?GET::val('zone') : '';
+if(POST::exists('adm'))		$adm 	= POST::val('adm'); 	else $adm 	= (GET::exists('adm'))?GET::val('adm') : '';
+if($adm != '')
+	$pag = 'admin/'.$adm; 
+elseif($page != '')
+	$pag = 'pages/'.$page; 
+else 
+	$pag = ($com != '')?'com/'.$com : 'core/'.$zone;
+if ($pag == 'core/') $pag = 'pages/home';
+$pag .= '.php';
+//Controllo se passare alla modalità Mobile
+if (MOBILE::is_mobile()) {
+	include('mobile/mobile.php');
+	exit(0);
+}
+//Modalità Normale
 HTML::add_script('js/jquery.js','js/jquery-ui.js');
-HTML::add_style('css/test.css');
-echo HTML::get_head();
+HTML::add_style('css/jquery-ui.css');
+foreach (PLUGINS::in('core','index','begin') as $p) include("plugin/$p.php");
+$pg_html = '';
+ob_start();
+if(strpos($pag,'..') === false) {
+	if (file_exists($pag)) {
+		foreach (PLUGINS::in('core','index','before_page') as $p) include("plugin/$p.php");
+		if($adm != '') {
+			if (PRIVILEGES::access('admin_home')) {
+				include($pag);
+				exit(0);
+			} else
+				ERRORS::display(403,$pag);
+		}
+		else
+			include($pag);
+	}
+	else
+		ERRORS::display(404,$pag);
+}
+else
+	ERRORS::display(405,$pag);
+foreach (PLUGINS::in('core','index','after_page') as $p) include("plugin/$p.php");
+//Elaborazione Template
+if (!GET::exists('aj')||(GET::val('aj')=='no')){
+	foreach (PLUGINS::in('core','index','template') as $p) include("plugin/$p.php");
+	$pg_html .= ob_get_contents();
+	ob_end_clean();
+	TEMPLATE::elab($pg_html);
+} elseif (HTML::get_title()!=GLOBALS::val('sitename'))
+	echo'<script>document.title = "'.(HTML::get_title()).'";</script>';
+foreach (PLUGINS::in('core','index','end') as $p) include("plugin/$p.php");
 ?>

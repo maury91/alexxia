@@ -1,5 +1,5 @@
 <?php
-function __autoload($class) {
+function level_2_autoload($class) {
 	switch($class) {
 		case 'GLOBALS' : 
 			include __base_path.'levels/2/globals.php'; break;
