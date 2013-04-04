@@ -1,0 +1,1 @@
+A.L.E.ssia è realizzato in PHP5, non presenta retrocompatibilità con PHP4, si consiglia di aggiornare il proprio server per usare questo ambiente di svillupo.

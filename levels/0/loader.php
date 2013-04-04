@@ -1,0 +1,22 @@
+<?php
+function level_0_autoload($class) {
+	switch($class) {
+		case 'DB' : 
+			include __base_path.'levels/0/db.php'; break;
+		case 'GET' :
+		case 'POST' :
+		case 'COOKIE' :
+			include __base_path.'levels/0/external.php'; break;
+		case 'RAND' :
+			include __base_path.'levels/0/rand.php'; break;
+		case 'CRYPT' :
+			include __base_path.'levels/0/crypto.php'; break;
+		case 'PHP_WRITER' :
+			include __base_path.'levels/0/php_writer.php'; break;
+		case 'ALECHECK' :
+			include __base_path.'levels/0/alecheck.php'; break;
+		case 'ALETable' :
+			include __base_path.'levels/0/db_table.php'; break;
+	}
+}
+?>
