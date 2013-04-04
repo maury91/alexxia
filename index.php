@@ -6,7 +6,7 @@ header('CMS: Alexxia v'.__ALE_version.' http://alexxia.it');
 define('__base_path',dirname(__FILE__).'/');
 define('__http_path',dirname($_SERVER['SCRIPT_NAME']).'/');
 define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
-require(__base_path.'levels/2/loader.php');
+require(__base_path.'levels/3/loader.php');
 //Installazione
 if (file_exists('install/make.php')) {
 	$point = (isset($_GET['pax']))? $_GET['pax'] : 1;
