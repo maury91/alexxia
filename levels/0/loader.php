@@ -15,6 +15,8 @@ function level_0_autoload($class) {
 			include __base_path.'levels/0/php_writer.php'; break;
 		case 'ALECHECK' :
 			include __base_path.'levels/0/alecheck.php'; break;
+		case 'HTML' :
+			include __base_path.'levels/0/html.php'; break;
 		case 'ALETable' :
 			include __base_path.'levels/0/db_table.php'; break;
 	}

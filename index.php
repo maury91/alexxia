@@ -33,5 +33,7 @@ if (GLOBALS::val('offline')) {
 		exit(0);
 	}
 }
-HTML::add_script('js/jquery.js');
+HTML::add_script('js/jquery.js','js/jquery-ui.js');
+HTML::add_style('css/test.css');
+echo HTML::get_head();
 ?>
