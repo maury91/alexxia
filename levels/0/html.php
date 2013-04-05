@@ -82,8 +82,12 @@ class HTML {
 		return self::$body;
 	}
 	
+	static public function set_logo($val) {
+		self::$logo = $val;
+	}
+	
 	static public function get_logo() {
-		self::default_logo();
+		if (self::$logo==null)
 		return (in_array(strtolower(FUNCTIONS::fext(self::$logo)),array('png','jpe','jpeg','jpg','gif','bmp','ico','tiff','tif','svg','svgz')))?'<img src="'.self::$logo'">':self::$logo;
 	}
 	
