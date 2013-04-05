@@ -9,6 +9,8 @@ function level_1_autoload($class) {
 			include __base_path.'levels/1/mobile.php'; break;
 		case 'PLUGINS' :
 			include __base_path.'levels/1/plugin.php'; break;
+		case 'LANG' :
+			include __base_path.'levels/1/lang.php'; break;
 		default :
 			include_once(__base_path.'levels/0/loader.php');
 			level_0_autoload($class);

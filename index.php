@@ -77,6 +77,7 @@ if(strpos($pag,'..') === false) {
 else
 	ERRORS::display(405,$pag);
 foreach (PLUGINS::in('core','index','after_page') as $p) include("plugin/$p.php");
+echo LANG::name();
 //Elaborazione Template
 if (!GET::exists('aj')||(GET::val('aj')=='no')){
 	foreach (PLUGINS::in('core','index','template') as $p) include("plugin/$p.php");
@@ -85,5 +86,6 @@ if (!GET::exists('aj')||(GET::val('aj')=='no')){
 	TEMPLATE::elab($pg_html);
 } elseif (HTML::get_title()!=GLOBALS::val('sitename'))
 	echo'<script>document.title = "'.(HTML::get_title()).'";</script>';
+//
 foreach (PLUGINS::in('core','index','end') as $p) include("plugin/$p.php");
 ?>

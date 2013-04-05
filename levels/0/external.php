@@ -54,18 +54,25 @@ class COOKIE extends External {
 			parent::restore($_COOKIE);
 		}
 	}
+	
 	public static function val($var) {
 		self::restore();
 		return isset($_COOKIE[$var])?$_COOKIE[$var]:false;
 	}
+	
 	public static function exists($var) {
 		return isset($_COOKIE[$var]);
 	}
+	
 	public static function set($name,$value,$duration=0) {
 		if ($duration)
 			return setcookie($name,$value,time()+$duration*60,__http_path,'',false,true);
 		else
 			return setcookie($name,$value,0);
+	}
+	
+	public static function extend($name) {
+		self::set($name,self::val($name),24*60);
 	}
 }
 ?>
