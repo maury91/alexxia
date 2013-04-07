@@ -54,9 +54,9 @@ class MENU {
 
 	static public function load_menus() {
 		if (self::$menus==null) {
-			if (file_exists(__base_path.'cache/menu_c2.php')) {
+			if (file_exists(__base_path.'cache/menu/c2/')) {
 				self::$menus=true;
-				include(__base_path.'cache/menu_c2.php');
+				include(__base_path.'cache/menu/c2/'.(LANG::short()).'_'.(USER::level()).'.php');
 				self::$menus_l2=$menu;
 			} else {
 				//Regole
@@ -64,11 +64,12 @@ class MENU {
 					self::$rulez = json_decode(file_get_contents(__base_path.'template/'.GLOBALS::val('template').'/build.json'));
 				else
 					self::$rulez = false;
-				if (file_exists(__base_path.'cache/menu_c1.php')) {
-					include(__base_path.'cache/menu_c1.php');
+				if (file_exists(__base_path.'cache/menu/c1/')) {
+					include(__base_path.'cache/menu/c1/'.(LANG::short()).'_'.(USER::level()).'.php');
 					self::$menus=$menu;
 				} else {
 					//Caricamento dati
+					mkdir(__base_path.'cache/menu/c1/');
 					include(__base_path.'config/menu.php');
 					if (file_exists(__base_path.'template/'.GLOBALS::val('template').'/menu.json')) {
 						$men_conf = json_decode(file_get_contents(__base_path.'template/'.GLOBALS::val('template').'/menu.json'));
@@ -170,20 +171,22 @@ class MENU {
 												}
 										}
 									}
+								file_put_contents(__base_path.'cache/menu/c1/'.$lk.'_'.$l.'.php',"<?php\n".'$menu = '.var_export($men4[$lk][$l],true).";\n?>");	
 							}
-						}
-						file_put_contents(__base_path.'cache/menu_c1.php',"<?php\n".'$menu = '.var_export($men4,true).";\n?>");					
-						self::$menus=$men4;
+						}				
+						self::$menus=$men4[LANG::short()][USER::level()];
 						//Cache L2!
 						if (isset($men_conf->cache)&&($men_conf->cache>1)) {
+							mkdir(__base_path.'cache/menu/c2/');
 							$men_l2 = array();
 							foreach ($__langs as $lk=>$lv) 
 								for ($l=0;$l<11;$l++) {
 									foreach ($men4[$lk][$l] as $k => $v)
 										$men_l2[$lk][$l][$k] = self::build($k,$v);
+									file_put_contents(__base_path.'cache/menu/c2/'.$lk.'_'.$l.'.php',"<?php\n".'$menu = '.var_export($men_l2[$lk][$l],true).";\n?>");
 								}
-							file_put_contents(__base_path.'cache/menu_c2.php',"<?php\n".'$menu = '.var_export($men_l2,true).";\n?>");
-							self::$menus_l2=$men_l2;
+							
+							self::$menus_l2=$men_l2[LANG::short()][USER::level()];
 						}
 					}
 				}
@@ -194,9 +197,9 @@ class MENU {
 	static public function get($menu) {
 		self::load_menus();
 		if (self::$menus_l2==null)
-			return self::build($menu,self::$menus[LANG::short()][USER::level()][$menu]);
+			return self::build($menu,self::$menus[$menu]);
 		else
-			return self::$menus_l2[LANG::short()][USER::level()][$menu];
+			return self::$menus_l2[$menu];
 	}
 }
 class TEMPLATE {
