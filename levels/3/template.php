@@ -11,7 +11,14 @@ class MENU {
 	static private function rule_l($rule) {
 	}
 	
-	static private function build($name,$menu) {
+	static private function mod($name) {
+		ob_start();
+		if (file_exists(__base_path.'mod/'.$name.'/mod.php'))
+			include(__base_path.'mod/'.$name.'/mod.php');
+		return ob_get_clean();
+	}
+	
+	static private function build($name,$menu,$to_cache=false) {
 		$to_ret='';
 		if (self::$rulez) {
 			$rulez_set = self::$rulez->$name;
@@ -40,8 +47,12 @@ class MENU {
 				} else {
 					foreach ($rulez_set->mod as $rl) {
 						if ((isset($rl->rule))?self::rule_m($rl->rule,$i,$tot):true) {
-							$mod='';
-							$cla='';//(trim($menu[$i]['class'].(isset($rl['class'])?$rl['class']:''))=='')?'':$menu[$i]['class'].(isset($rl['class'])?$rl['class']:'')
+							if ($to_cache)
+								$mod='%mod-'.$menu[$i]['module'].'-mod%';
+							else
+								$mod=self::mod($menu[$i]['module']);
+							$cla='';
+							//(trim($menu[$i]['class'].(isset($rl['class'])?$rl['class']:''))=='')?'':$menu[$i]['class'].(isset($rl['class'])?$rl['class']:'')
 							$to_ret.=str_ireplace(array('%class%','%text%','%mod%','%image%'),array($cla,$menu[$i]['text'],$mod,$menu[$i]['image']),$rl->content);
 						}
 					}
@@ -182,10 +193,9 @@ class MENU {
 							foreach ($__langs as $lk=>$lv) 
 								for ($l=0;$l<11;$l++) {
 									foreach ($men4[$lk][$l] as $k => $v)
-										$men_l2[$lk][$l][$k] = self::build($k,$v);
-									file_put_contents(__base_path.'cache/menu/c2/'.$lk.'_'.$l.'.php',"<?php\n".'$menu = '.var_export($men_l2[$lk][$l],true).";\n?>");
+										$men_l2[$lk][$l][$k] = self::build($k,$v,true);
+									file_put_contents(__base_path.'cache/menu/c2/'.$lk.'_'.$l.'.php',"<?php\n".'$menu = '.str_replace(array('%mod-','-mod%'),array('\'.self::mod(\'','\').\''),var_export($men_l2[$lk][$l],true)).";\n?>");
 								}
-							
 							self::$menus_l2=$men_l2[LANG::short()][USER::level()];
 						}
 					}
