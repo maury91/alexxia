@@ -6,7 +6,7 @@
 	$sitename = 'My Site';
 	$sitedesc = 'My Site the site of we talk of lol';
 	$sitetags = '';
-	$template = 'sergio';
+	$template = 'mauro';
 	$cms_time = 0;
 	$regmail = '';
 	$regtos = '';

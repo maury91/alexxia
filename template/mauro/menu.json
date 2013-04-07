@@ -1,0 +1,9 @@
+{
+    "menus": [
+		{"name":"top","accept":"links","absorbe":["bottom"],"move":{"mod":"right"}},
+		{"name":"right","absorbe":["left"]},
+		{"name":"slider","accept":"mod"}
+	],
+	"move": {"mod":"right","links":"top"},
+	"cache": 2
+}

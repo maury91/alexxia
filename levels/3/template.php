@@ -1,12 +1,227 @@
 <?php
 /*
-	TODO : finire template
+	TODO : finire regole!
 */
+class MENU {
+	private static $menus=null,$menus_l2=null,$rulez=null;
+	
+	static private function rule_m($rule,$i,$tot) {
+	}
+	
+	static private function rule_l($rule) {
+	}
+	
+	static private function build($name,$menu) {
+		$to_ret='';
+		if (self::$rulez) {
+			$rulez_set = self::$rulez->$name;
+			$tot = count($menu);
+			for ($i=0;$i<$tot;$i++) {
+				if ($menu[$i]['type']) {
+					foreach ($rulez_set->link as $rl) {
+						if ((isset($rl->rule))?self::rule_m($rl->rule,$i,$tot):true) {
+							$links='';
+							$tot2=count($menu[$i]['links']);
+							for ($j=0;$j<$tot2;$j++) {
+								foreach ($rl->links as $rll) {
+									if ((isset($rll->rule))?self::rule_l($rll->rule,$j,$tot2):true) {
+										$cla = '';//(trim($menu[$i]['links'][$j]['class'].(isset($rll['class'])?$rll['class']:''))=='')?'':$menu[$i]['links'][$j]['class'].(isset($rll['class'])?$rll['class']:'');
+										$links.=str_ireplace(array('%class%','%text%','%image%','%href%'),array($cla,
+										$menu[$i]['links'][$j]['text'],
+										$menu[$i]['links'][$j]['image'],
+										$menu[$i]['links'][$j]['href']),$rll->content);
+									}
+								}
+							}
+							$cla = '';//(trim($menu[$i]['class'].(isset($rl['class'])?$rl['class']:''))=='')?'':$menu[$i]['class'].(isset($rl['class'])?$rl['class']:'')
+							$to_ret.=str_ireplace(array('%class%','%text%','%links%','%image%'),array($cla,$menu[$i]['text'],$links,$menu[$i]['image']),$rl->content);
+						}
+					}
+				} else {
+					foreach ($rulez_set->mod as $rl) {
+						if ((isset($rl->rule))?self::rule_m($rl->rule,$i,$tot):true) {
+							$mod='';
+							$cla='';//(trim($menu[$i]['class'].(isset($rl['class'])?$rl['class']:''))=='')?'':$menu[$i]['class'].(isset($rl['class'])?$rl['class']:'')
+							$to_ret.=str_ireplace(array('%class%','%text%','%mod%','%image%'),array($cla,$menu[$i]['text'],$mod,$menu[$i]['image']),$rl->content);
+						}
+					}
+				}
+			}
+		} else {
+		}
+		return $to_ret;
+	}
+
+	static public function load_menus() {
+		if (self::$menus==null) {
+			if (file_exists(__base_path.'cache/menu_c2.php')) {
+				self::$menus=true;
+				include(__base_path.'cache/menu_c2.php');
+				self::$menus_l2=$menu;
+			} else {
+				//Regole
+				if (file_exists(__base_path.'template/'.GLOBALS::val('template').'/build.json'))
+					self::$rulez = json_decode(file_get_contents(__base_path.'template/'.GLOBALS::val('template').'/build.json'));
+				else
+					self::$rulez = false;
+				if (file_exists(__base_path.'cache/menu_c1.php')) {
+					include(__base_path.'cache/menu_c1.php');
+					self::$menus=$menu;
+				} else {
+					//Caricamento dati
+					include(__base_path.'config/menu.php');
+					if (file_exists(__base_path.'template/'.GLOBALS::val('template').'/menu.json')) {
+						$men_conf = json_decode(file_get_contents(__base_path.'template/'.GLOBALS::val('template').'/menu.json'));
+						$men2=array();
+						foreach ($men_conf->menus as $v) {
+							if (isset($menu[$v->name])) {
+								$men2[$v->name] = $menu[$v->name];
+								unset($menu[$v->name]);
+							}
+							if (!isset($men2[$v->name]))
+								$men2[$v->name] = array();
+							if (isset($v->absorbe)) {
+								foreach($v->absorbe as $j) {
+									$men2[$v->name] = array_merge($men2[$v->name],$menu[$j]);
+									unset($menu[$j]);
+								}
+							}
+							if (isset($v->accept)) {
+								if (strtolower($v->accept)=='links') {
+									if (!isset($men2[$men_conf->move->mod]))
+										$men2[$men_conf->move->mod]=array();
+									foreach ($men2[$v->name] as $k => $v) {
+										if (!$v['type']) {
+											$men2[$men_conf->move->mod][] = $v;
+											array_splice($men2[$v->name],$k,1);
+										}
+									}
+								} elseif (strtolower($v->accept)=='mod') {
+									if (!isset($men2[$men_conf->move->links]))
+										$men2[$men_conf->move->links]=array();
+									foreach ($men2[$v->name] as $k => $v) {
+										if ($v['type']) {
+											$men2[$men_conf->move->links][] = $v;
+											array_splice($men2[$v->name],$k,1);
+										}
+									}
+								}
+							}
+							if (isset($v->move)) {
+								if (isset($v->move->mod)) {
+									if (!isset($men2[$v->move->mod]))
+										$men2[$v->move->mod]=array();
+									foreach ($men2[$v->name] as $k=>$v) {
+										if (!$v['type']) {
+											$men2[$v->move->mod][] = $v;
+											array_splice($men2[$v->name],$k,1);
+										}
+									}
+								}
+								if (isset($v->move->links)) {
+									if (!isset($men2[$v->move->links]))
+										$men2[$v->move->links]=array();
+									foreach ($men2[$v->name] as $k=>$v) {
+										if ($v['type']) {
+											$men2[$v->move->links][] = $v;
+											array_splice($men2[$v->name],$k,1);
+										}
+									}
+								}
+							}
+						}
+						foreach ($menu as $v) 
+							foreach ($v as $j) {
+								if ($j['type']) 
+									$men2[$men_conf->move->links][] = $j;
+								else
+									$men2[$men_conf->move->mod][] = $j;
+							}					
+						$men3 = array();
+						for ($l=0;$l<11;$l++) {
+							$men3[$l] = $men2;
+							foreach ($men3[$l] as $k => $v) 
+								foreach ($v as $j => $i) {
+									if ($i['level']< $l)
+										array_splice($men3[$l][$k],$j,1);
+									else {
+										if ($i['type'])
+											foreach ($i['links'] as $a => $b) {
+												if ($b['level']< $l)
+													array_splice($men3[$l][$k][$j]['links'],$a,1);
+											}
+									}
+								}
+						}
+						$men4 = array();
+						$__langs = LANG::get_list();
+						foreach ($__langs as $lk=>$lv) {
+							$men4[$lk]=$men3;
+							for ($l=0;$l<11;$l++) {
+								foreach ($men3[$l] as $k => $v) 
+									foreach ($v as $j => $i) {
+										if (($i['lang']!='all')&&($i['lang']!=$lk))
+											array_splice($men4[$lk][$l][$k],$j,1);
+										else {
+											if ($i['type'])
+												foreach ($i['links'] as $a => $b) {
+													if (($b['lang']!='all')&&($b['lang']!=$lk))
+														array_splice($men4[$lk][$l][$k][$j]['links'],$a,1);
+												}
+										}
+									}
+							}
+						}
+						file_put_contents(__base_path.'cache/menu_c1.php',"<?php\n".'$menu = '.var_export($men4,true).";\n?>");					
+						self::$menus=$men4;
+						//Cache L2!
+						if (isset($men_conf->cache)&&($men_conf->cache>1)) {
+							$men_l2 = array();
+							foreach ($__langs as $lk=>$lv) 
+								for ($l=0;$l<11;$l++) {
+									foreach ($men4[$lk][$l] as $k => $v)
+										$men_l2[$lk][$l][$k] = self::build($k,$v);
+								}
+							file_put_contents(__base_path.'cache/menu_c2.php',"<?php\n".'$menu = '.var_export($men_l2,true).";\n?>");
+							self::$menus_l2=$men_l2;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	static public function get($menu) {
+		self::load_menus();
+		if (self::$menus_l2==null)
+			return self::build($menu,self::$menus[LANG::short()][USER::level()][$menu]);
+		else
+			return self::$menus_l2[LANG::short()][USER::level()][$menu];
+	}
+}
 class TEMPLATE {
 	
 	private static function compile_template($template) {
-		define('template_path',__http_host.__http_path.'/template/'.$template);
-	
+		define('template_path',__base_path.'template/'.$template.'/');
+		$y = file_get_contents(__base_path.'template/'.$template.'/index.html');
+		$y = str_ireplace(
+			array('<ALE::LOGO/>','<ALE::HEAD/>','<ALE::PAGE/>','<ALE:TEMPLATE/>','<ALE:COPYRIGHTS/>'),
+			array('<?php echo HTML::get_logo(); ?>','<?php echo HTML::get_head(); ?>','<?php echo $html; ?>',template_path,'<a href="http://niicms.net" target="_blank">Powered by Alexxia Open Source Content Manager</a>'),$y);
+		//Rilevazione del tag <body>
+		$pos = stripos($y,'<body');
+		$pos2= strpos(substr($y,$pos+5),'>');
+		$y = substr($y,0,$pos+5).'<?php echo HTML::get_body_tag(); ?>'.substr($y,$pos+5,$pos2+1)."\n\t\t".'<?php echo HTML::get_body(); ?>'.substr($y,$pos+5+$pos2+2);
+		//Rilevazione menu
+		do {
+			$pos = stripos($y,'<ALE::MENU',$pos+10);
+			$pos2 = stripos($y,'/>',$pos+10);
+			if ($pos!==false) {
+				$data = substr($y,$pos+10,$pos2-$pos-10);
+				$name = trim(strstr(stristr($data,'name'),'"')," \t\n\r\0\x0B\"");
+				$y = substr($y,0,$pos).'<?php echo MENU::get(\''.$name.'\') ?>'.substr($y,$pos2+2);
+			}
+		} while($pos!==false);
+		file_put_contents(__base_path.'cache/template.php',$y);
 	}
 
 	public static function elab($html) {

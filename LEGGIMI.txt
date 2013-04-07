@@ -1,1 +1,24 @@
 A.L.E.ssia è realizzato in PHP5, non presenta retrocompatibilità con PHP4, si consiglia di aggiornare il proprio server per usare questo ambiente di svillupo.
+
+I menù che ALEssia permetterà di gestire all'utente dipendono da quali il tema mette a disposizione, ovviamente per garantire un'uniformità come si cambia da un tema all'altro, ALEssia mette a disposizione un SET di nomi di base per i menù :
+	> "left"		: Menu di sinistra
+	> "right"		: Menu di destra
+	> "top"			: Menu di sopra (barra alta (da non confondere con header))
+	> "bottom"		: Menu di sotto (barra bassa (da non confondere con footer))
+	> "header"		: Header (intestazione)
+	> "footer"		: Footer (dentro il corpo del footer)
+	> "banner1"		: Varie posizioni per i Banners
+	> "banner2"
+	> "banner3"
+	> "search"		: Posizione per il modulo cerca
+	> "slider"		: Slider di immagini, molto usato in diversi siti
+	> "navigation"	: Posizione della barra di navigazione
+	> "user1"		: Non indicato
+	> "user2"
+	> "user3"
+	> "user4"
+	> "user5"
+	> "user6"
+	> "user7"
+	> "user8"
+	> "user9"

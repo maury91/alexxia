@@ -1,0 +1,24 @@
+{
+	"top" : {
+		"link" : [{
+			"content" : "%links%",
+			"links" : [{"content":"<li %class%><a href='%href%'>%text%</a></li>"}]
+		}]
+	},
+	"right" : {
+		"link" : [{
+			"content" : "<div %class%>%text%</div><nav><ul>%links%</ul></nav>",
+			"class" : "list-title",
+			"links" : [{"content":"<li %class%><a href='%href%'>%text%</a></li>"}]
+		}],
+		"mod" : [{
+			"content" : "<div %class%>%text%</div><nav><ul>%mod%</ul></nav>",
+			"class" : "list-title"
+		}]
+	},
+	"slider" : {
+		"mod" : [{
+			"content" : "%mod%"
+		}]
+	}
+}

@@ -1,5 +1,4 @@
 <?php
-echo 'loaded';
 class LANG {
 	private static $lang=null;
 

@@ -77,7 +77,6 @@ if(strpos($pag,'..') === false) {
 else
 	ERRORS::display(405,$pag);
 foreach (PLUGINS::in('core','index','after_page') as $p) include("plugin/$p.php");
-echo LANG::name();
 //Elaborazione Template
 if (!GET::exists('aj')||(GET::val('aj')=='no')){
 	foreach (PLUGINS::in('core','index','template') as $p) include("plugin/$p.php");

@@ -88,7 +88,7 @@ class HTML {
 	
 	static public function get_logo() {
 		if (self::$logo==null)
-		return (in_array(strtolower(FUNCTIONS::fext(self::$logo)),array('png','jpe','jpeg','jpg','gif','bmp','ico','tiff','tif','svg','svgz')))?'<img src="'.self::$logo'">':self::$logo;
+		return (in_array(strtolower(FUNCTIONS::fext(self::$logo)),array('png','jpe','jpeg','jpg','gif','bmp','ico','tiff','tif','svg','svgz')))?'<img src="'.self::$logo.'">':self::$logo;
 	}
 	
 	static public function set_body_tag($val) {

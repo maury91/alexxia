@@ -1,0 +1,10 @@
+
+name="top"
+name="banner"
+name="right"
+"top"
+"banner"
+"right"
+top
+banner
+right
