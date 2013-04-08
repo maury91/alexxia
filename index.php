@@ -9,7 +9,8 @@ define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
 require(__base_path.'levels/3/loader.php');
 //Installazione
 if (file_exists('install/make.php')) {
-	$point = (isset($_GET['pax']))? $_GET['pax'] : 1;
+	session_start();
+	$point = (isset($_SESSION['step']))? $_SESSION['step'] : 1;
 	if ($point == 'end') {
 		$handle = opendir('install/');
 		while (false !== ($file = readdir($handle))) { 

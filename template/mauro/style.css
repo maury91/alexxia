@@ -219,3 +219,11 @@ footer {
 	margin-bottom: 60px;
 	background: #FFF;
 }
+header nav li a {
+	color: #558;
+	text-decoration: none;
+}
+.menu_r nav li a {
+	color: #559;
+	text-decoration: none;
+}
