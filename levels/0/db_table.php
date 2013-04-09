@@ -1,7 +1,7 @@
 <?php
 define('CURRENT','ALECurTime');
 
-class ALEEnum {
+class ALESQLEnum {
 	private $values=array(),$column;
 	
 	public function __construct($column) {
@@ -36,7 +36,7 @@ class ALEEnum {
 	}
 }
 
-class ALEColumn {
+class ALESQLColumn {
 	//Variabile di classe
 	//array(dimension,unsigned,digits,charset,binary,def[-1:not have,0:int,1:real,2:date,3:time,4:timestamp,5:datetime,6:char])
 	
@@ -68,7 +68,7 @@ class ALEColumn {
 		if ($tipo==NULL)
 			return $this->type;
 		if (($tipo=='ENUM')||($tipo=='SET')) {
-			return $this->enum_data = new ALEEnum($this);
+			return $this->enum_data = new ALESQLEnum($this);
 		}
 		if (isset(self::$prop_types[strtoupper($tipo)]))
 			$this->type = strtoupper($tipo);
@@ -191,8 +191,8 @@ class ALEColumn {
 	}
 }
 
-class ALETable {
-	private $DB,$isnew;
+class ALESQLTable {
+	private $db,$isnew;
 	private $primary=array(),$uniques=array(),$foreign=array();
 	public $properties=array(),$from=array(),$has_many=array(),$sub_tables=array();
 	public $name;
@@ -201,11 +201,12 @@ class ALETable {
 		return '`'.$str.'`';
 	}
 	
-	public function __construct($nome,$size,$new) {
+	public function __construct($nome,$size,$new,$db) {
 		$this->name = $nome;
 		$this->isnew = $new;
+		$this->db = $db;
 		if ($new) {
-			$column = new ALEColumn('id',$this);
+			$column = new ALESQLColumn('id',$this);
 			$this->properties = array('id' => $column);
 			$column->type('INT')->dimension($size)->unsigned()->not_null()->auto_increment();
 		}
@@ -245,7 +246,7 @@ class ALETable {
 		foreach ($tables as $table) {
 			$id = $table->get('id');
 			$nome = ($table->name).'_ref';
-			$col = $this->properties[$nome] = new ALEColumn($nome,$this);
+			$col = $this->properties[$nome] = new ALESQLColumn($nome,$this);
 			$col->type($id->type)->dimension($id->dimension)->unsigned($id->unsigned)->zerofill($id->zerofill)->not_null($id->not_null);
 			$this->foreign[] = array($nome,$table->name);
 			$this->foreign = array_unique($this->foreign);
@@ -301,7 +302,7 @@ class ALETable {
 					$v->drop();
 			}
 		}
-		return DB::query('DROP TABLE `'.($this->name).'`');
+		return $this->db->query('DROP TABLE `'.($this->name).'`');
 	}
 	
 	public function save($overwrite=false) {
@@ -329,7 +330,7 @@ class ALETable {
 							$s_name = is_array($s_name)?$s_name[1]:$s_name->name;
 						} else
 							$s_name = $this->name;
-						$new_table = new ALETable('NxN__'.($this->name).'x'.($table->name).'_'.$s_name.'x'.$t_name,$this->dimension()+1,true);
+						$new_table = new ALESQLTable('NxN__'.($this->name).'x'.($table->name).'_'.$s_name.'x'.$t_name,$this->dimension()+1,true);
 						$new_table
 							->property($t_name)->type('INT')->dimension($table->dimension())->not_null()->unsigned()->end()
 							->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
@@ -348,7 +349,7 @@ class ALETable {
 			foreach ($this->from as $v) {
 				if (!isset($this->sub_table['sup_'.($v[0]->name).'x'.($v[1]->name)])) {
 					//Campi
-					$new_table = new ALETable('NxN__'.($v[0]->name).'_'.($this->name).'x'.($v[1]->name),$this->dimension()+1,true);
+					$new_table = new ALESQLTable('NxN__'.($v[0]->name).'_'.($this->name).'x'.($v[1]->name),$this->dimension()+1,true);
 					$new_table
 						->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
 						->property($v[0])->end()
@@ -357,21 +358,21 @@ class ALETable {
 				}
 			
 			}
-			$res = DB::q_rows('SHOW TABLES LIKE "'.($this->name).'"')>0;
+			$res = $this->db->q_rows('SHOW TABLES LIKE "'.($this->name).'"')>0;
 			
 			if ($res&&$overwrite) {
 				//Eliminazione tabelle con dipendenze da questa
 				if ($this->drop())
 					$res = false;
 				else
-					trigger_error('Query Error : "'.(DB::error()).'"!',E_USER_WARNING);
+					trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
 			}
 			if ($res) {
 				//Alterazione
 			} else{
 				echo 'CREATE TABLE `'.($this->name).'` ('.$contents.');'."\n";
-				if (!DB::query('CREATE TABLE `'.($this->name).'` ('.$contents.')'))
-					trigger_error('Query Error : "'.(DB::error()).'"!',E_USER_WARNING);
+				if (!$this->db->query('CREATE TABLE `'.($this->name).'` ('.$contents.')'))
+					trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
 			}
 		} else
 			trigger_error('Invalid Table!',E_USER_WARNING);
@@ -379,13 +380,13 @@ class ALETable {
 	}
 	
 	public function property($nome) {
-		if (is_object($nome)&&get_class($nome)=='ALEColumn') {
-			$this->properties[$nome->name] = new ALEColumn($nome->name,$this);
+		if (is_object($nome)&&get_class($nome)=='ALESQLColumn') {
+			$this->properties[$nome->name] = new ALESQLColumn($nome->name,$this);
 			return $this->properties[$nome->name]->type($nome->type)->dimension($nome->dimension)->unsigned($nome->unsigned)->zerofill($nome->zerofill)->not_null($nome->not_null);
 		} elseif (isset($this->properties[$nome])) {
 			return $this->properties[$nome];
 		} else {
-			$this->properties[$nome] = new ALEColumn($nome,$this);
+			$this->properties[$nome] = new ALESQLColumn($nome,$this);
 			return $this->properties[$nome];
 		}
 	}

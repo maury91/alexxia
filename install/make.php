@@ -30,7 +30,7 @@ if (isset($_POST['next'])) {
 				'version'=>version_compare("5.1", phpversion(), '<'),
 				'rglobals'=>ini_get('register_globals')==false,
 				'zlib'=>extension_loaded('zlib'),
-				'db'=>extension_loaded('mysql')||extension_loaded('mysqli'),
+				'db'=>extension_loaded('mysql')||extension_loaded('mysqli')||extension_loaded('SQLite'),
 				'json'=>extension_loaded('json'),
 				'write'=>test_write_cf()&&test_write_ch()&&(unlink(__base_path.'cache/template.php')),
 				'http'=>(ini_get('allow_url_fopen') == true)||function_exists('curl_init'),
@@ -132,7 +132,7 @@ switch ($point) {
 			'version'=>version_compare("5.1", phpversion(), '<'),
 			'rglobals'=>ini_get('register_globals')==false,
 			'zlib'=>extension_loaded('zlib'),
-			'db'=>extension_loaded('mysql')||extension_loaded('mysqli'),
+			'db'=>extension_loaded('mysql')||extension_loaded('mysqli')||extension_loaded('SQLite'),
 			'json'=>extension_loaded('json'),
 			'write'=>test_write_cf()&&test_write_ch()&&(unlink(__base_path.'cache/template.php')),
 			'http'=>(ini_get('allow_url_fopen') == true)||function_exists('curl_init'),
@@ -237,12 +237,15 @@ switch ($point) {
 	case 3 :
 		$dbs='';
 		$content='<h2>Database</h2>
+		<script type="text/javascript">
+			
+		</script>
 		<div class="data">
 			<div class="l">
 				'.$__dbt.'*
 			</div>
 			<div class="r">
-				<select name="dbt">'.(extension_loaded('mysql')?'<option value="mysql">MySQL</option>':'').(extension_loaded('mysqli')?'<option value="mysqli">MySQLi</option>':'').'</select>
+				<select name="dbt">'.(extension_loaded('mysql')?'<option value="mysql">MySQL</option>':'').(extension_loaded('mysqli')?'<option value="mysqli">MySQLi</option>':'').(class_exists('SQLite3')?'<option value="SQLite3">SQLite3</option>':'').(extension_loaded('SQLite')?'<option value="SQLite">SQLite</option>':'').'</select>
 				<div>'.$__dbt_d.'</div>
 			</div>
 		</div>
@@ -340,7 +343,8 @@ switch ($point) {
 		</div>';
 		break;
 		case 4 :
-			$content = '<h2>'.$__sum.'</h2>';
+			//Installazione!
+			
 		break;
 }
 echo '<!DOCTYPE html>
@@ -348,7 +352,8 @@ echo '<!DOCTYPE html>
 	<head>
 		<title>ALExxia Installation</title>
 		<link rel="stylesheet" href="install/style.css" />
-		<link rel="icon" href="media/images/favicon.png" sizes="64x64" type="image/png">
+		<link rel="icon" href="media/images/favicon.png" sizes="64x64" type="image/png" />
+		<script type="text/javascript" src="js/jquery.js"></script>
 	</head>
 	<body>
 		<form method="post">

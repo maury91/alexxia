@@ -39,7 +39,6 @@ if (GLOBALS::val('offline')) {
 if(POST::exists('page'))	$page 	= POST::val('page'); 	else $page 	= (GET::exists('page'))?GET::val('page') : '';
 if(POST::exists('com'))		$com 	= POST::val('com'); 	else $com 	= (GET::exists('com'))?GET::val('com') : '';
 if(POST::exists('zone'))	$zone 	= POST::val('zone'); 	else $zone 	= (GET::exists('zone'))?GET::val('zone') : '';
-if(POST::exists('adm'))		$adm 	= POST::val('adm'); 	else $adm 	= (GET::exists('adm'))?GET::val('adm') : '';
 if($adm != '')
 	$pag = 'admin/'.$adm; 
 elseif($page != '')
@@ -62,15 +61,7 @@ ob_start();
 if(strpos($pag,'..') === false) {
 	if (file_exists($pag)) {
 		foreach (PLUGINS::in('core','index','before_page') as $p) include("plugin/$p.php");
-		if($adm != '') {
-			if (PRIVILEGES::access('admin_home')) {
-				include($pag);
-				exit(0);
-			} else
-				ERRORS::display(403,$pag);
-		}
-		else
-			include($pag);
+		include($pag);
 	}
 	else
 		ERRORS::display(404,$pag);
