@@ -215,7 +215,7 @@ class MENU {
 class TEMPLATE {
 	
 	private static function compile_template($template) {
-		define('template_path',__base_path.'template/'.$template.'/');
+		define('template_path',__http_host.__http_path.'template/'.$template.'/');
 		$y = file_get_contents(__base_path.'template/'.$template.'/index.html');
 		$y = str_ireplace(
 			array('<ALE::LOGO/>','<ALE::HEAD/>','<ALE::PAGE/>','<ALE:TEMPLATE/>','<ALE:COPYRIGHTS/>'),

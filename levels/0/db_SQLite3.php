@@ -3,6 +3,11 @@ include_once('db_SQL.php');
 
 class ALESQLite3 extends ALESQLDatabase {
 
+	public function __construct($db='',$pre='') {
+		$this->db = $db;
+		$this->pre = $pre;
+	}
+	
 	public function SQLEscape($q) {
 		return SQLite3::escapeString($q);
 	}
@@ -12,9 +17,9 @@ class ALESQLite3 extends ALESQLDatabase {
 			$this->connection = new SQLite3(__base_path.'config/'.($this->db).'.db3');
 	}
 	
-	public function query() {
+	public function query($q) {
 		$this->connect();
-		return $this->connection->query($this->create_query(func_get_args()));
+		return $this->connection->query($q);
 	}	
 	
 	public function error() {
@@ -26,7 +31,7 @@ class ALESQLite3 extends ALESQLDatabase {
 	}
 	
 	public function assoc($r) {
-		return $r->fetchArray(SQLITE3_ASSOC)
+		return $r->fetchArray(SQLITE3_ASSOC);
 	}
 
 }

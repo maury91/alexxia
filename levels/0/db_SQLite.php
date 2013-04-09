@@ -3,6 +3,11 @@ include_once('db_SQL.php');
 
 class ALESQLite extends ALESQLDatabase {
 
+	public function __construct($db='',$pre='') {
+		$this->db = $db;
+		$this->pre = $pre;
+	}
+
 	public function SQLEscape($q) {
 		return sqlite_escape_string($q);
 	}

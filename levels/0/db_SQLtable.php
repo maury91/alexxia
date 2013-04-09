@@ -143,7 +143,7 @@ class ALESQLColumn {
 			if (($val==CURRENT)&&($t_id==4))
 				$this->default = 'CURRENT_TIMESTAMP';
 			elseif (is_numeric($val)) {
-				if ($t_id==0) $this->default = trunc($val);
+				if ($t_id==0) $this->default = round($val);
 				elseif ($t_id==1) $this->default = (float)$val;
 				else trigger_error('Not Valid Number',E_USER_WARNING);
 			} elseif ($t_id>1) {
@@ -152,6 +152,7 @@ class ALESQLColumn {
 			} else
 				trigger_error('Assertion not valid',E_USER_WARNING);
 		}
+		return $this;
 	}
 	
 	public function set_update($val) {
@@ -160,7 +161,7 @@ class ALESQLColumn {
 			if (($val==CURRENT)&&($t_id==4)) 
 				$this->update = 'CURRENT_TIMESTAMP';
 			elseif (is_numeric($val)) {
-				if ($t_id==0) $this->update = trunc($val);
+				if ($t_id==0) $this->update = round($val);
 				elseif ($t_id==1) $this->update = (float)$val;
 				else trigger_error('Not Valid Number',E_USER_WARNING);
 			} elseif ($t_id>1) {
@@ -169,6 +170,7 @@ class ALESQLColumn {
 			} else
 				trigger_error('Assertion not valid',E_USER_WARNING);
 		}
+		return $this;
 	}
 	
 	public function delete() {
@@ -369,14 +371,17 @@ class ALESQLTable {
 			}
 			if ($res) {
 				//Alterazione
+				$ret = true;
 			} else{
-				echo 'CREATE TABLE `'.($this->name).'` ('.$contents.');'."\n";
-				if (!$this->db->query('CREATE TABLE `'.($this->name).'` ('.$contents.')'))
+				if (!$this->db->query('CREATE TABLE `'.($this->name).'` ('.$contents.')')) {
+					$ret = true;
 					trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
+				} else
+					$ret = false;
 			}
 		} else
 			trigger_error('Invalid Table!',E_USER_WARNING);
-		return $this;
+		return $ret;
 	}
 	
 	public function property($nome) {

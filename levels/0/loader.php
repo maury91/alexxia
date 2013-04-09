@@ -21,8 +21,8 @@ function level_0_autoload($class) {
 			include __base_path.'levels/0/errors.php'; break;
 		case 'FUNCTIONS' :
 			include __base_path.'levels/0/functions.php'; break;
-		case 'ALETable' :
-			include __base_path.'levels/0/db_table.php'; break;
+		case 'ALESQLTable' :
+			include __base_path.'levels/0/db_SQLtable.php'; break;
 	}
 }
 ?>

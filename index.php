@@ -39,9 +39,7 @@ if (GLOBALS::val('offline')) {
 if(POST::exists('page'))	$page 	= POST::val('page'); 	else $page 	= (GET::exists('page'))?GET::val('page') : '';
 if(POST::exists('com'))		$com 	= POST::val('com'); 	else $com 	= (GET::exists('com'))?GET::val('com') : '';
 if(POST::exists('zone'))	$zone 	= POST::val('zone'); 	else $zone 	= (GET::exists('zone'))?GET::val('zone') : '';
-if($adm != '')
-	$pag = 'admin/'.$adm; 
-elseif($page != '')
+if($page != '')
 	$pag = 'pages/'.$page; 
 else 
 	$pag = ($com != '')?'com/'.$com : 'core/'.$zone;

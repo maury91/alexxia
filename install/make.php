@@ -30,7 +30,7 @@ if (isset($_POST['next'])) {
 				'version'=>version_compare("5.1", phpversion(), '<'),
 				'rglobals'=>ini_get('register_globals')==false,
 				'zlib'=>extension_loaded('zlib'),
-				'db'=>extension_loaded('mysql')||extension_loaded('mysqli')||extension_loaded('SQLite'),
+				'db'=>extension_loaded('mysql')||class_exists('mysqli')||extension_loaded('SQLite')||class_exists('SQLite3'),
 				'json'=>extension_loaded('json'),
 				'write'=>test_write_cf()&&test_write_ch()&&(unlink(__base_path.'cache/template.php')),
 				'http'=>(ini_get('allow_url_fopen') == true)||function_exists('curl_init'),
@@ -64,7 +64,28 @@ if (isset($_POST['next'])) {
 						$error .= '<div class="error">'.$__not_db.'</div>';
 					elseif (!mysql_select_db($_POST['dbname']))
 						$error .= '<div class="error">'.$__not_dbname.'</div>';
-					elseif ($_POST['dbhost2']!='') {
+				break;
+				case 'mysqli' :
+					if (!$con = mysqli_connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass']))
+						$error .= '<div class="error">'.$__not_db.'</div>';
+					elseif (!mysqli_select_db($con,$_POST['dbname']))
+						$error .= '<div class="error">'.$__not_dbname.'</div>';
+				break;
+				case 'SQLite' :
+					if (!sqlite_open(__base_path.'config/'.$_POST['dbfile'].'.db'))
+						$error .= '<div class="error">'.$__not_dblite.'</div>';
+				break;
+				case 'SQLite3' :
+					try {
+						new SQLite3(__base_path.'config/'.$_POST['dbfile'].'.db3');
+					} catch (Exception $e) {
+						$error .= '<div class="error">'.$e.'</div>';
+					}
+				break;
+			}
+			switch ($_POST['dbt2']) {
+				case 'mysql' :
+					if (($error=='')&&($_POST['dbhost2']!='')) {
 						if (!mysql_connect($_POST['dbhost2'],$_POST['dbuser2'],$_POST['dbpass2']))
 							$error .= '<div class="error">'.$__not_db2.'</div>';
 						elseif (!mysql_select_db($_POST['dbname2']))
@@ -72,27 +93,74 @@ if (isset($_POST['next'])) {
 					}
 				break;
 				case 'mysqli' :
-					if (!$con = mysqli_connect($_POST['dbhost'],$_POST['dbuser'],$_POST['dbpass']))
-						$error .= '<div class="error">'.$__not_db.'</div>';
-					elseif (!mysqli_select_db($con,$_POST['dbname']))
-						$error .= '<div class="error">'.$__not_dbname.'</div>';
-					elseif ($_POST['dbhost2']!='') {
+					if (($error=='')&&($_POST['dbhost2']!='')) {
 						if (!$con2 = mysqli_connect($_POST['dbhost2'],$_POST['dbuser2'],$_POST['dbpass2']))
 							$error .= '<div class="error">'.$__not_db2.'</div>';
 						elseif (!mysqli_select_db($con2,$_POST['dbname2']))
 							$error .= '<div class="error">'.$__not_dbname2.'</div>';
 					}
 				break;
+				case 'SQLite' :
+					if ($error=='')
+					if (!sqlite_open(__base_path.'config/'.$_POST['dbfile2'].'.db'))
+						$error .= '<div class="error">'.$__not_dblite.'</div>';
+				break;
+				case 'SQLite3' :
+					if ($error=='') {
+						try {
+							new SQLite3(__base_path.'config/'.$_POST['dbfile2'].'.db3');
+						} catch (Exception $e) {
+							$error .= '<div class="error">'.$e.'</div>';
+						}
+					}
+				break;
 			}
 			if ($error=='') {
-				$_SESSION['db_data'] = array('dbhost'=>$_POST['dbhost'],'dbuser'=>$_POST['dbuser'],'dbpass'=>$_POST['dbpass'],'dbname'=>$_POST['dbname'],'dbpref'=>$_POST['dbpref'],'dbhost2'=>$_POST['dbhost2'],'dbuser2'=>$_POST['dbuser2'],'dbpass2'=>$_POST['dbpass2'],'dbname2'=>$_POST['dbname2'],'dbpref2'=>$_POST['dbpref2']);
+				$_SESSION['db_data'] = array('dbt'=>$_POST['dbt'],'dbhost'=>$_POST['dbhost'],'dbuser'=>$_POST['dbuser'],'dbpass'=>$_POST['dbpass'],'dbname'=>$_POST['dbname'],'dbpref'=>$_POST['dbpref'],'dbfile'=>$_POST['dbfile'],'dbt2'=>$_POST['dbt2'],'dbhost2'=>$_POST['dbhost2'],'dbuser2'=>$_POST['dbuser2'],'dbpass2'=>$_POST['dbpass2'],'dbname2'=>$_POST['dbname2'],'dbpref2'=>$_POST['dbpref2'],'dbfile2'=>$_POST['dbfile2']);
 				$_SESSION['step']=$point=4;
 			}
 		break;
+		case 4 :
+			//Installazione
+			//Scrittura files di configurazione
+			$include = 'include_once(__base_path.\'levels/0/db_'.$_SESSION['db_data']['dbt'].'.php\');';
+			if (($_SESSION['db_data']['dbt']=='mysql')||($_SESSION['db_data']['dbt']=='mysqli'))
+				$db = 'DB::set_DB(new ALE'.$_SESSION['db_data']['dbt'].'(\''.$_SESSION['db_data']['dbhost'].'\',\''.$_SESSION['db_data']['dbuser'].'\',\''.$_SESSION['db_data']['dbpass'].'\',\''.$_SESSION['db_data']['dbname'].'\',\''.$_SESSION['db_data']['dbpref'].'\'));';
+			else
+				$db = 'DB::set_DB(new ALE'.$_SESSION['db_data']['dbt'].'(\''.$_SESSION['db_data']['dbfile'].'\',\''.$_SESSION['db_data']['dbpref'].'\'));';
+			if (($_SESSION['db_data']['dbhost2'].$_SESSION['db_data']['dbfile2']!='')&&($_SESSION['db_data']['dbt']!=$_SESSION['db_data']['dbt2'])) {
+				$include .= 'include_once(__base_path.\'levels/0/db_'.$_SESSION['db_data']['dbt2'].'.php\');';
+				if (($_SESSION['db_data']['dbt2']=='mysql')||($_SESSION['db_data']['dbt2']=='mysqli'))
+					$db .= 'DB2::set_DB(new ALE'.$_SESSION['db_data']['dbt2'].'(\''.$_SESSION['db_data']['dbhost'].'\',\''.$_SESSION['db_data']['dbuser2'].'\',\''.$_SESSION['db_data']['dbpass2'].'\',\''.$_SESSION['db_data']['dbname2'].'\',\''.$_SESSION['db_data']['dbpref2'].'\'));';
+				else
+					$db .= 'DB2::set_DB(new ALE'.$_SESSION['db_data']['dbt2'].'(\''.$_SESSION['db_data']['dbfile2'].'\',\''.$_SESSION['db_data']['dbpref2'].'\'));';
+			}
+			file_put_contents(__base_path.'config/dbconfig.php','<?php '.$include.$db.' ?>');
+			//Creazione tabelle
+			$users = DB::create('users');
+			try {
+			$users->property('name')->dimension(30)->not_null()->end()
+			->property('lastname')->dimension(30)->not_null()->end()
+			->property('nick')->dimension(30)->not_null()->unique()->end()
+			->property('email')->dimension(100)->not_null()->unique()->end()
+			->property('lastVisit')->type('TIMESTAMP')->end()
+			->property('registerDate')->type('TIMESTAMP')->set_default(CURRENT)->end()
+			->property('actived')->type('BOOLEAN')->set_default(0)->not_null()->end()
+			->property('verifyCode')->dimension(10)->not_null()->end()
+			->property('cookieCode')->dimension(30)->not_null()->end()
+			->save();
+			} catch (Exception $e) {
+				$error .= '<div class="error">'.$e.'</div>';
+			}
+			if ($error=='')
+				$_SESSION['step']=$point=5;
+		break;
+		case 5 :
+			$point=$_SESSION['step']='end';
 	}
 }
 elseif (isset($_GET['back'])) {
-	if ($point>1)
+	if (($point>1)&&($point<5))
 		$_SESSION['step']=--$point;	
 }
 if (($point==2)&&isset($_SESSION['site_data'])) {
@@ -114,65 +182,72 @@ if (($point==3)&&isset($_SESSION['db_data'])) {
 	$_POST['dbname2']= $_SESSION['db_data']['dbname2'];
 	$_POST['dbpref2']= $_SESSION['db_data']['dbpref2'];
 }
+function point1() {
+	function test_write_cf() {
+		if (is_writable(__base_path.'config/dbconfig.php'))
+			return true;
+		if (file_put_contents(__base_path.'config/dbconfig.php',' '))
+			return true;
+	}
+	function test_write_ch() {
+		if (is_writable(__base_path.'cache/template.php'))
+			return true;
+		if (file_put_contents(__base_path.'cache/template.php',' '))
+			return true;
+	}
+	$required = array(
+		'version'=>version_compare("5.1", phpversion(), '<'),
+		'rglobals'=>ini_get('register_globals')==false,
+		'zlib'=>extension_loaded('zlib'),
+		'db'=>extension_loaded('mysql')||class_exists('mysqli')||extension_loaded('SQLite')||class_exists('SQLite3'),
+		'json'=>extension_loaded('json'),
+		'write'=>test_write_cf()&&test_write_ch()&&(unlink(__base_path.'cache/template.php')),
+		'http'=>(ini_get('allow_url_fopen') == true)||function_exists('curl_init'),
+		'output'=>ini_get('output_buffering')==true
+	);
+	$requireds = '';
+	$i=0;
+	$bt_class='next';
+	foreach ($required as $k => $v) {
+		$i=($i+1)&1;
+		$requireds .= '<div class="row '.($i?'p':'d').'">'.$GLOBALS['req'][$k].'<span class="'.($v?'ok':'no').'">'.($v?$GLOBALS['__y']:$GLOBALS['__n']).'</span></div>';
+		if(!$v) $bt_class='error';
+	}
+	//Optional
+	$raccomand = array(
+		'magic' => !((function_exists("get_magic_quotes_gpc")&&get_magic_quotes_gpc())||ini_get('magic_quotes_sybase')),
+		'safe' => ini_get('safe_mode')==false,
+		'error' => ini_get('display_errors')==0,
+		'upload' => ini_get('file_uploads') == 1,
+		'double' => (extension_loaded('mysql')||class_exists('mysqli'))&&(extension_loaded('SQLite')||class_exists('SQLite3'))
+	);
+	$raccomanded = '';
+	$i=0;
+	foreach ($raccomand as $k => $v) {
+		$i=($i+1)&1;
+		$raccomanded .= '<div class="row '.($i?'p':'d').'">'.$GLOBALS['rac'][$k].'<span class="'.($v?'ok':'no').'">'.($v?$GLOBALS['__y']:$GLOBALS['__n']).'</span></div>';
+	}
+	$content='<div class="left">
+			<h2>'.$GLOBALS['__req'].'</h2>
+			<hr/>
+			<p>'.$GLOBALS['__req_d'].'</p>
+			'.$requireds.'
+			<div class="row l"></div>
+		</div>
+		<div class="right">
+			<h2>'.$GLOBALS['__rac'].'</h2>
+			<hr/>
+			<p>'.$GLOBALS['__rac_d'].'</p>
+			'.$raccomanded.'
+			<div class="row l"></div>
+		</div>';
+	return array($bt_class,$content);
+}
 switch ($point) {
 	case 1 : 
-		function test_write_cf() {
-			if (is_writable(__base_path.'config/dbconfig.php'))
-				return true;
-			if (file_put_contents(__base_path.'config/dbconfig.php',' '))
-				return true;
-		}
-		function test_write_ch() {
-			if (is_writable(__base_path.'cache/template.php'))
-				return true;
-			if (file_put_contents(__base_path.'cache/template.php',' '))
-				return true;
-		}
-		$required = array(
-			'version'=>version_compare("5.1", phpversion(), '<'),
-			'rglobals'=>ini_get('register_globals')==false,
-			'zlib'=>extension_loaded('zlib'),
-			'db'=>extension_loaded('mysql')||extension_loaded('mysqli')||extension_loaded('SQLite'),
-			'json'=>extension_loaded('json'),
-			'write'=>test_write_cf()&&test_write_ch()&&(unlink(__base_path.'cache/template.php')),
-			'http'=>(ini_get('allow_url_fopen') == true)||function_exists('curl_init'),
-			'output'=>ini_get('output_buffering')==true
-		);
-		$requireds = '';
-		$i=0;
-		$bt_class='next';
-		foreach ($required as $k => $v) {
-			$i=($i+1)&1;
-			$requireds .= '<div class="row '.($i?'p':'d').'">'.$req[$k].'<span class="'.($v?'ok':'no').'">'.($v?$__y:$__n).'</span></div>';
-			if(!$v) $bt_class='error';
-		}
-		//Optional
-		$raccomand = array(
-			'magic' => !((function_exists("get_magic_quotes_gpc")&&get_magic_quotes_gpc())||ini_get('magic_quotes_sybase')),
-			'safe' => ini_get('safe_mode')==false,
-			'error' => ini_get('display_errors')==0,
-			'upload' => ini_get('file_uploads') == 1
-		);
-		$raccomanded = '';
-		$i=0;
-		foreach ($raccomand as $k => $v) {
-			$i=($i+1)&1;
-			$raccomanded .= '<div class="row '.($i?'p':'d').'">'.$rac[$k].'<span class="'.($v?'ok':'no').'">'.($v?$__y:$__n).'</span></div>';
-		}
-		$content='<div class="left">
-				<h2>'.$__req.'</h2>
-				<hr/>
-				<p>'.$__req_d.'</p>
-				'.$requireds.'
-				<div class="row l"></div>
-			</div>
-			<div class="right">
-				<h2>'.$__rac.'</h2>
-				<hr/>
-				<p>'.$__rac_d.'</p>
-				'.$raccomanded.'
-				<div class="row l"></div>
-			</div>';
+		$arr = point1();
+		$content=$arr[1];
+		$bt_class=$arr[0];
 		break;
 	case 2 :
 		$content='<h2>'.$__configuration.'</h2>
@@ -236,10 +311,7 @@ switch ($point) {
 		break;
 	case 3 :
 		$dbs='';
-		$content='<h2>Database</h2>
-		<script type="text/javascript">
-			
-		</script>
+		$content='<h2>'.$__database.'</h2>
 		<div class="data">
 			<div class="l">
 				'.$__dbt.'*
@@ -249,40 +321,53 @@ switch ($point) {
 				<div>'.$__dbt_d.'</div>
 			</div>
 		</div>
-		<div class="data">
-			<div class="l">
-				'.$__host.'*
+		<div class="sql first">
+			<div class="data">
+				<div class="l">
+					'.$__host.'*
+				</div>
+				<div class="r">
+					<input type="text" name="dbhost" value="'.(isset($_POST['dbhost'])?$_POST['dbhost']:'localhost').'" />
+					<div>'.$__host_d.'</div>
+				</div>
 			</div>
-			<div class="r">
-				<input type="text" name="dbhost" value="'.(isset($_POST['dbhost'])?$_POST['dbhost']:'localhost').'" />
-				<div>'.$__host_d.'</div>
+			<div class="data">
+				<div class="l">
+					'.$__dbuser.'*
+				</div>
+				<div class="r">
+					<input type="text" name="dbuser" value="'.(isset($_POST['dbuser'])?$_POST['dbuser']:'root').'" />
+					<div>'.$__dbuser_d.'</div>
+				</div>
+			</div>
+			<div class="data">
+				<div class="l">
+					'.$__dbpass.'
+				</div>
+				<div class="r">
+					<input type="password" name="dbpass" value="'.(isset($_POST['dbpass'])?$_POST['dbpass']:'').'"/>
+					<div>'.$__dbpass_d.'</div>
+				</div>
+			</div>
+			<div class="data">
+				<div class="l">
+					'.$__dbname.'*
+				</div>
+				<div class="r">
+					<input type="text" name="dbname" value="'.(isset($_POST['dbname'])?$_POST['dbname']:'').'"/>
+					<div>'.$__dbname_d.'</div>
+				</div>
 			</div>
 		</div>
-		<div class="data">
-			<div class="l">
-				'.$__dbuser.'*
-			</div>
-			<div class="r">
-				<input type="text" name="dbuser" value="'.(isset($_POST['dbuser'])?$_POST['dbuser']:'root').'" />
-				<div>'.$__dbuser_d.'</div>
-			</div>
-		</div>
-		<div class="data">
-			<div class="l">
-				'.$__dbpass.'
-			</div>
-			<div class="r">
-				<input type="password" name="dbpass" value="'.(isset($_POST['dbpass'])?$_POST['dbpass']:'').'"/>
-				<div>'.$__dbpass_d.'</div>
-			</div>
-		</div>
-		<div class="data">
-			<div class="l">
-				'.$__dbname.'*
-			</div>
-			<div class="r">
-				<input type="text" name="dbname" value="'.(isset($_POST['dbname'])?$_POST['dbname']:'').'"/>
-				<div>'.$__dbname_d.'</div>
+		<div class="lite first" style="display:none">
+			<div class="data">
+				<div class="l">
+					'.$__dbfile.'*
+				</div>
+				<div class="r">
+					<input type="text" name="dbfile" value="'.(isset($_POST['dbfile'])?$_POST['dbfile']:(RAND::word())).'"/>
+					<div>'.$__dbfile_d.'</div>
+				</div>
 			</div>
 		</div>
 		<div class="data">
@@ -298,38 +383,60 @@ switch ($point) {
 		<p>'.$__db2_d.'</p>
 		<div class="data">
 			<div class="l">
-				'.$__host.'
+				'.$__dbt.'*
 			</div>
 			<div class="r">
-				<input type="text" name="dbhost2" value="'.(isset($_POST['dbhost2'])?$_POST['dbhost2']:'').'"/>
-				<div>'.$__host_d.'</div>
+				<select name="dbt2">'.(extension_loaded('mysql')?'<option value="mysql" selected="selected">MySQL</option>':'').(extension_loaded('mysqli')?'<option value="mysqli">MySQLi</option>':'').(extension_loaded('SQLite')?'<option value="SQLite" selected="selected">SQLite</option>':'').(class_exists('SQLite3')?'<option value="SQLite3" selected="selected">SQLite3</option>':'').'</select>
+				<div>'.$__dbt_d.'</div>
 			</div>
 		</div>
-		<div class="data">
-			<div class="l">
-				'.$__dbuser.'
+		<div class="sql second" '.((extension_loaded('SQLite')||class_exists('SQLite3'))?'style="display:none"':'').'>
+			<div class="data">
+				<div class="l">
+					'.$__host.'
+				</div>
+				<div class="r">
+					<input type="text" name="dbhost2" value="'.(isset($_POST['dbhost2'])?$_POST['dbhost2']:'').'"/>
+					<div>'.$__host_d.'</div>
+				</div>
 			</div>
-			<div class="r">
-				<input type="text" name="dbuser2" value="'.(isset($_POST['dbuser2'])?$_POST['dbuser2']:'').'"/>
-				<div>'.$__dbuser_d.'</div>
+			<div class="data">
+				<div class="l">
+					'.$__dbuser.'
+				</div>
+				<div class="r">
+					<input type="text" name="dbuser2" value="'.(isset($_POST['dbuser2'])?$_POST['dbuser2']:'').'"/>
+					<div>'.$__dbuser_d.'</div>
+				</div>
+			</div>
+			<div class="data">
+				<div class="l">
+					'.$__dbpass.'
+				</div>
+				<div class="r">
+					<input type="password" name="dbpass2" value="'.(isset($_POST['dbpass2'])?$_POST['dbpass2']:'').'"/>
+					<div>'.$__dbpass_d.'</div>
+				</div>
+			</div>
+			<div class="data">
+				<div class="l">
+					'.$__dbname.'
+				</div>
+				<div class="r">
+					<input type="text" name="dbname2" value="'.(isset($_POST['dbname2'])?$_POST['dbname2']:'').'"/>
+					<div>'.$__dbname_d.'</div>
+				</div>
 			</div>
 		</div>
-		<div class="data">
-			<div class="l">
-				'.$__dbpass.'
-			</div>
-			<div class="r">
-				<input type="password" name="dbpass2" value="'.(isset($_POST['dbpass2'])?$_POST['dbpass2']:'').'"/>
-				<div>'.$__dbpass_d.'</div>
-			</div>
-		</div>
-		<div class="data">
-			<div class="l">
-				'.$__dbname.'
-			</div>
-			<div class="r">
-				<input type="text" name="dbname2" value="'.(isset($_POST['dbname2'])?$_POST['dbname2']:'').'"/>
-				<div>'.$__dbname_d.'</div>
+		<div class="lite second" '.((extension_loaded('SQLite')||class_exists('SQLite3'))?'':'style="display:none"').'>
+			<div class="data">
+				<div class="l">
+					'.$__dbfile.'*
+				</div>
+				<div class="r">
+					<input type="text" name="dbfile2" value="'.(isset($_POST['dbfile'])?$_POST['dbfile']:(RAND::word())).'"/>
+					<div>'.$__dbfile_d.'</div>
+				</div>
 			</div>
 		</div>
 		<div class="data">
@@ -343,8 +450,63 @@ switch ($point) {
 		</div>';
 		break;
 		case 4 :
-			//Installazione!
-			
+			$content = '<h2>'.$__sum.'</h2>
+			<div class="left sum">
+				<h3>'.$__configuration.'</h3>
+				<hr/><br/>
+				<div class="row p">'.$__name.'<span class="info">'.$_SESSION['site_data']['sname'].'</span></div>
+				<div class="row d">'.$__email.'<span class="info">'.$_SESSION['site_data']['email'].'</span></div>
+				<div class="row p">'.$__nick.'<span class="info">'.$_SESSION['site_data']['nick'].'</span></div>
+				<div class="row d">'.$__pass.'<span class="info">***</span></div>
+				<div class="row"></div>
+			</div>
+			<div class="right">
+				<h3>'.$__database.'</h3>
+				<hr/><br/>
+				<div class="row p">'.$__dbt.'<span class="info">'.$_SESSION['db_data']['dbt'].'</span></div>';
+			switch ($_SESSION['db_data']['dbt']) {
+				case 'mysql' :
+				case 'mysqli' :
+					$content .= '<div class="row d">'.$__host.'<span class="info">'.$_SESSION['db_data']['dbhost'].'</span></div>
+				<div class="row p">'.$__dbuser.'<span class="info">'.$_SESSION['db_data']['dbuser'].'</span></div>
+				<div class="row d">'.$__dbpass.'<span class="info">'.$_SESSION['db_data']['dbpass'].'</span></div>
+				<div class="row p">'.$__dbname.'<span class="info">'.$_SESSION['db_data']['dbname'].'</span></div>
+				<div class="row d">'.$__dbpref.'<span class="info">'.$_SESSION['db_data']['dbpref'].'</span></div>';
+				break;
+				case 'SQLite' :
+				case 'SQLite3' :
+					$content .= '<div class="row d">'.$__dbfile.'<span class="info">'.$_SESSION['db_data']['dbfile'].'</span></div>
+				<div class="row d">'.$__dbpref.'<span class="info">'.$_SESSION['db_data']['dbpref'].'</span></div>';
+				break;
+			}
+			if ($_SESSION['db_data']['dbhost2'].$_SESSION['db_data']['dbfile2'] != '') {
+				$content .= '<h3>'.$__db2.'</h3><hr/><br/>
+				<div class="row p">'.$__dbt.'<span class="info">'.$_SESSION['db_data']['dbt2'].'</span></div>';
+				switch ($_SESSION['db_data']['dbt2']) {
+					case 'mysql' :
+					case 'mysqli' :
+						$content .= '<div class="row d">'.$__host.'<span class="info">'.$_SESSION['db_data']['dbhost2'].'</span></div>
+					<div class="row p">'.$__dbuser.'<span class="info">'.$_SESSION['db_data']['dbuser2'].'</span></div>
+					<div class="row d">'.$__dbpass.'<span class="info">'.$_SESSION['db_data']['dbpass2'].'</span></div>
+					<div class="row p">'.$__dbname.'<span class="info">'.$_SESSION['db_data']['dbname2'].'</span></div>
+					<div class="row d">'.$__dbpref.'<span class="info">'.$_SESSION['db_data']['dbpref2'].'</span></div>';
+					break;
+					case 'SQLite' :
+					case 'SQLite3' :
+						$content .= '<div class="row d">'.$__dbfile.'<span class="info">'.$_SESSION['db_data']['dbfile2'].'</span></div>
+					<div class="row d">'.$__dbpref.'<span class="info">'.$_SESSION['db_data']['dbpref2'].'</span></div>';
+					break;
+				}
+			}
+			$content .= '</div>';
+			$arr = point1();
+			$content.=$arr[1];
+		break;
+		case 5 :
+			$content = '<h2>'.$__end.'</h2>'.$__end_d.'<br/><br/><center><button class="next">'.$__fine.'</button></center>';
+		break;
+		case 'end' :
+			$content = '<meta http-equiv="REFRESH" content="0;url=index.html"/>';
 		break;
 }
 echo '<!DOCTYPE html>
@@ -354,14 +516,15 @@ echo '<!DOCTYPE html>
 		<link rel="stylesheet" href="install/style.css" />
 		<link rel="icon" href="media/images/favicon.png" sizes="64x64" type="image/png" />
 		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="install/script.js"></script>
 	</head>
 	<body>
 		<form method="post">
 			<header>
 				<img height="120" class="logo" src="media/images/logo.png"/>
-				<div class="continue">
-					'.$lang_sel.'
-					<input type="hidden" name="next" value=" "/>'.(($point>2)?'<button class="comb l" type="button" onclick="location.href=\'?back\'">'.$__prev.'</button>':'').'<button class="'.(($point>2)?'comb r ':'').$bt_class.'">'.$__continue.'</button>
+				<div class="continue"><input type="hidden" name="next" value=" "/>
+					'.(($point<5)?($lang_sel.'
+					'.(($point>1)?'<button class="comb l" type="button" onclick="location.href=\'?back\'">'.$__prev.'</button>':'').'<button class="'.((($point>1)&&($point<5))?'comb r ':'').$bt_class.'">'.$__continue.'</button>'):'').'
 				</div>
 			</header>
 			<div class="content">

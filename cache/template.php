@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="http://localhost//alexxia//template/mauro/style.css" />
+		<link rel="stylesheet" type="text/css" href="http://localhost//alexxia/template/mauro/style.css" />
 		<?php echo HTML::get_head(); ?>
 	</head>
 	<body<?php echo HTML::get_body_tag(); ?>>
