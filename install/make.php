@@ -134,26 +134,38 @@ if (isset($_POST['next'])) {
 					$db .= 'DB2::set_DB(new ALE'.$_SESSION['db_data']['dbt2'].'(\''.$_SESSION['db_data']['dbhost'].'\',\''.$_SESSION['db_data']['dbuser2'].'\',\''.$_SESSION['db_data']['dbpass2'].'\',\''.$_SESSION['db_data']['dbname2'].'\',\''.$_SESSION['db_data']['dbpref2'].'\'));';
 				else
 					$db .= 'DB2::set_DB(new ALE'.$_SESSION['db_data']['dbt2'].'(\''.$_SESSION['db_data']['dbfile2'].'\',\''.$_SESSION['db_data']['dbpref2'].'\'));';
+			} else {
+				if (($_SESSION['db_data']['dbt']=='mysql')||($_SESSION['db_data']['dbt']=='mysqli'))
+					$db = 'DB2::set_DB(new ALE'.$_SESSION['db_data']['dbt'].'(\''.$_SESSION['db_data']['dbhost'].'\',\''.$_SESSION['db_data']['dbuser'].'\',\''.$_SESSION['db_data']['dbpass'].'\',\''.$_SESSION['db_data']['dbname'].'\',\''.$_SESSION['db_data']['dbpref'].'\'));';
+				else
+					$db = 'DB2::set_DB(new ALE'.$_SESSION['db_data']['dbt'].'(\''.$_SESSION['db_data']['dbfile'].'\',\''.$_SESSION['db_data']['dbpref'].'\'));';
 			}
 			file_put_contents(__base_path.'config/dbconfig.php','<?php '.$include.$db.' ?>');
 			//Creazione tabelle
 			$users = DB::create('users');
+			$admin = DB2::create('admins');
 			try {
-			$users->property('name')->dimension(30)->not_null()->end()
-			->property('lastname')->dimension(30)->not_null()->end()
-			->property('nick')->dimension(30)->not_null()->unique()->end()
-			->property('email')->dimension(100)->not_null()->unique()->end()
-			->property('lastVisit')->type('TIMESTAMP')->end()
-			->property('registerDate')->type('TIMESTAMP')->set_default(CURRENT)->end()
-			->property('actived')->type('BOOLEAN')->set_default(0)->not_null()->end()
-			->property('verifyCode')->dimension(10)->not_null()->end()
-			->property('cookieCode')->dimension(30)->not_null()->end()
-			->save();
+				$users->property('name')->dimension(30)->not_null()->end()
+					->property('lastname')->dimension(30)->not_null()->end()
+					->property('nick')->dimension(30)->not_null()->unique()->end()
+					->property('password')->dimension(50)->not_null()->unique()->end()
+					->property('email')->dimension(100)->not_null()->unique()->end()
+					->property('lastVisit')->type('TIMESTAMP')->end()
+					->property('registerDate')->type('TIMESTAMP')->set_default(CURRENT)->end()
+					->property('actived')->type('BOOLEAN')->set_default(0)->not_null()->end()
+					->property('verifyCode')->dimension(10)->not_null()->end()
+					->property('cookieCode')->dimension(30)->not_null()->end()
+					->property('level')->type('INT')->dimension(1)->unsigned()->end();
+				$admin->property('nick')->dimension(30)->not_null()->unique()->end()
+					->property('email')->dimension(100)->not_null()->unique()->end()
+					->property('lastVisit')->type('TIMESTAMP')->end()
+					->property('password')->dimension(50)->not_null()->unique()->end()
+					->property('level')->type('INT')->dimension(1)->unsigned()->end();
+				if ($users->save()&&$admin->save())
+					$_SESSION['step']=$point=5;
 			} catch (Exception $e) {
 				$error .= '<div class="error">'.$e.'</div>';
 			}
-			if ($error=='')
-				$_SESSION['step']=$point=5;
 		break;
 		case 5 :
 			$point=$_SESSION['step']='end';

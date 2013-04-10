@@ -23,6 +23,8 @@ function level_0_autoload($class) {
 			include __base_path.'levels/0/functions.php'; break;
 		case 'ALESQLTable' :
 			include __base_path.'levels/0/db_SQLtable.php'; break;
+		case 'ALEMySQLTable' :
+			include __base_path.'levels/0/db_MySQLtable.php'; break;
 	}
 }
 ?>

@@ -4,7 +4,7 @@ abstract class ALESQLDatabase extends ALEDatabase {
 	abstract function SQLEscape($q);
 	
 	public function create($name,$dim=5) {
-		return new ALESQLTable($name,$dim,true,$this);
+		return new ALEMySQLTable($name,$dim,true,$this);
 	}
 	
 	public function create_query($argv) {

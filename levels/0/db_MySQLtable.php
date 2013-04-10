@@ -2,11 +2,7 @@
 if(!defined('CURRENT'))
 	define('CURRENT','ALECurTime');
 
-function in_apices($str) {
-	return '\''.$str.'\'';
-}
-
-class ALESQLEnum {
+class ALEMySQLEnum {
 	private $values=array(),$column;
 	
 	public function __construct($column) {
@@ -14,7 +10,7 @@ class ALESQLEnum {
 	}
 	
 	public function __toString() {
-		return implode(',',array_map('in_apices',$this->values));
+		return implode(',',array_map(array($this,"in_apices"),$this->values));
 	}
 	
 	public function add() {
@@ -32,21 +28,25 @@ class ALESQLEnum {
 		}
 	}
 	
+	private function in_apices($str) {
+		return '`'.$str.'`';
+	}
+	
 	public function end() {
 		return $this->column;
 	}
 }
 
-class ALESQLColumn {
+class ALEMySQLColumn {
 	//Variabile di classe
-	//array(dimension,nada,digits,charset,binary,def[-1:not have,0:int,1:real,2:date,3:time,4:timestamp,5:datetime,6:char])
+	//array(dimension,unsigned,digits,charset,binary,def[-1:not have,0:int,1:real,2:date,3:time,4:timestamp,5:datetime,6:char])
 	
 	static private $prop_types=array('BIT'=>array(1,0,0,0,0,0),'TINYINT'=>array(1,1,0,0,0,0),'SMALLINT'=>array(1,1,0,0,0,0),'MEDIUMINT'=>array(1,1,0,0,0,0),'INT'=>array(1,1,0,0,0,0),'INTEGER'=>array(1,1,0,0,0,0),'BIGINT'=>array(1,1,0,0,0,0),'REAL'=>array(1,1,1,0,0,1),'DOUBLE'=>array(1,1,1,0,0,1),'FLOAT'=>array(1,1,1,0,0,1),'DECIMAL'=>array(1,1,1,0,0,1),'NUMERIC'=>array(1,1,1,0,0,1),'DATE'=>array(0,0,0,0,0,2),'TIME'=>array(0,0,0,0,0,3),'TIMESTAMP'=>array(0,0,0,0,0,4),'DATETIME'=>array(0,0,0,0,0,5),'YEAR'=>array(0,0,0,0,0,0),'CHAR'=>array(1,0,0,1,0,6),'VARCHAR'=>array(1,0,0,1,0,6),'BINARY'=>array(1,0,0,0,0,6),'VARBINARY'=>array(1,0,0,0,0,6),'TINYBLOB'=>array(0,0,0,0,0,-1),'BLOB'=>array(0,0,0,0,0,-1),'MEDIUMBLOB'=>array(0,0,0,0,0,-1),'LONGBLOB'=>array(0,0,0,0,0,-1),'TINYTEXT'=>array(0,0,0,1,1,-1),'TEXT'=>array(0,0,0,1,1,-1),'MEDIUMTEXT'=>array(0,0,0,1,1,-1),'LONGTEXT'=>array(0,0,0,1,1,-1),'BOOL'=>array(0,0,0,0,0,0),'BOOLEAN'=>array(0,0,0,0,0,0));
 	
 	private $enum_data=NULL;
 	private $table;
 	
-	public  $name,$type='VARCHAR',$dimension=1,$digits=0,$not_null=false,$auto_increment=false,$default='',$update='',$primary=false;
+	public  $name,$type='VARCHAR',$dimension=1,$digits=0,$unsigned=false,$not_null=false,$auto_increment=false,$zerofill=false,$default='',$update='';
 	
 	public function __construct($nome,$table) {
 		$this->table = $table;
@@ -58,7 +58,7 @@ class ALESQLColumn {
 			$dim = (string)$this->enum_data;
 		else
 			$dim = ($this->dimension==1)?'':'('.( $this->dimension).(($this->digits)?','.($this->digits):'').')';
-		return in_apices($this->name).' '.($this->type).$dim.(($this->not_null)?' NOT NULL':' NULL').(($this->default=='')?'':' DEFAULT '.(((!is_string($this->default))||((self::$prop_types[$this->type][5]==4)&&($this->default=='CURRENT_TIMESTAMP')))?$this->default:'"'.($this->default).'"')).(($this->auto_increment||$this->primary)?' PRIMARY KEY':'');
+		return '`'.($this->name).'` '.($this->type).$dim.(($this->zerofill)?' ZEROFILL':'').(($this->unsigned)?' UNSIGNED':'').(($this->not_null)?' NOT NULL':' NULL').(($this->default=='')?'':' DEFAULT '.(((!is_string($this->default))||((self::$prop_types[$this->type][5]==4)&&($this->default=='CURRENT_TIMESTAMP')))?$this->default:'"'.($this->default).'"')).(($this->auto_increment)?' AUTO_INCREMENT':'');
 	}
 	
 	public function end() {
@@ -69,7 +69,7 @@ class ALESQLColumn {
 		if ($tipo==NULL)
 			return $this->type;
 		if (($tipo=='ENUM')||($tipo=='SET')) {
-			return $this->enum_data = new ALESQLEnum($this);
+			return $this->enum_data = new ALEMySQLEnum($this);
 		}
 		if (isset(self::$prop_types[strtoupper($tipo)]))
 			$this->type = strtoupper($tipo);
@@ -90,6 +90,12 @@ class ALESQLColumn {
 	}
 	
 	public function unsigned($is=true) {
+		if ($is) {
+			if (self::$prop_types[$this->type][1])
+				$this->unsigned=$is;
+			else
+				trigger_error('Can\'t be unsigned',E_USER_WARNING);
+		}
 		return $this;
 	}
 	
@@ -99,7 +105,7 @@ class ALESQLColumn {
 	}
 	
 	public function primary() {
-		$this->primary=true;
+		$this->table->make_primary($this->name);
 		return $this;
 	}
 	
@@ -112,6 +118,12 @@ class ALESQLColumn {
 	}
 	
 	public function zerofill($zero=true) {
+		if ($zero) {
+			if (self::$prop_types[$this->type][1])
+				$this->zerofill=$zero;
+			else
+				trigger_error('Can\'t be zerofill',E_USER_WARNING);
+		}
 		return $this;
 	}
 	
@@ -166,8 +178,13 @@ class ALESQLColumn {
 		return $this->table->delete_col($this->name);
 	}
 	
-	public function auto_increment() {
-		$this->primary();
+	public function auto_increment($auto=true) {
+		if (self::$prop_types[$this->type][1]) {
+			$this->auto_increment = $auto;
+			if ($auto)
+				$this->primary();
+		} else
+			trigger_error('Can\'t set auto_increment',E_USER_WARNING);
 		return $this;
 	}
 	
@@ -177,20 +194,24 @@ class ALESQLColumn {
 	}
 }
 
-class ALESQLTable {
+class ALEMySQLTable {
 	private $db,$isnew;
 	private $primary=array(),$uniques=array(),$foreign=array();
 	public $properties=array(),$from=array(),$has_many=array(),$sub_tables=array();
 	public $name;
+	
+	private function in_apices($str) {
+		return '`'.$str.'`';
+	}
 	
 	public function __construct($nome,$size,$new,$db) {
 		$this->name = $nome;
 		$this->isnew = $new;
 		$this->db = $db;
 		if ($new) {
-			$column = new ALESQLColumn('id',$this);
+			$column = new ALEMySQLColumn('id',$this);
 			$this->properties = array('id' => $column);
-			$column->type('INT')->dimension($size)->not_null()->primary();
+			$column->type('INT')->dimension($size)->unsigned()->not_null()->auto_increment();
 		}
 	}
 	
@@ -211,6 +232,8 @@ class ALESQLTable {
 			else {
 				unset($this->properties[$i]);
 				//Search in primary and uniques
+				$i = array_search($v,$this->primary);
+				unset($this->primary[$i]);
 				foreach ($this->uniques as $k => $h) {
 					$i = array_search($v,$h);
 					unset($this->uniques[$k][$h]);
@@ -226,8 +249,8 @@ class ALESQLTable {
 		foreach ($tables as $table) {
 			$id = $table->get('id');
 			$nome = ($table->name).'_ref';
-			$col = $this->properties[$nome] = new ALESQLColumn($nome,$this);
-			$col->type($id->type)->dimension($id->dimension)->zerofill($id->zerofill)->not_null($id->not_null);
+			$col = $this->properties[$nome] = new ALEMySQLColumn($nome,$this);
+			$col->type($id->type)->dimension($id->dimension)->unsigned($id->unsigned)->zerofill($id->zerofill)->not_null($id->not_null);
 			$this->foreign[] = array($nome,$table->name);
 			$this->foreign = array_unique($this->foreign);
 			$table->has_many[$this->name] = $this;
@@ -252,7 +275,8 @@ class ALESQLTable {
 	}
 	
 	public function make_primary($col) {
-		$this->properties[$col]->primary();
+		if (!in_array($col,$this->primary)) 
+			$this->primary[] = $col;
 		return $this;
 	}
 	
@@ -281,7 +305,7 @@ class ALESQLTable {
 					$v->drop();
 			}
 		}
-		return $this->db->query('DROP TABLE '.in_apices($this->name));
+		return $this->db->query('DROP TABLE `'.($this->name).'`');
 	}
 	
 	public function save($overwrite=false) {
@@ -289,10 +313,13 @@ class ALESQLTable {
 		foreach ($this->properties as $v)
 			$contents .= $v.',';
 		foreach ($this->uniques as $v)
-			$contents .= ' UNIQUE('.implode(',',array_map('in_apices',$v)).'),';
+			$contents .= ' UNIQUE('.implode(',',array_map(array($this,'in_apices'),$v)).'),';
 		foreach ($this->foreign as $v)
-			$contents .= 'CONSTRAINT '.in_apices('foreign_key_'.$v[0]).' FOREIGN KEY ('.in_apices($v[0]).') REFERENCES '.$v[1].'('.in_apices('id').'),';
-		$contents = substr($contents,0,-1);
+			$contents .= 'CONSTRAINT `foreign_key_'.$v[0].'` FOREIGN KEY (`'.$v[0].'`) REFERENCES '.$v[1].'(`id`),';
+		if (count($this->primary))
+			$contents .= ' PRIMARY KEY('.implode(',',array_map(array($this,'in_apices'),$this->primary)).')';
+		else
+			$contents = substr($contents,0,-1);
 		if ($contents!='') {
 			//if ($this->sub_tables[] )
 			foreach ($this->has_many as $v) {
@@ -306,13 +333,13 @@ class ALESQLTable {
 							$s_name = is_array($s_name)?$s_name[1]:$s_name->name;
 						} else
 							$s_name = $this->name;
-						$new_table = new ALESQLTable('NxN__'.($this->name).'x'.($table->name).'_'.$s_name.'x'.$t_name,$this->dimension()+1,$this->db);
+						$new_table = new ALEMySQLTable('NxN__'.($this->name).'x'.($table->name).'_'.$s_name.'x'.$t_name,$this->dimension()+1,$this->db);
 						$new_table
-							->property($t_name)->type('INT')->dimension($table->dimension())->not_null()->end()
-							->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->end()
+							->property($t_name)->type('INT')->dimension($table->dimension())->not_null()->unsigned()->end()
+							->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
 						->save();
 						if ($this->name != $table->name) {							
-							$new_table->property($s_name)->type('INT')->dimension($this->dimension())->not_null();
+							$new_table->property($s_name)->type('INT')->dimension($this->dimension())->not_null()->unsigned();
 							$table->sub_tables[$s_name] = $new_table;
 						}
 						$this->sub_tables[$t_name] = $new_table;
@@ -325,16 +352,16 @@ class ALESQLTable {
 			foreach ($this->from as $v) {
 				if (!isset($this->sub_table['sup_'.($v[0]->name).'x'.($v[1]->name)])) {
 					//Campi
-					$new_table = new ALESQLTable('NxN__'.($v[0]->name).'_'.($this->name).'x'.($v[1]->name),$this->dimension()+1,$this->db);
+					$new_table = new ALEMySQLTable('NxN__'.($v[0]->name).'_'.($this->name).'x'.($v[1]->name),$this->dimension()+1,$this->db);
 					$new_table
-						->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->end()
+						->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
 						->property($v[0])->end()
-						->property($v[1]->name)->type('INT')->dimension($v[1]->dimension())->not_null()->end()
+						->property($v[1]->name)->type('INT')->dimension($v[1]->dimension())->not_null()->unsigned()->end()
 					->save();
 				}
 			
 			}
-			$res = $this->db->q_rows('SELECT name FROM sqlite_master WHERE type='.in_apices('table').' AND name LIKE "'.($this->db->pre.$this->name).'"')>0;
+			$res = $this->db->q_rows('SHOW TABLES LIKE "'.($this->db->pre.$this->name).'"')>0;
 			
 			if ($res&&$overwrite) {
 				//Eliminazione tabelle con dipendenze da questa
@@ -347,7 +374,7 @@ class ALESQLTable {
 				//Alterazione
 				$ret = true;
 			} else{
-				if (!$this->db->query('CREATE TABLE '.in_apices($this->db->pre.$this->name).' ('.$contents.')')) {
+				if (!$this->db->query('CREATE TABLE `'.($this->db->pre.$this->name).'` ('.$contents.')')) {
 					$ret = false;
 					trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
 				} else
@@ -359,13 +386,13 @@ class ALESQLTable {
 	}
 	
 	public function property($nome) {
-		if (is_object($nome)&&get_class($nome)=='ALESQLColumn') {
-			$this->properties[$nome->name] = new ALESQLColumn($nome->name,$this);
-			return $this->properties[$nome->name]->type($nome->type)->dimension($nome->dimension)->not_null($nome->not_null);
+		if (is_object($nome)&&get_class($nome)=='ALEMySQLColumn') {
+			$this->properties[$nome->name] = new ALEMySQLColumn($nome->name,$this);
+			return $this->properties[$nome->name]->type($nome->type)->dimension($nome->dimension)->unsigned($nome->unsigned)->zerofill($nome->zerofill)->not_null($nome->not_null);
 		} elseif (isset($this->properties[$nome])) {
 			return $this->properties[$nome];
 		} else {
-			$this->properties[$nome] = new ALESQLColumn($nome,$this);
+			$this->properties[$nome] = new ALEMySQLColumn($nome,$this);
 			return $this->properties[$nome];
 		}
 	}

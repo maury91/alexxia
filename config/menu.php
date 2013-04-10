@@ -14,13 +14,14 @@ $menu = array(
 			'level' => 10,
 			'class' => '',
 			'image' => '',
-			'text' => '',
+			'text' => 'Menu',
 			'lang'=>'all',
+			'html'=>'',
 			'links' => array(
-				0 => array('text'=>'Link1','href'=>'#','lang'=>'all','class'=>'','image'=>'','level' => 10),
-				1 => array('text'=>'Link2','href'=>'#','lang'=>'all','class'=>'','image'=>'','level' => 10),
-				2 => array('text'=>'Link3','href'=>'#','lang'=>'it-IT','class'=>'','image'=>'','level' => 8),
-				3 => array('text'=>'Link4','href'=>'#','lang'=>'all','class'=>'','image'=>'','level' => 10)
+				0 => array('text'=>'Link1','href'=>'#','lang'=>'all','class'=>'','image'=>'','html'=>'','level' => 10),
+				1 => array('text'=>'Link2','href'=>'#','lang'=>'all','class'=>'','image'=>'','html'=>'','level' => 10),
+				2 => array('text'=>'Link3','href'=>'#','lang'=>'it-IT','class'=>'','image'=>'','html'=>'','level' => 8),
+				3 => array('text'=>'Link4','href'=>'#','lang'=>'all','class'=>'','image'=>'','html'=>'','level' => 10)
 			)
 		)
 	),
@@ -33,6 +34,7 @@ $menu = array(
 			'image' => '',
 			'text' => '',
 			'lang'=>'all',
+			'html'=>'',
 			'module' => 'mauro_banner'
 		)
 	),
@@ -44,11 +46,12 @@ $menu = array(
 			'image' => '',
 			'text' => '',
 			'lang'=>'all',
+			'html'=>'',
 			'links' => array(
-				0 => array('text'=>'Link1','href'=>'#','lang'=>'all','class'=>'','image'=>'','level' => 10),
-				1 => array('text'=>'Link2','href'=>'#','lang'=>'all','class'=>'','image'=>'','level' => 10),
-				2 => array('text'=>'Link3','href'=>'#','lang'=>'it-IT','class'=>'','image'=>'','level' => 10),
-				3 => array('text'=>'Link4','href'=>'#','lang'=>'it-IT','class'=>'','image'=>'','level' => 10)
+				0 => array('text'=>'Link1','href'=>'#','lang'=>'all','class'=>'','image'=>'','html'=>'','level' => 10),
+				1 => array('text'=>'Link2','href'=>'#','lang'=>'all','class'=>'','image'=>'','html'=>'','level' => 10),
+				2 => array('text'=>'Link3','href'=>'#','lang'=>'it-IT','class'=>'','image'=>'','html'=>'','level' => 10),
+				3 => array('text'=>'Link4','href'=>'#','lang'=>'it-IT','class'=>'','image'=>'','html'=>'','level' => 10)
 			)
 		)
 	),

@@ -1,7 +1,8 @@
 <?php
 abstract class ALEDatabase {
 
-	protected $h,$u,$p,$db,$pre;
+	protected $h,$u,$p,$db;
+	public $pre;
 	
 	protected $connection=null;
 	

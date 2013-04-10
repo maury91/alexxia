@@ -7,6 +7,10 @@ class ALESQLite extends ALESQLDatabase {
 		$this->db = $db;
 		$this->pre = $pre;
 	}
+	
+	public function create($name,$dim=5) {
+		return new ALESQLTable($name,$dim,true,$this);
+	}
 
 	public function SQLEscape($q) {
 		return sqlite_escape_string($q);

@@ -9,7 +9,7 @@ class ALEmysqli extends ALESQLDatabase {
 	
 	public function connect() {
 		if ($this->connection==null)
-			$this->connection = new mysqli($this->$h,$this->u,$this->p,$this->db);
+			$this->connection = new mysqli($this->h,$this->u,$this->p,$this->db);
 	}
 	
 	public function query($q) {
@@ -17,15 +17,15 @@ class ALEmysqli extends ALESQLDatabase {
 		return $this->connection->query($q);
 	}
 	
-	public static function error() {
+	public function error() {
 		return $this->connection->error;
 	}
 	
-	public static function rows($r) {
+	public function rows($r) {
 		return $r->num_rows;
 	}
 	
-	public static function assoc($r) {
+	public function assoc($r) {
 		return $r->fetch_array(MYSQLI_ASSOC);
 	}
 }

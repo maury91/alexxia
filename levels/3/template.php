@@ -32,16 +32,19 @@ class MENU {
 							for ($j=0;$j<$tot2;$j++) {
 								foreach ($rl->links as $rll) {
 									if ((isset($rll->rule))?self::rule_l($rll->rule,$j,$tot2):true) {
-										$cla = '';//(trim($menu[$i]['links'][$j]['class'].(isset($rll['class'])?$rll['class']:''))=='')?'':$menu[$i]['links'][$j]['class'].(isset($rll['class'])?$rll['class']:'');
-										$links.=str_ireplace(array('%class%','%text%','%image%','%href%'),array($cla,
-										$menu[$i]['links'][$j]['text'],
-										$menu[$i]['links'][$j]['image'],
-										$menu[$i]['links'][$j]['href']),$rll->content);
+										$cla = (trim($menu[$i]['links'][$j]['class'].(isset($rll->{'class'})?$rll->{'class'}:''))=='')?'':' class="'.$menu[$i]['links'][$j]['class'].(isset($rll->{'class'})?$rll->{'class'}:'').'" ';
+										$links.=str_ireplace(array('%class%','%text%','%image%','%href%','%html%'),
+											array($cla,
+												$menu[$i]['links'][$j]['text'],
+												$menu[$i]['links'][$j]['image'],
+												$menu[$i]['links'][$j]['href'],
+												$menu[$i]['links'][$j]['html']),
+										$rll->content);
 									}
 								}
 							}
-							$cla = '';//(trim($menu[$i]['class'].(isset($rl['class'])?$rl['class']:''))=='')?'':$menu[$i]['class'].(isset($rl['class'])?$rl['class']:'')
-							$to_ret.=str_ireplace(array('%class%','%text%','%links%','%image%'),array($cla,$menu[$i]['text'],$links,$menu[$i]['image']),$rl->content);
+							$cla = (trim($menu[$i]['class'].(isset($rl->{'class'})?$rl->{'class'}:''))=='')?'':' class="'.$menu[$i]['class'].(isset($rl->{'class'})?$rl->{'class'}:'').'" ';
+							$to_ret.=str_ireplace(array('%class%','%text%','%links%','%image%','%html%'),array($cla,$menu[$i]['text'],$links,$menu[$i]['image'],$menu[$i]['html']),$rl->content);
 						}
 					}
 				} else {
@@ -51,9 +54,8 @@ class MENU {
 								$mod='%mod-'.$menu[$i]['module'].'-mod%';
 							else
 								$mod=self::mod($menu[$i]['module']);
-							$cla='';
-							//(trim($menu[$i]['class'].(isset($rl['class'])?$rl['class']:''))=='')?'':$menu[$i]['class'].(isset($rl['class'])?$rl['class']:'')
-							$to_ret.=str_ireplace(array('%class%','%text%','%mod%','%image%'),array($cla,$menu[$i]['text'],$mod,$menu[$i]['image']),$rl->content);
+							$cla = (trim($menu[$i]['class'].(isset($rl->{'class'})?$rl->{'class'}:''))=='')?'':' class="'.$menu[$i]['class'].(isset($rl->{'class'})?$rl->{'class'}:'').'" ';
+							$to_ret.=str_ireplace(array('%class%','%text%','%mod%','%image%','%html%'),array($cla,$menu[$i]['text'],$mod,$menu[$i]['image'],$menu[$i]['html']),$rl->content);
 						}
 					}
 				}
