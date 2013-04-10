@@ -191,13 +191,14 @@ class ALEMySQLColumn {
 	public function from($table) {
 		//Creazione collegamento tra le due tabelle
 		$this->table->from_col($this,$table);
+		return $this;
 	}
 }
 
 class ALEMySQLTable {
 	private $db,$isnew;
 	private $primary=array(),$uniques=array(),$foreign=array();
-	public $properties=array(),$from=array(),$has_many=array(),$sub_tables=array();
+	public $properties=array(),$from=array(),$has_many=array(),$sub_tables=array(),$added=array(),$changed=array();
 	public $name;
 	
 	private function in_apices($str) {
@@ -253,7 +254,8 @@ class ALEMySQLTable {
 			$col->type($id->type)->dimension($id->dimension)->unsigned($id->unsigned)->zerofill($id->zerofill)->not_null($id->not_null);
 			$this->foreign[] = array($nome,$table->name);
 			$this->foreign = array_unique($this->foreign);
-			$table->has_many[$this->name] = $this;
+			if ($table->name!=$this->name)
+				$table->has_many[$this->name] = $this;
 		}
 		return $this;
 	}
@@ -305,94 +307,128 @@ class ALEMySQLTable {
 					$v->drop();
 			}
 		}
-		return $this->db->query('DROP TABLE `'.($this->name).'`');
+		return $this->db->query('DROP TABLE `'.($this->db->pre.$this->name).'`');
 	}
 	
 	public function save($overwrite=false) {
-		$contents = '';
-		foreach ($this->properties as $v)
-			$contents .= $v.',';
-		foreach ($this->uniques as $v)
-			$contents .= ' UNIQUE('.implode(',',array_map(array($this,'in_apices'),$v)).'),';
-		foreach ($this->foreign as $v)
-			$contents .= 'CONSTRAINT `foreign_key_'.$v[0].'` FOREIGN KEY (`'.$v[0].'`) REFERENCES '.$v[1].'(`id`),';
-		if (count($this->primary))
-			$contents .= ' PRIMARY KEY('.implode(',',array_map(array($this,'in_apices'),$this->primary)).')';
-		else
-			$contents = substr($contents,0,-1);
-		if ($contents!='') {
-			//if ($this->sub_tables[] )
-			foreach ($this->has_many as $v) {
-				$table = is_array($v)?$v[0]:$v;
-				$t_name = is_array($v)?$v[1]:$v->name;
-				//Controllo esistenza di has_many verso questa tabella
-				if (!isset($this->sub_tables[$t_name])) {
-					if (isset($table->has_many[$this->name])) {
-						if ($this->name != $table->name) {
-							$s_name = $table->has_many[$this->name];
-							$s_name = is_array($s_name)?$s_name[1]:$s_name->name;
-						} else
-							$s_name = $this->name;
-						$new_table = new ALEMySQLTable('NxN__'.($this->name).'x'.($table->name).'_'.$s_name.'x'.$t_name,$this->dimension()+1,$this->db);
-						$new_table
-							->property($t_name)->type('INT')->dimension($table->dimension())->not_null()->unsigned()->end()
-							->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
-						->save();
-						if ($this->name != $table->name) {							
-							$new_table->property($s_name)->type('INT')->dimension($this->dimension())->not_null()->unsigned();
-							$table->sub_tables[$s_name] = $new_table;
+		if ($this->isnew) {
+			$contents = '';
+			foreach ($this->properties as $v)
+				$contents .= $v.',';
+			foreach ($this->uniques as $v)
+				$contents .= ' UNIQUE('.implode(',',array_map(array($this,'in_apices'),$v)).'),';
+			foreach ($this->foreign as $v)
+				$contents .= 'CONSTRAINT `fk_'.$v[0].$this->db->pre.$this->name.'` FOREIGN KEY (`'.$v[0].'`) REFERENCES '.$this->db->pre.$v[1].'(`id`),';
+			if (count($this->primary))
+				$contents .= ' PRIMARY KEY('.implode(',',array_map(array($this,'in_apices'),$this->primary)).')';
+			else
+				$contents = substr($contents,0,-1);
+			if ($contents!='') {
+				//if ($this->sub_tables[] )
+				foreach ($this->has_many as $v) {
+					$table = is_array($v)?$v[0]:$v;
+					$t_name = is_array($v)?$v[1]:$v->name;
+					//Controllo esistenza di has_many verso questa tabella
+					if (!isset($this->sub_tables[$t_name])) {
+						if (isset($table->has_many[$this->name])) {
+							if ($this->name != $table->name) {
+								$s_name = $table->has_many[$this->name];
+								$s_name = is_array($s_name)?$s_name[1]:$s_name->name;
+							} else
+								$s_name = $this->name;
+							$new_table = new ALEMySQLTable('NxN__'.($this->name).'x'.($table->name).'_'.(is_array($s_name)?$s_name[1]:'s').'x'.(is_array($v)?$v[1]:'s'),$this->dimension()+1,true,$this->db);
+							$new_table
+								->property($t_name)->type('INT')->dimension($table->dimension())->not_null()->unsigned()->end()
+								->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
+							->save(true);
+							if ($this->name != $table->name) {							
+								$new_table->property($s_name)->type('INT')->dimension($this->dimension())->not_null()->unsigned();
+								$table->sub_tables[$s_name] = $new_table;
+							}
+							$this->sub_tables[$t_name] = $new_table;
+						} else {
+							$table->belongs_to($this);
+							$this->sub_tables[$t_name] = $table;
 						}
-						$this->sub_tables[$t_name] = $new_table;
-					} else {
-						$table->belongs_to($this);
-						$this->sub_tables[$t_name] = $table;
 					}
 				}
-			}
-			foreach ($this->from as $v) {
-				if (!isset($this->sub_table['sup_'.($v[0]->name).'x'.($v[1]->name)])) {
-					//Campi
-					$new_table = new ALEMySQLTable('NxN__'.($v[0]->name).'_'.($this->name).'x'.($v[1]->name),$this->dimension()+1,$this->db);
-					$new_table
-						->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
-						->property($v[0])->end()
-						->property($v[1]->name)->type('INT')->dimension($v[1]->dimension())->not_null()->unsigned()->end()
-					->save();
+				foreach ($this->from as $v) {
+					if (!isset($this->sub_table['sup_'.($v[0]->name).'x'.($v[1]->name)])) {
+						//Campi
+						$new_table = new ALEMySQLTable('NxN__'.($v[0]->name).'_'.($this->name).'x'.($v[1]->name),$this->dimension()+1,true,$this->db);
+						$new_table
+							->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
+							->property($v[0])->end()
+							->property($v[1]->name)->type('INT')->dimension($v[1]->dimension())->not_null()->unsigned()->end()
+						->save(true);
+					}
+				
 				}
-			
-			}
-			$res = $this->db->q_rows('SHOW TABLES LIKE "'.($this->db->pre.$this->name).'"')>0;
-			
-			if ($res&&$overwrite) {
-				//Eliminazione tabelle con dipendenze da questa
-				if ($this->drop())
-					$res = false;
-				else
-					trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
-			}
-			if ($res) {
-				//Alterazione
-				$ret = true;
-			} else{
-				if (!$this->db->query('CREATE TABLE `'.($this->db->pre.$this->name).'` ('.$contents.')')) {
-					$ret = false;
-					trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
-				} else
+				$res = $this->db->q_rows('SHOW TABLES LIKE "'.($this->db->pre.$this->name).'"')>0;
+				
+				if ($res&&$overwrite) {
+					//Eliminazione tabelle con dipendenze da questa
+					if ($this->drop())
+						$res = false;
+					else
+						trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
+				}
+				if ($res) {
+					//Alterazione
 					$ret = true;
-			}
-		} else
-			trigger_error('Invalid Table!',E_USER_WARNING);
-		return $ret;
+				} else{
+					if (!$this->db->query('CREATE TABLE `'.($this->db->pre.$this->name).'` ('.$contents.')')) {
+						$ret = false;
+						trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
+					} else
+						$ret = true;
+				}
+			} else
+				trigger_error('Invalid Table!',E_USER_WARNING);
+			return $ret;
+		} else {
+			$add = '';
+			foreach ($this->added as $v)
+				$add .= $this->properties[$v].',';
+			if ($add!='')
+				$add = ' ADD('.substr($add,0,-1).') ';
+			$chn = '';
+			foreach ($this->changed as $v)
+				$chn .= $this->properties[$v].',';
+			if ($chn!='')
+				$chn = ' ADD('.substr($chn,0,-1).') ';
+			if ($add.$chn=='')
+				return true;
+			if (!$this->db->query('ALTER TABLE `'.($this->db->pre.$this->name).'` '.$add.$chn)) {
+				$ret = false;
+				trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);
+			} else
+				$ret = true;
+		}
 	}
 	
-	public function property($nome) {
+	
+	public function property($nome,$from_read=false) {
 		if (is_object($nome)&&get_class($nome)=='ALEMySQLColumn') {
+			$aext = isset($this->properties[$nome->name]);
 			$this->properties[$nome->name] = new ALEMySQLColumn($nome->name,$this);
+			if (!$this->isnew&&!$from_read) {
+				if ($aext) {
+					if (!isset($this->added[$nome->name]))
+						$this->changed[$nome->name] = $nome->name;
+				} else
+					$this->added[$nome->name] = $nome->name;
+			}
 			return $this->properties[$nome->name]->type($nome->type)->dimension($nome->dimension)->unsigned($nome->unsigned)->zerofill($nome->zerofill)->not_null($nome->not_null);
 		} elseif (isset($this->properties[$nome])) {
 			return $this->properties[$nome];
 		} else {
 			$this->properties[$nome] = new ALEMySQLColumn($nome,$this);
+			if (!$this->isnew&&!$from_read) {
+				var_dump($from_read);
+				var_dump($nome);
+				$this->added[$nome] = $nome;
+			}
 			return $this->properties[$nome];
 		}
 	}

@@ -65,13 +65,13 @@ abstract class ALESQLDatabase extends ALEDatabase {
 
 	public function read($name) {
 		//Lettura di una tabella
-		$table_info = $this->query('SHOW COLUMNS FROM `'.$name.'`');
-		$table = new ALESQLTable($name,0,$this,false);
+		$table_info = $this->query('SHOW COLUMNS FROM `'.$this->pre.$name.'`');
+		$table = new ALEMySQLTable($name,0,false,$this);
 		while ($r = $this->assoc($table_info)) {
 			$type_d = explode(' ',$r['Type']);
 			$type_d2 = explode('(',$type_d[0]);
-			$column = $table->property($r['Field'])->type($type_d2[0]);
-			if ($type_d2[1]!='')
+			$column = $table->property($r['Field'],true)->type($type_d2[0]);
+			if (isset($type_d2[1]))
 				$column->dimension(substr($type_d2[1],0,-1));
 			$c = count($type_d);
 			for ($i=1;$i<$c;$i++) 
@@ -89,7 +89,7 @@ abstract class ALESQLDatabase extends ALEDatabase {
 		}
 		$table_info2 = $this->query('SHOW INDEX FROM `'.$name.'`');
 		$uniques = array();
-		while ($r = $this->assoc($table_info2)) {
+		while ($r = @$this->assoc($table_info2)) {
 			if ($r['Key_name'] != 'PRIMARY')
 				$uniques[$r['Key_name']][] = $r['Column_name'];
 		}
