@@ -16,6 +16,28 @@ header {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#fcfcfc',GradientType=0 );
 	height: 170px;
 }
+.secure_status {
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	width: 70px;
+	height:70px;
+}
+.secure_status  .points {
+	position:relative;
+	height: 70px;
+	top: -10px;
+}
+.secure_status  .points  span{
+	position:absolute;
+	left:50%;
+	top:50%;
+}
+.secure_status .img.unsecure,.secure_status .img.secure {
+	left: 11px;
+	top: 11px;
+	position: absolute;
+}
 header .logo {
 	position: relative;
 	left: 40px;

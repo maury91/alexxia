@@ -7,6 +7,14 @@ define('__base_path',dirname(__FILE__).'/');
 define('__http_path',dirname($_SERVER['SCRIPT_NAME']).'/');
 define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
 require(__base_path.'levels/3/loader.php');
+//Criptazione
+if (isset($_POST['init'])) {
+	echo SECURE::init();
+	exit(0);
+} elseif (isset($_POST['new_aes'])) {
+	echo SECURE::new_aes($_POST['new_aes'],$_POST['cripted']);
+	exit(0);
+}
 //Installazione
 if (file_exists('install/make.php')) {
 	session_start();

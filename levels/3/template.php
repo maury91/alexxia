@@ -32,7 +32,7 @@ class MENU {
 							for ($j=0;$j<$tot2;$j++) {
 								foreach ($rl->links as $rll) {
 									if ((isset($rll->rule))?self::rule_l($rll->rule,$j,$tot2):true) {
-										$cla = (trim($menu[$i]['links'][$j]['class'].(isset($rll->{'class'})?$rll->{'class'}:''))=='')?'':' class="'.$menu[$i]['links'][$j]['class'].(isset($rll->{'class'})?$rll->{'class'}:'').'" ';
+										$cla = (trim($menu[$i]['links'][$j]['class'].(isset($rll->{'class'})?$rll->{'class'}:''))=='')?'':' class="'.$menu[$i]['links'][$j]['class'].' '.(isset($rll->{'class'})?$rll->{'class'}:'').'" ';
 										$links.=str_ireplace(array('%class%','%text%','%image%','%href%','%html%'),
 											array($cla,
 												$menu[$i]['links'][$j]['text'],
@@ -154,36 +154,44 @@ class MENU {
 						$men3 = array();
 						for ($l=0;$l<11;$l++) {
 							$men3[$l] = $men2;
-							foreach ($men3[$l] as $k => $v) 
+							foreach ($men3[$l] as $k => $v) {
 								foreach ($v as $j => $i) {
-									if ($i['level']< $l)
-										array_splice($men3[$l][$k],$j,1);
+									if (($i['level']< $l)||(($i['level']==11)&&($l<10)))
+										unset($men3[$l][$k][$j]);
 									else {
-										if ($i['type'])
+										if ($i['type']) {
 											foreach ($i['links'] as $a => $b) {
-												if ($b['level']< $l)
-													array_splice($men3[$l][$k][$j]['links'],$a,1);
+												if (($b['level']< $l)||(($b['level']==11)&&($l<10)))
+													unset($men3[$l][$k][$j]['links'][$a]);
 											}
+											$men3[$l][$k][$j]['links'] = array_values($men3[$l][$k][$j]['links']);
+										}
 									}
 								}
+								$men3[$l][$k] = array_values($men3[$l][$k]);
+							}
 						}
 						$men4 = array();
 						$__langs = LANG::get_list();
 						foreach ($__langs as $lk=>$lv) {
 							$men4[$lk]=$men3;
 							for ($l=0;$l<11;$l++) {
-								foreach ($men3[$l] as $k => $v) 
+								foreach ($men3[$l] as $k => $v)  {
 									foreach ($v as $j => $i) {
 										if (($i['lang']!='all')&&($i['lang']!=$lk))
-											array_splice($men4[$lk][$l][$k],$j,1);
+											unset($men4[$lk][$l][$k][$j]);
 										else {
-											if ($i['type'])
+											if ($i['type']) {
 												foreach ($i['links'] as $a => $b) {
 													if (($b['lang']!='all')&&($b['lang']!=$lk))
-														array_splice($men4[$lk][$l][$k][$j]['links'],$a,1);
+														unset($men4[$lk][$l][$k][$j]['links'][$a]);
 												}
+												$men4[$lk][$l][$k][$j]['links'] = array_values($men4[$lk][$l][$k][$j]['links']);
+											}
 										}
 									}
+									$men4[$lk][$l][$k] = array_values($men4[$lk][$l][$k]);
+								}
 								file_put_contents(__base_path.'cache/menu/c1/'.$lk.'_'.$l.'.php',"<?php\n".'$menu = '.var_export($men4[$lk][$l],true).";\n?>");	
 							}
 						}				

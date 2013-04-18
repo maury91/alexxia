@@ -7,7 +7,8 @@
 		'json' => 'Supporto JSON',
 		'write' => 'config/ e cache/ scrivibile',
 		'http' => 'Curl o allow_url_fopen',
-		'output' => 'Output Buffering'
+		'output' => 'Output Buffering',
+		'bcrypt' => 'CRYPT_BLOWFISH attivo'
 	);
 	$__req = 'Requisiti';
 	$__req_d = 'Per poter installare ALExxia hai bisogno che tutti i Requisiti qui elencati siano contrassegnati da un SI, se qualche requisito &egrave; indicato come NO sei pregato di correggerlo per poter iniziare l\'installazione';
@@ -69,4 +70,6 @@
 	$__end = 'Installazione Completa';
 	$__end_d = 'L\'installazione &egrave; stata completata con successo, per terminare cliccare nel bottone qua sotto';
 	$__fine = 'Vai al tuo sito';
+	$__secure = 'La connessione &egrave; sicura';
+	$__loading = 'Caricamento...';
 ?>

@@ -15,10 +15,10 @@ abstract class ALESQLDatabase extends ALEDatabase {
 				if (is_array($argv[$i])) {
 					$aux = '';
 					foreach($argv[$i] as $x)
-						$aux .= '"'.SQLEscape($x).'",';
+						$aux .= '"'.$this->SQLEscape($x).'",';
 					$q .= trim($aux,",");
 				} else {
-					$q .= '"'.SQLEscape($argv[$i]).'" ';
+					$q .= '"'.$this->SQLEscape($argv[$i]).'" ';
 				}
 			} else
 				$q .= $argv[$i];
@@ -36,9 +36,9 @@ abstract class ALESQLDatabase extends ALEDatabase {
 			if (is_array($v)) {
 				$tot = count($v);
 				for(;$j<$tot;$j++)
-					$values[$j][$i] = '"'.SQLEscape($v[$j]).'"'; 
+					$values[$j][$i] = '"'.$this->SQLEscape($v[$j]).'"'; 
 			} else
-				$values[0][$i] = '"'.SQLEscape($v).'"';
+				$values[0][$i] = '"'.$this->SQLEscape($v).'"';
 			$i++;
 		}
 		$tot = count($values);
@@ -48,13 +48,13 @@ abstract class ALESQLDatabase extends ALEDatabase {
 					$values[$j][$x] = '""';
 			$values[$j] = '('.implode(',',$values[$j]).')';
 		}
-		return $this->query('INSERT INTO `'.$t.'` ('.substr($camps,0,-1).') VALUES '.implode(',',$values));
+		return $this->query('INSERT INTO `'.($this->pre).$t.'` ('.substr($camps,0,-1).') VALUES '.implode(',',$values));
 	}
 	
 	public function update($t,$el,$arr) {
 		$set = array();
 		foreach ($el as $k=>$v)
-			$set[] = '`'.$k.'` = "'.SQLEscape($v).'"';
+			$set[] = '`'.$k.'` = "'.$this->SQLEscape($v).'"';
 		return $this->query('UPDATE `'.($this->pre).$t.'` SET '.implode(' AND ',$set).' '.($this->create_query($arr)));
 	}
 	

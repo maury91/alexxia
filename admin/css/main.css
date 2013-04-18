@@ -1,0 +1,88 @@
+@import url(http://fonts.googleapis.com/css?family=Gabriela);
+.login {
+	display: none;
+	position: absolute;
+	left: 50%;
+	border: 1px solid #999;
+	border-radius: 6px;
+	width: 300px;
+	text-align: center;
+	height: 360px;
+	font-size: 20px;
+	color: #666;
+	font-weight: bold;
+	font-family: sans-serif;
+	padding: 20px;
+	margin-left: -160px;
+	top: 50%;
+	margin-top: -180px;
+}
+.login input[type="text"], .login input[type="password"] {
+	width: 100%;
+	border: 1px solid #AAA;
+	font-size: 1em;
+	padding: 2px;
+	color: #333;
+	text-align: center;
+}
+.login input[type="button"] {
+	border: 1px solid #999;
+	background: #F3F3F3;
+	color: #444;
+	font-size: 1em;
+	margin-top: 80px;
+	padding: 5px 30px;
+	cursor: pointer;
+}
+.login p {
+	margin-bottom: 2px;
+}
+h1 {
+	font-family: 'Gabriela', serif;
+}
+.logo {
+	background: url(images/logo.png) no-repeat;
+	width: 212px;
+	height: 100px;
+	background-size: contain;
+	-moz-background-size: contain;
+	position: absolute;
+	left: 50%;
+	margin-left: -106px;
+	top: 10px;
+}
+.load .points {
+	width:160px;
+	height:160px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin:-80px;
+}
+.load .points span{
+	position:absolute;
+	left:50%;
+	top:50%;
+}
+.load .img.unsecure,.img.secure {
+	background-image: url(images/unsecure.png);
+	width: 128px;
+	height: 128px;
+	left: 50%;
+	position: absolute;
+	margin: -64px;
+	top: 50%;
+}
+.load .img.secure{
+	background-image: url(images/secure.png);
+}
+.main.load {
+	color: #666;
+	font-size: 25px;
+	text-align: center;
+	margin: auto;
+	top: 50%;
+	position: absolute;
+	width: 98%;
+	margin-top: -70px;
+}

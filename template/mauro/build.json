@@ -2,7 +2,7 @@
 	"top" : {
 		"link" : [{
 			"content" : "%links%",
-			"links" : [{"content":"<li %class%><a href='%href%'>%text%</a></li>"}]
+			"links" : [{"content":"<li %class% %html%><a href='%href%'>%text%</a></li>"}]
 		}]
 	},
 	"right" : {
@@ -17,6 +17,11 @@
 		}]
 	},
 	"slider" : {
+		"mod" : [{
+			"content" : "%mod%"
+		}]
+	},
+	"footer" : {
 		"mod" : [{
 			"content" : "%mod%"
 		}]

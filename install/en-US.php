@@ -7,7 +7,8 @@
 		'json' => 'JSON Support',
 		'write' => 'config/ and cache/ writables',
 		'http' => 'Curl or allow_url_fopen enabled',
-		'output' => 'Output Buffering'
+		'output' => 'Output Buffering',
+		'bcrypt' => 'CRYPT_BLOWFISH enabled'
 	);
 	$__req = 'Requirements';
 	$__req_d = 'To install ALExxia all requirements listed here must be indicated by an YES, if some condition is referred as NO please correct it to begin the installation';
@@ -45,9 +46,11 @@
 	$__prev = 'Back';
 	$__database = 'Database Configuration';
 	$__dbt = 'Database Type';
-	$__dbt_d = 'MySQLi risulta pi&ugrave; veloce di MySQL.<br/>SQLite e SQLite3 son database memorizzati su file locali.';
+	$__dbt_d = 'MySQLi is faster than MySQL. <br/> SQLite and SQLite3 databases are stored on local files.';
 	$__host = 'Host Name';
 	$__host_d = 'Usually is localhost';
+	$__dbfile = 'Filename';
+	$__dbfile_d = 'Select the name by which to call (or you called) your database';
 	$__dbuser = 'Username';
 	$__dbuser_d = 'Usually is root';
 	$__dbpass = 'Password';
@@ -60,7 +63,14 @@
 	$__db2_d = 'If all you have more than one database by filling out the following fields ALExxia will use the second database for sensitive data. <br/> For a more effective security is not recommended a database accessible to the primary database';
 	$__not_db = 'Unable to connect to the database, verify that the host, username and password are correct';
 	$__not_dbname = 'The database name is not valid, check that you have spelled correctly and the user have permission to access';
+	$__not_db = 'Unable to connect to the database, verify host, username and password are correct';
+	$__not_dblite = 'Failed to create the database file, check write permissions in config /';
 	$__not_db2 = 'Unable to connect to the secondary database, if you do not want to use leave this field blank';
 	$__not_dbname2 = 'The name of the secondary database is invalid';
 	$__sum = 'Summary';
+	$__end = 'Installation Complete';
+	$__end_d = 'The installation was completed successfully, click on the button to finish below';
+	$__fine = 'Go to your web site';
+	$__secure = 'The connection is secure';
+	$__loading = 'Loading...';
 ?>

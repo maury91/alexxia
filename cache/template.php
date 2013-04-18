@@ -30,6 +30,7 @@
 				</div>
 			</div>
 			<footer>
+				<?php echo MENU::get('footer') ?>
 			</footer>
 		</div>
 	</body>

@@ -1,6 +1,8 @@
 body {
-	background: #99F;
+	background-image: url('images/1.6.jpg'),url('images/2.3.png');
 	color: #777;
+	background-size: 100%, 100%;
+	background-repeat: no-repeat,repeat-y;
 }
 .wrapper {
 	width: 950px;
@@ -26,11 +28,13 @@ header .cerca input[type="text"] {
 }
 header .logo {
 	display: block;
-	border: 1px dashed #888;
 	width: 500px;
 	height: 125px;
 	margin-left: 10px;
-	background:url(images/logo.png);
+	background: url(images/logo.png), url(images/titolo3.png);
+	background-repeat: no-repeat;
+	background-position: 0 0, 128px 22px;
+	background-size: 120px 120px,370px 40px;
 }
 header nav {
 	position: absolute;
@@ -90,6 +94,11 @@ header nav li {
 .main .page {
 	width: 845px;
 	display: table-cell;
+	background: url(images/sardegna_trasp52.png);
+	background-repeat: no-repeat; 
+	background-position: right;
+	margin-right: 200px; 
+
 }
 .main .menu_r {
 	width: 250px;
@@ -104,6 +113,7 @@ header nav li {
 .page .list li {
 	display: block;
 	position: relative;
+	background: rgba(255,255,255,0.6);
 }
 .page .list-title {
 	background: #EEF;
@@ -135,9 +145,11 @@ ul.list li.first {
 	border-left:0;
 }
 .page ul li .image {
-	border: 1px dashed #666;
 	width: 150px;
 	height: 100px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 .page ul li .title {
 	font-weight: bold;
@@ -162,8 +174,10 @@ ul.list li.first {
 }
 .page ol li .image {
 	height: 80px;
-	border: 1px dashed #666;
 	margin-top: 5px;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
 }
 .page ol li .title {
 	font-weight: bold;
@@ -172,6 +186,9 @@ ul.list li.first {
 	display: block;
 	font-size: 0.8em;
 	margin-top:4px;
+	position: absolute;
+	bottom: 10px;
+	height: 35px;
 }
 .page ol li .price {
 	font-weight: bold;
@@ -226,4 +243,11 @@ header nav li a {
 .menu_r nav li a {
 	color: #559;
 	text-decoration: none;
+}
+li.cart {
+	float: right;
+	border-left: 1px solid #CCD;
+}
+.nivo-directionNav,.nivo-controlNav {
+	display:none;
 }

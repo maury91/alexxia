@@ -1,0 +1,8 @@
+.img.secure,.img.unsecure {
+	background:url(images/secure.png) no-repeat;
+	width:48px;
+	height:48px;
+}
+.img.unsecure {
+	background-image:url(images/unsecure.png);
+}
