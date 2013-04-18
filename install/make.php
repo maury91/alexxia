@@ -237,6 +237,8 @@ if (isset($_POST['crypted'])) {
 				} catch (Exception $e) {
 					$error .= '<div class="error">'.$e.'</div>';
 				}
+				if ($error=='')
+					$point=5;
 			break;
 			case 5 :
 				$point=$_SESSION['step']='end';
