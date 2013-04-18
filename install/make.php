@@ -121,16 +121,16 @@ if (isset($_POST['crypted'])) {
 			case 3 :
 				switch ($assoc['dbt']) {
 					case 'mysql' :
-						if (!mysql_connect($assoc['dbhost'],$assoc['dbuser'],$assoc['dbpass']))
-							$error .= '<div class="error">'.$__not_db.'</div>';
-						elseif (!mysql_select_db($assoc['dbname']))
-							$error .= '<div class="error">'.$__not_dbname.'</div>';
+						if (!@mysql_connect($assoc['dbhost'],$assoc['dbuser'],$assoc['dbpass']))
+							$error .= '<div class="error">'.$__not_db.' : '.mysql_error().'</div>';
+						elseif (!@mysql_select_db($assoc['dbname']))
+							$error .= '<div class="error">'.$__not_dbname.' : '.mysql_error().'</div>';
 					break;
 					case 'mysqli' :
-						if (!$con = mysqli_connect($assoc['dbhost'],$assoc['dbuser'],$assoc['dbpass']))
-							$error .= '<div class="error">'.$__not_db.'</div>';
-						elseif (!mysqli_select_db($con,$assoc['dbname']))
-							$error .= '<div class="error">'.$__not_dbname.'</div>';
+						if (!$con = @mysqli_connect($assoc['dbhost'],$assoc['dbuser'],$assoc['dbpass']))
+							$error .= '<div class="error">'.$__not_db.' : '.mysqli_error().'</div>';
+						elseif (!@mysqli_select_db($con,$assoc['dbname']))
+							$error .= '<div class="error">'.$__not_dbname.' : '.mysqli_error().'</div>';
 					break;
 					case 'SQLite' :
 						if (!sqlite_open(__base_path.'config/'.$assoc['dbfile'].'.db'))
@@ -147,18 +147,18 @@ if (isset($_POST['crypted'])) {
 				switch ($assoc['dbt2']) {
 					case 'mysql' :
 						if (($error=='')&&($assoc['dbhost2']!='')) {
-							if (!mysql_connect($assoc['dbhost2'],$assoc['dbuser2'],$assoc['dbpass2']))
-								$error .= '<div class="error">'.$__not_db2.'</div>';
-							elseif (!mysql_select_db($assoc['dbname2']))
-								$error .= '<div class="error">'.$__not_dbname2.'</div>';
+							if (!@mysql_connect($assoc['dbhost2'],$assoc['dbuser2'],$assoc['dbpass2']))
+								$error .= '<div class="error">'.$__not_db2.' : '.mysql_error().'</div>';
+							elseif (!@mysql_select_db($assoc['dbname2']))
+								$error .= '<div class="error">'.$__not_dbname2.' : '.mysql_error().'</div>';
 						}
 					break;
 					case 'mysqli' :
 						if (($error=='')&&($assoc['dbhost2']!='')) {
-							if (!$con2 = mysqli_connect($assoc['dbhost2'],$assoc['dbuser2'],$assoc['dbpass2']))
-								$error .= '<div class="error">'.$__not_db2.'</div>';
-							elseif (!mysqli_select_db($con2,$assoc['dbname2']))
-								$error .= '<div class="error">'.$__not_dbname2.'</div>';
+							if (!$con2 = @mysqli_connect($assoc['dbhost2'],$assoc['dbuser2'],$assoc['dbpass2']))
+								$error .= '<div class="error">'.$__not_db2.' : '.mysqli_error().'</div>';
+							elseif (!@mysqli_select_db($con2,$assoc['dbname2']))
+								$error .= '<div class="error">'.$__not_dbname2.' : '.mysqli_error().'</div>';
 						}
 					break;
 					case 'SQLite' :
