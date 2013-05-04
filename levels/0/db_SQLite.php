@@ -16,6 +16,10 @@ class ALESQLite extends ALESQLDatabase {
 		return sqlite_escape_string($q);
 	}
 	
+	public function in_apices($q) {
+		return '\''.$q.'\'';
+	}
+	
 	public function connect() {
 		if ($this->connection==null)
 			$this->connection = sqlite_open(__base_path.'config/'.($this->db).'.db');
@@ -36,6 +40,10 @@ class ALESQLite extends ALESQLDatabase {
 	
 	public function assoc($r) {
 		return sqlite_fetch_array($r, SQLITE_ASSOC);
+	}
+	
+	public function last_insert() {
+		return sqlite_last_insert_rowid();
 	}
 	
 	public function read($name) {

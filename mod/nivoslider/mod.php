@@ -1,5 +1,5 @@
 <style type="text/css">
-@import url("mod/nivoslider/nivo-slider.css")
+@import url("<?= __http_host.__http_path ?>mod/nivoslider/nivo-slider.css")
 </style>
 <div id="slider" class="nivoSlider">
 	<?php
@@ -7,10 +7,10 @@
 	if ($handle = opendir($directory.'/'))
 		while ($file = readdir($handle))
 			if (!is_dir($directory."/{$file}"))
-				echo "<img src='media/images/slider/$file' data-thumb='media/images/slider/$file' alt='' />";
+				echo '<img src="'.__http_host.__http_path.'media/images/slider/'.$file.'" data-thumb="media/images/slider/'.$file.'" alt="" />';
 	?>
 </div>
-<script type="text/javascript" src="mod/nivoslider/jquery.nivo.slider.pack.js"></script>
+<script type="text/javascript" src="<?= __http_host.__http_path ?>mod/nivoslider/jquery.nivo.slider.pack.js"></script>
 <script type="text/javascript">
 $(window).load(function() {
 	$('#slider').nivoSlider();

@@ -488,8 +488,9 @@ bCrypt.prototype.hashpw = function(password, salt, callback, progress) {
 		off = 3;
 	else {
 		minor = salt.charAt(2);
-		if (minor != 'a' || salt.charAt(3) != '$')
+		if (minor != 'a' || salt.charAt(3) != '$') {
 			throw "Invalid salt revision";
+		}
 		off = 4;
 	}
 

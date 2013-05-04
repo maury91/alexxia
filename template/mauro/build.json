@@ -21,6 +21,11 @@
 			"content" : "%mod%"
 		}]
 	},
+	"header" : {
+		"mod" : [{
+			"content" : "%mod%"
+		}]
+	},
 	"footer" : {
 		"mod" : [{
 			"content" : "%mod%"

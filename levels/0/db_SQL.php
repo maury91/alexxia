@@ -31,14 +31,22 @@ abstract class ALESQLDatabase extends ALEDatabase {
 		$values = array();
 		$i=0;
 		foreach ($el as $k => $v) {
-			$camps.='`'.$k.'`,';
+			$camps.= $this->in_apices($k).',';
 			$j=0;
 			if (is_array($v)) {
 				$tot = count($v);
-				for(;$j<$tot;$j++)
-					$values[$j][$i] = '"'.$this->SQLEscape($v[$j]).'"'; 
-			} else
-				$values[0][$i] = '"'.$this->SQLEscape($v).'"';
+				for(;$j<$tot;$j++) {
+					if ($v[$j]==NULL)
+						$values[$j][$i] = 'NULL';
+					else
+						$values[$j][$i] = '"'.$this->SQLEscape($v[$j]).'"'; 
+				}
+			} else {
+				if ($v==NULL)
+					$values[0][$i] = 'NULL';
+				else
+					$values[0][$i] = '"'.$this->SQLEscape($v).'"';
+			}
 			$i++;
 		}
 		$tot = count($values);
@@ -48,24 +56,50 @@ abstract class ALESQLDatabase extends ALEDatabase {
 					$values[$j][$x] = '""';
 			$values[$j] = '('.implode(',',$values[$j]).')';
 		}
-		return $this->query('INSERT INTO `'.($this->pre).$t.'` ('.substr($camps,0,-1).') VALUES '.implode(',',$values));
+		$GLOBALS['query'] .= 'INSERT INTO '.$this->in_apices(($this->pre).$t).' ('.substr($camps,0,-1).') VALUES '.implode(',',$values)."\n";
+		if ($this->query('INSERT INTO '.$this->in_apices(($this->pre).$t).' ('.substr($camps,0,-1).') VALUES '.implode(',',$values)))
+			return $this->last_insert();
+		else
+			return false;
 	}
 	
 	public function update($t,$el,$arr) {
 		$set = array();
 		foreach ($el as $k=>$v)
-			$set[] = '`'.$k.'` = "'.$this->SQLEscape($v).'"';
-		return $this->query('UPDATE `'.($this->pre).$t.'` SET '.implode(' AND ',$set).' '.($this->create_query($arr)));
+			$set[] = $this->in_apices($k).' = "'.$this->SQLEscape($v).'"';
+		$GLOBALS['query'] .= 'UPDATE '.$this->in_apices(($this->pre).$t).' SET '.implode(' , ',$set).' '.($this->create_query($arr))."\n";
+		return $this->query('UPDATE '.$this->in_apices(($this->pre).$t).' SET '.implode(' , ',$set).' '.($this->create_query($arr)));
+	}
+	
+	public function delete($from,$arr) {
+		$set = array();
+		if (is_array($from)) {
+			$fr='';
+			foreach($from as $f)
+				$fr.=$this->in_apices(($this->pre).$f).',';
+			$from=substr($fr,0,-1);
+		} else
+			$from=$this->in_apices(($this->pre).$from);
+		$GLOBALS['query'] .= 'DELETE FROM '.$from.' '.($this->create_query($arr))."\n";
+		return $this->query('DELETE FROM '.$from.' '.($this->create_query($arr)));
 	}
 	
 	public function select($cols,$from,$arr) {
 		$set = array();
-		return print('SELECT '.$cols.' FROM `'.($this->pre).$from.'` '.($this->create_query($arr)));
+		if (is_array($from)) {
+			$fr='';
+			foreach($from as $f)
+				$fr.=$this->in_apices(($this->pre).$f).',';
+			$from=substr($fr,0,-1);
+		} else
+			$from=$this->in_apices(($this->pre).$from);
+		$GLOBALS['query'] .= 'SELECT '.$cols.' FROM '.$from.' '.($this->create_query($arr))."\n";
+		return $this->query('SELECT '.$cols.' FROM '.$from.' '.($this->create_query($arr)));
 	}
 
 	public function read($name) {
 		//Lettura di una tabella
-		$table_info = $this->query('SHOW COLUMNS FROM `'.$this->pre.$name.'`');
+		$table_info = $this->query('SHOW COLUMNS FROM '.$this->in_apices($this->pre.$name));
 		$table = new ALEMySQLTable($name,0,false,$this);
 		while ($r = $this->assoc($table_info)) {
 			$type_d = explode(' ',$r['Type']);
@@ -87,7 +121,7 @@ abstract class ALESQLDatabase extends ALEDatabase {
 					case 'auto_increment' : $column->auto_increment(); break;
 				}
 		}
-		$table_info2 = $this->query('SHOW INDEX FROM `'.$name.'`');
+		$table_info2 = $this->query('SHOW INDEX FROM '.$this->in_apices($name));
 		$uniques = array();
 		while ($r = @$this->assoc($table_info2)) {
 			if ($r['Key_name'] != 'PRIMARY')

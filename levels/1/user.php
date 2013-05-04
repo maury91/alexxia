@@ -28,6 +28,10 @@ class USER {
 		}
 	}
 	
+	public static function admin($usr) {
+		self::$user = $usr;
+	}
+	
 	public static function logged() {
 		self::load();
 		return (self::$user===false)?false:true;
@@ -35,7 +39,7 @@ class USER {
 	
 	public static function level() {
 		self::load();
-		return (self::$user===false)?10:$user['level'];
+		return (self::$user===false)?10:self::$user['level'];
 	}
 	
 	public static function data($k) {

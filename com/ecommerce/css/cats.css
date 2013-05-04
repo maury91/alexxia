@@ -1,0 +1,19 @@
+ul.cats {
+	padding:0;
+	margin:15px;
+}
+ul.cats li:not(.title) {
+	margin-left:40px;
+}
+ul.cats li.title {
+	display:block;
+	font-weight: bolder;
+	font-size: 1.3em;
+}
+ul.cats li a {
+	text-decoration:none;
+	color: #AAF;
+}
+ul.cats li.title a {
+	color:#66F;
+}

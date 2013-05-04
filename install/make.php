@@ -1,4 +1,6 @@
 <?php
+define('__http_path',dirname($_SERVER['SCRIPT_NAME']).'/');
+define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
 header('Installed:no');
 include(LANG::short().'.php');
 //Controllo dipendenze
@@ -234,6 +236,10 @@ if (isset($_POST['crypted'])) {
 					$pass=CRYPT::BF($_SESSION['site_data']['pass'],6);
 					$pass=md5($pass).':'.substr($pass,0,29).'|'.CRYPT::BF($_SESSION['site_data']['pass'],7);
 					DB2::insert('admins',array('nick'=>$_SESSION['site_data']['nick'],'password'=>$pass,'email'=>$_SESSION['site_data']['email'],'level'=>0));
+					//Files di configurazione
+					file_put_contents(__base_path.'config/infoserver.php','<?php define(\'__http_path\',\''.dirname($_SERVER['SCRIPT_NAME']).'/\');
+define(\'__http_host\',\'http://'.$_SERVER['SERVER_NAME'].'/\'); ?>');
+					
 				} catch (Exception $e) {
 					$error .= '<div class="error">'.$e.'</div>';
 				}
@@ -575,7 +581,7 @@ if ($point==1) {
 		<script type="text/javascript" src="admin/js/rsa.js"></script>
 		<script type="text/javascript" src="admin/js/json2.js"></script>
 		<script type="text/javascript" src="admin/js/rsa2.js"></script>
-		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+		<script type="text/javascript" src="admin/js/md5.js"></script>
 		<script type="text/javascript" src="admin/js/secure.js"></script>
 		<script type="text/javascript" src="admin/js/isaac.js"></script>
 		<script type="text/javascript" src="admin/js/bCrypt.js"></script>

@@ -251,7 +251,7 @@ class ALEMySQLTable {
 			$id = $table->get('id');
 			$nome = ($table->name).'_ref';
 			$col = $this->properties[$nome] = new ALEMySQLColumn($nome,$this);
-			$col->type($id->type)->dimension($id->dimension)->unsigned($id->unsigned)->zerofill($id->zerofill)->not_null($id->not_null);
+			$col->type($id->type)->dimension($id->dimension)->unsigned($id->unsigned)->zerofill($id->zerofill);
 			$this->foreign[] = array($nome,$table->name);
 			$this->foreign = array_unique($this->foreign);
 			if ($table->name!=$this->name)
@@ -338,11 +338,11 @@ class ALEMySQLTable {
 								$s_name = $this->name;
 							$new_table = new ALEMySQLTable('NxN__'.($this->name).'x'.($table->name).'_'.(is_array($s_name)?$s_name[1]:'s').'x'.(is_array($v)?$v[1]:'s'),$this->dimension()+1,true,$this->db);
 							$new_table
-								->property($t_name)->type('INT')->dimension($table->dimension())->not_null()->unsigned()->end()
-								->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
+								->property($t_name)->type('INT')->dimension($table->dimension())->unsigned()->end()
+								->property($this->name)->type('INT')->dimension($this->dimension())->unsigned()->end()
 							->save(true);
 							if ($this->name != $table->name) {							
-								$new_table->property($s_name)->type('INT')->dimension($this->dimension())->not_null()->unsigned();
+								$new_table->property($s_name)->type('INT')->dimension($this->dimension())->unsigned();
 								$table->sub_tables[$s_name] = $new_table;
 							}
 							$this->sub_tables[$t_name] = $new_table;
@@ -357,9 +357,9 @@ class ALEMySQLTable {
 						//Campi
 						$new_table = new ALEMySQLTable('NxN__'.($v[0]->name).'_'.($this->name).'x'.($v[1]->name),$this->dimension()+1,true,$this->db);
 						$new_table
-							->property($this->name)->type('INT')->dimension($this->dimension())->not_null()->unsigned()->end()
+							->property($this->name)->type('INT')->dimension($this->dimension())->unsigned()->end()
 							->property($v[0])->end()
-							->property($v[1]->name)->type('INT')->dimension($v[1]->dimension())->not_null()->unsigned()->end()
+							->property($v[1]->name)->type('INT')->dimension($v[1]->dimension())->unsigned()->end()
 						->save(true);
 					}
 				
@@ -377,6 +377,7 @@ class ALEMySQLTable {
 					//Alterazione
 					$ret = true;
 				} else{
+					echo 'CREATE TABLE `'.($this->db->pre.$this->name).'` ('.$contents.')';
 					if (!$this->db->query('CREATE TABLE `'.($this->db->pre.$this->name).'` ('.$contents.')')) {
 						$ret = false;
 						trigger_error('Query Error : "'.($this->db->error()).'"!',E_USER_WARNING);

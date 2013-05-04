@@ -138,6 +138,7 @@ function back() {
 $(function() {
 	//Individuazione pagina
 	$().secure_init(
+		'',
 		function(stat) {
 			$(".secure_status .points").html("");
 			for (i=0;i<4;i++) 

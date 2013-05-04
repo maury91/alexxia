@@ -1,40 +1,92 @@
 <?php
+session_start();
 define('__base_path',dirname(dirname(__FILE__)).'/');
-require(__base_path.'admin/levels/0/secure_lib.php');
-if (isset($_POST['new_aes'])) {
-	echo SECURE::new_aes($_POST['new_aes'],$_POST['cripted']);
-} elseif (isset($_POST['new_token'])) {
-	$a = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF));
-	$b = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF).crypt_random($min = 0, $max = 0xEFFFFFFF));
-	$to_c = json_encode(array('token'=>$b,'id'=>$a));
-	$_SESSION[$_POST['new_token']]['tokens'][$a] = $b;
-	echo json_encode(array('cr' => (SECURE::crypt_AES($_POST['new_token'],$to_c))));
-} elseif (isset($_POST['salt_pass'])) {
-	require_once('Crypt/aes2.php');
-	$data = AesCtr::encrypt($_POST['cr'], $_SESSION[$_POST['salt_pass']]['key'], 256);
-	$data_j = json_decode($data);
-	if ($data_j!=NULL) {
-		DB2::select($data['nick']);
-	
-		$res = AesCtr::encrypt($to_c, $_SESSION[$_POST['salt_pass']]['key'], 256);
-	}
-	
-	
-	
-	
-} elseif (isset($_POST['secure'])) {
-	
-	
+include(__base_path.'config/infoserver.php');
+require(__base_path.'admin/levels/0/loader.php');
+if (isset($_POST['cr'])) {
+	//Decodifica
+	$data = SECURE::decrypt($_POST['cr'],$_POST['data']);
+	$params = json_decode($data,true);
+	if ($params!=NULL) {
+		$input = $params['params'];
+		switch ($params['action']) {
+			case 'new_aes' :
+				echo SECURE::new_aes($input['rsa_key']);
+				break;
+			case 'new_token' :
+				$a = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF));
+				$b = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF).crypt_random($min = 0, $max = 0xEFFFFFFF));
+				$to_c = json_encode(array('token'=>$b,'id'=>$a));
+				$_SESSION[$_POST['cr']]['tokens'][$a] = $b;
+				echo json_encode(array('cr' => (SECURE::crypt_AES($_POST['cr'],$to_c))));
+				break;
+			case 'login' :
+				$to_c = json_encode(array('login'=>'no'));
+				$res = DB2::select('*','admins','WHERE nick = ',$input['nick']);
+				if ($res) {
+					$data = DB2::assoc($res);
+					if ((strcmp(md5($input['pass']).':'.substr($input['pass'],0,29),substr($data['password'],0,62))==0)&&(strcmp(md5(substr($data['password'],63,60).$_SESSION[$_POST['cr']]['tokens'][$input['id']]),$input['pass2'])==0)) {
+						$new_k = CRYPT::BF(substr($data['password'],63,60),7);
+						$sess_id = base64_encode(crypt_random());
+						$_SESSION[$sess_id]['key'] = substr($_SESSION[$_POST['cr']]['key'],0,16).substr(md5($new_k),0,16);
+						$_SESSION[$sess_id]['type'] = 'aes';
+						$_SESSION[$sess_id]['id'] = $data['id'];
+						$to_c = json_encode(array('login'=>'ok','sess'=>$sess_id,'tk'=>substr($new_k,0,29)));
+					}
+				}
+				//Distruzione token
+				unset($_SESSION[$_POST['cr']]['tokens'][$input['id']]);
+				echo json_encode(array('cr' => (SECURE::crypt_AES($_POST['cr'],$to_c))));
+				break;
+			case 'salt_pass' :
+				$a = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF));
+				$b = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF).crypt_random($min = 0, $max = 0xEFFFFFFF));
+				$_SESSION[$_POST['cr']]['tokens'][$a] = $b;
+				$salt_a=$salt_b='';
+				$res = DB2::select('*','admins','WHERE nick = ',$input['nick']);
+				if ($res) {
+					$data = DB2::assoc($res);
+					$salt_a = substr($data['password'],33,29);
+					$salt_b = substr($data['password'],63,29);
+				}
+				$to_c = json_encode(array('token'=>$b,'id'=>$a,'salt_a'=>$salt_a,'salt_b'=>$salt_b));
+				echo json_encode(array('cr' => (SECURE::crypt_AES($_POST['cr'],$to_c))));
+				break;
+			case 'area' :
+				ini_set('max_execution_time', 100);
+				$content=array('r' => 'Error!','in' =>$input);
+				if (isset($_SESSION[$_POST['cr']]['id'])) {
+					//Dati utente
+					$res = DB2::select('*','admins','WHERE id = ',$_SESSION[$_POST['cr']]['id']);
+					if ($res) {
+						$user = DB2::assoc($res);
+						USER::admin($user);
+						$external = $input['params'];
+						if (file_exists(__base_path.'admin/panel/'.$input['page'].'.php'))
+							include(__base_path.'admin/panel/'.$input['page'].'.php');
+					}
+				}
+				$to_c = json_encode(array('content'=>$content));
+				echo json_encode(array('cr' => (SECURE::crypt_AES($_POST['cr'],$to_c))));
+				break;
+		}
+	} else { echo 'decription error'; var_dump($data); }
 } elseif (isset($_POST['init'])) {
 	echo SECURE::init();
 } else {
+	$__lang = LANG::short();
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Administration</title>
-		<link rel="stylesheet" href="css/main.css" />		
+		<title>Administration</title>		
+		<link rel="stylesheet" href="<?php echo __http_host.__http_path ?>css/niiwin.css" />
+		<link rel="stylesheet" href="<?php echo __http_host.__http_path ?>css/images.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/jquery/jquery-ui.min.css" />
+		<link rel="stylesheet" href="<?php echo __http_host.__http_path ?>css/media_man.css" />
 		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/jsbn.js"></script>
 		<script type="text/javascript" src="js/jsbn2.js"></script>
 		<script type="text/javascript" src="js/base64.js"></script>
@@ -43,17 +95,27 @@ if (isset($_POST['new_aes'])) {
 		<script type="text/javascript" src="js/prng4.js"></script>
 		<script type="text/javascript" src="js/rng.js"></script>
 		<script type="text/javascript" src="js/aes.js"></script>
-		<script type="text/javascript" src="js/aes-ctr.js"></script>
 		<script type="text/javascript" src="js/rsa.js"></script>
 		<script type="text/javascript" src="js/json2.js"></script>
-		<script type="text/javascript" src="js/RSA2.js"></script>
-		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+		<script type="text/javascript" src="js/rsa2.js"></script>
+		<script type="text/javascript" src="js/md5.js"></script>
 		<script type="text/javascript" src="js/secure.js"></script>
 		<script type="text/javascript" src="js/isaac.js"></script>
 		<script type="text/javascript" src="js/bCrypt.js"></script>
+		<script type="text/javascript" src="js/admin.js"></script>
+		<script type="text/javascript" src="js/pad-zeropadding-min.js"></script>
+		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>editors/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>js/niiwin.js"></script>
+		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>zone_media_man.html?langvars"></script>
+		<script type="text/javascript" src="js/media_man.js"></script>
+		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>js/jquery.mousewheel.min.js"></script>
+		
 		<script type="text/javascript">
+			host_path = '<?php echo __http_host.__http_path ?>';
+			admin_host_path = 'http://<?php echo $_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME']); ?>/';
 			$(function(){
 				$().secure_init(
+					admin_host_path,
 					function(stat) {
 						$('.main .points').html('');
 						for (i=0;i<4;i++) 
@@ -62,6 +124,7 @@ if (isset($_POST['new_aes'])) {
 					function() {
 						$('.main').hide();
 						$('.login').slideDown(800);
+						$('.login #nick').focus();
 					}
 				);
 			})
@@ -69,7 +132,7 @@ if (isset($_POST['new_aes'])) {
 	</head>
 	<body>
 		<script type="text/javascript">
-			
+			var __lang="<?php echo $__lang ?>";
 		</script>
 		<div class="logo"></div>
 		<div class="main load">
@@ -77,12 +140,14 @@ if (isset($_POST['new_aes'])) {
 			<div class="points"></div>
 		</div>
 		<div class="login">
-			<h1>Login</h1>
-			<p>Nick</p>
-			<input type="text" id="nick" />
-			<p>Password</p>
-			<input type="password" id="pass" />
-			<input type="button" onclick="$().secure('do_login')" value="Login" />
+			<form onsubmit="{$().secure('do_login');return false;}">
+				<h1>Admin</h1>
+				<p>Nick</p>
+				<input type="text" id="nick" />
+				<p>Password</p>
+				<input type="password" id="pass" />
+				<input type="submit" value="Login" />
+			</form>
 		</div>
 	</body>
 </html>

@@ -4,15 +4,23 @@ include('version.php');
 header('Content-Type: text/html; charset=utf-8');
 header('CMS: Alexxia v'.__ALE_version.' http://alexxia.it');
 define('__base_path',dirname(__FILE__).'/');
-define('__http_path',dirname($_SERVER['SCRIPT_NAME']).'/');
-define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
 require(__base_path.'levels/3/loader.php');
 //Criptazione
 if (isset($_POST['init'])) {
 	echo SECURE::init();
 	exit(0);
-} elseif (isset($_POST['new_aes'])) {
-	echo SECURE::new_aes($_POST['new_aes'],$_POST['cripted']);
+} elseif (isset($_POST['cr'])) {
+	//Decodifica
+	$data = SECURE::decrypt($_POST['cr'],$_POST['data']);
+	$params = json_decode($data,true);
+	if ($params!=NULL) {
+		$input = $params['params'];
+		switch ($params['action']) {
+			case 'new_aes' :
+				echo SECURE::new_aes($input['rsa_key']);
+				break;
+		}
+	} else echo 'decription error';
 	exit(0);
 }
 //Installazione
@@ -31,6 +39,7 @@ if (file_exists('install/make.php')) {
 	} else
 		include('install/make.php');
 }
+include(__base_path.'config/infoserver.php');
 //Controllo modalità offline
 if (GLOBALS::val('offline')) {
 	if (USER::level() > 3) {

@@ -25,7 +25,8 @@ class DB2 {
 	}
 	
 	public static function query() {
-		return self::$db->query(self::$db->create_query(func_get_args()));
+		$args = func_get_args();
+		return self::$db->query(self::$db->create_query($args));
 	}
 	
 	public static function error() {
@@ -41,7 +42,8 @@ class DB2 {
 	}
 	
 	public static function select($cols,$from) {
-		return self::$db->select($cols,$from,array_slice(func_get_args(),2));
+		$args = array_slice(func_get_args(),2);
+		return self::$db->select($cols,$from,$args);
 	}
 	
 	public static function insert($t,$el) {
@@ -49,7 +51,8 @@ class DB2 {
 	}
 	
 	public static function update($t,$el) {
-		return self::$db->select($t,$el,array_slice(func_get_args(),2));
+		$args = array_slice(func_get_args(),2);
+		return self::$db->select($t,$el,$args);
 	}
 	
 	public static function create($name,$dim=5) {

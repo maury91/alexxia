@@ -7,6 +7,10 @@ class ALEmysqli extends ALESQLDatabase {
 		return mysqli_real_escape_string($q);
 	}
 	
+	public function in_apices($q) {
+		return '`'.$q.'`';
+	}
+	
 	public function connect() {
 		if ($this->connection==null)
 			$this->connection = new mysqli($this->h,$this->u,$this->p,$this->db);
@@ -27,6 +31,10 @@ class ALEmysqli extends ALESQLDatabase {
 	
 	public function assoc($r) {
 		return $r->fetch_array(MYSQLI_ASSOC);
+	}
+	
+	public function last_insert() {
+		return mysqli_insert_id();
 	}
 }
 ?>

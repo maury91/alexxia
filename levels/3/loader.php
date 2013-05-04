@@ -1,5 +1,5 @@
 <?php
-function __autoload($class) {
+function level_3_autoload($class) {
 	switch($class) {
 		case 'TEMPLATE' : 
 			include __base_path.'levels/3/template.php'; break;
@@ -10,4 +10,5 @@ function __autoload($class) {
 			level_2_autoload($class);
 	}
 }
+spl_autoload_register('level_3_autoload');
 ?>

@@ -53,11 +53,11 @@ class HTML {
 	}
 	
 	static public function script_form($v) {
-		return "\t\t".'<script type="text/javascript" src="'.addslashes($v).'"></script>'."\n";
+		return "\t\t".'<script type="text/javascript" src="'.__http_host.__http_path.addslashes($v).'"></script>'."\n";
 	}
 	
 	static public function style_form($v) {
-		return "\t\t".'<link rel="stylesheet" type="text/css" href="'.addslashes($v).'" />'."\n";
+		return "\t\t".'<link rel="stylesheet" type="text/css" href="'.__http_host.__http_path.addslashes($v).'" />'."\n";
 	}
 	
 	static public function get_title() {

@@ -1,3 +1,7 @@
+.img {
+	display:block;
+	float:left;
+}
 .img.secure,.img.unsecure {
 	background:url(images/secure.png) no-repeat;
 	width:48px;
@@ -5,4 +9,24 @@
 }
 .img.unsecure {
 	background-image:url(images/unsecure.png);
+}
+.img.flag {
+	background-size:100%;
+	-moz-background-size:100%;
+	width:28px;
+	height:20px;
+}
+.img.flag.it-IT {
+	background-image:url(images/it.png);
+}
+.img.flag.en-US {
+	background-image:url(images/en.png);
+}
+.img.del {
+	background-image:url(images/del16.png);
+	background-size:100%;
+	-moz-background-size:100%;
+	width:16px;
+	height:16px;
+	cursor:pointer;
 }

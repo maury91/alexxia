@@ -1,4 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Gabriela);
+html,body,.main,.com_div,.inner_com {
+	height:100%;
+	margin: 0;
+	font-size: 13px;
+}
 .login {
 	display: none;
 	position: absolute;
@@ -25,7 +30,7 @@
 	color: #333;
 	text-align: center;
 }
-.login input[type="button"] {
+.login input[type="submit"] {
 	border: 1px solid #999;
 	background: #F3F3F3;
 	color: #444;
@@ -81,8 +86,161 @@ h1 {
 	font-size: 25px;
 	text-align: center;
 	margin: auto;
-	top: 50%;
 	position: absolute;
-	width: 98%;
-	margin-top: -70px;
+	width: 100%;
+}
+.internal_link {
+	color:#66C;
+	cursor:pointer;
+}
+.admin_nav_bar {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 88px;
+	height: 100%;
+	border-right: 1px solid #AAA;
+	z-index:999;
+}
+.admin_nav_bar ul {
+	margin: 0;
+	padding: 0;
+}
+.admin_nav_bar li {
+	display: block;
+	height: 57px;
+	width: 110px;
+	border: 1px solid #BBB;
+	border-bottom-right-radius: 6px;
+	border-top-right-radius: 6px;
+	background: #FDFDFD;
+	margin-left: -120px;
+	-webkit-transition: all 0.1s ease-out 0.45s;
+	-moz-transition: all 0.1s ease-out 0.45s;
+	-ms-transition: all 0.1s ease-out 0.45s;
+	-o-transition: all 0.1s ease-out 0.45s;
+	transition: all 0.1s ease-out 0.45s;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-size: 60px 60px;
+	-moz-background-size: 60px 60px;
+	background-position: 130px 4px;
+	padding-left: 10px;
+	color: #88C;
+	font-size: 1.2em;
+	padding-top: 13px;
+	padding-right: 90px;
+}
+.admin_nav_bar li.com {
+	background-image:url(images/com.png);
+}
+.admin_nav_bar li.men {
+	background-image:url(images/men.png);
+}
+.admin_nav_bar li.pag {
+	background-image:url(images/pag.png);
+}
+.admin_nav_bar li.glo {
+	background-image:url(images/glo.png);
+}
+.admin_nav_bar li.tem {
+	background-image:url(images/tem.png);
+}
+.admin_nav_bar li.usr {
+	background-image:url(images/usr.png);
+}
+.admin_nav_bar .open {
+	background-color: #EEF;
+}
+.admin_nav_bar li:hover {
+	margin-left: 0;
+}
+#admin_page {
+	padding-left: 89px;
+	height: 100%;
+}
+.sub_page {
+	padding:10px;
+}
+.com_div {
+	width: auto;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+}
+.com_div::-webkit-scrollbar {
+	width: 2em;
+	height: 2em;
+}
+.com_div::-webkit-scrollbar-track {
+	background: #DDD;
+}
+.com_div::-webkit-scrollbar-thumb {
+	background: rgba(190,190,190,0.9);
+}
+.com_div::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(150,150,150,0.9); 
+}
+.com_div .com {
+	width: 240px;
+	float: left;
+	height: 100%;
+	border-right: 1px solid #CCC;
+	padding: 0 30px;
+	position: relative;
+	cursor: pointer;
+	white-space: normal;
+}
+.com_div .com .icon {
+	width: 180px;
+	height: 180px;
+	display: block;
+	position: absolute;
+	left: 50%;
+	margin-left: -90px;
+	top: 50px;
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+.com_div .com .name {
+	white-space: normal;
+	width: 200px;
+	display: block;
+	font-size: 2em;
+	text-align: center;
+	position: absolute;
+	left: 50%;
+	margin-left: -100px;
+	top: 250px;
+	color: #888;
+}
+.com_div .com .description {
+	position: absolute;
+	left: 8%;
+	width: 84%;
+	top: 400px;
+	text-align: center;
+	color: #777;
+}
+.special .ui-button-text {
+	color: #811;
+}
+.abutton.special {
+	background: #F99;
+	border-color: #C88;
+}
+.abutton.special:hover {
+	background: #E88;
+	border-color: #C55;
+}
+#niiWinBottomBar {
+	display:none;
+}
+.niiWin .niiTitleBar .niiButton.niiClose {
+	border-left: 1px solid #888;
+	border-bottom-left-radius: 4px;
+}
+.niiWin .niiTitleBar .niiButton.niiMinimize,.niiWin .niiTitleBar .niiButton.niiMaximize {
+	display: none;
 }

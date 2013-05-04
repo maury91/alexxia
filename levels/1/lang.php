@@ -68,7 +68,7 @@ class LANG {
 		}
 		$__langs = self::get_list();
 		if (!isset($__langs[$__lang])) {
-			foreach($cmslangs as $__lang) //Prima lingua presente (solitamente inglese)
+			foreach($__langs as $__lang=>$v) //Prima lingua presente (solitamente inglese)
 				break;
 		}
 		COOKIE::set('ale_lang',$__lang,7*24*60);

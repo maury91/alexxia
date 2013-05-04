@@ -2,7 +2,14 @@
 function level_2_autoload($class) {
 	switch($class) {
 		case 'GLOBALS' : 
-			include __base_path.'levels/2/globals.php'; break;
+			include __base_path.'levels/2/globals.php';
+		break;
+		case 'PERMISSION' :
+			include __base_path.'levels/2/permissions.php';
+		break;
+		case 'WIDGET' :
+			include __base_path.'levels/2/widget.php';
+		break;
 		default :
 			include_once(__base_path.'levels/1/loader.php');
 			level_1_autoload($class);

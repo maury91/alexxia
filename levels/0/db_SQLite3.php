@@ -10,6 +10,10 @@ class ALESQLite3 extends ALESQLDatabase {
 		$this->pre = $pre;
 	}
 	
+	public function in_apices($q) {
+		return '\''.$q.'\'';
+	}
+	
 	public function create($name,$dim=5) {
 		return new ALESQLTable($name,$dim,true,$this);
 	}
@@ -42,6 +46,10 @@ class ALESQLite3 extends ALESQLDatabase {
 	
 	public function assoc($r) {
 		return $r->fetchArray(SQLITE3_ASSOC);
+	}
+	
+	public function last_insert() {
+		return SQLite3::lastInsertRowID();
 	}
 	
 	public function read($name) {

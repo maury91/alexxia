@@ -1,8 +1,9 @@
 body {
-	background-image: url('images/1.6.jpg'),url('images/2.3.png');
+	background-image: url('images/1.6.2.jpg'),url('images/mirto1.png'),url('images/orecchini.png')/*,url('images/2.3.png')*/;
 	color: #777;
-	background-size: 100%, 100%;
-	background-repeat: no-repeat,repeat-y;
+	background-size: 100%, 500px,300px;
+	background-repeat: no-repeat,no-repeat,no-repeat;
+	background-position: 0 0, -100px 480px, 100% 980px;
 }
 .wrapper {
 	width: 950px;
@@ -83,18 +84,19 @@ header nav li {
 }
 .main .banner {
 	height: 290px;
-	border-bottom: 1px solid #BBB;
+	overflow: hidden;
 	background: url(images/banner.jpg);
 	background-size: 100% 100%;
 	margin: 10px;
 }
 .second_wrapper {
 	display: table;
+	min-height: 700px;
 }
 .main .page {
 	width: 845px;
 	display: table-cell;
-	background: url(images/sardegna_trasp52.png);
+	background: url(images/sardegna_trasp92.png);
 	background-repeat: no-repeat; 
 	background-position: right;
 	margin-right: 200px; 
@@ -104,6 +106,7 @@ header nav li {
 	width: 250px;
 	display: table-cell;
 	border-left: 1px solid #DDF;
+	vertical-align: top;
 }
 .page .list {
 	margin: 12px 0 0 0;
@@ -156,7 +159,11 @@ ul.list li.first {
 	display: block;
 	height: 40px;
 	padding: 3px;
-} 
+	color: #777;
+}
+.recipes a{
+	text-decoration: none;
+}
 .page ul li .price {
 	position: absolute;
 	right: 10px;
@@ -181,6 +188,7 @@ ul.list li.first {
 }
 .page ol li .title {
 	font-weight: bold;
+	color: #777;
 }
 .page ol li .desc {
 	display: block;
@@ -189,6 +197,7 @@ ul.list li.first {
 	position: absolute;
 	bottom: 10px;
 	height: 35px;
+	color: #888;
 }
 .page ol li .price {
 	font-weight: bold;
@@ -249,5 +258,27 @@ li.cart {
 	border-left: 1px solid #CCD;
 }
 .nivo-directionNav,.nivo-controlNav {
+	display:none;
+}
+header .langs {
+	position:absolute;
+	right:20px;
+	top:90px;
+}
+.langs a{
+	display:block;
+	float:left;
+	width:28px;
+	height:20px;
+	background-size:100%;
+	-moz-background-size:100%;
+}
+.langs .it{
+	background-image:url(images/it.png);
+}
+.langs .en{
+	background-image:url(images/en.png);
+}
+.page .list li .id {
 	display:none;
 }

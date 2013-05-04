@@ -1,0 +1,26 @@
+[
+	{
+		"page" : "products",
+		"name" : {"it-IT" : "Gestisci Prodotti","en-US" : "Manage Products"},
+		"description" : {"it-IT" : "Gestisci i prodotti del tuo ecommerce.Le offerte a essi collegati e le categorie di prodotti", "en-US" : ""},
+		"icon" : "icons/products.png"
+	},
+	{
+		"page" : "shipmenents",
+		"name" : {"it-IT" : "Gestisci Spedizioni","en-US" : "Manage Shipments"},
+		"description" : {"it-IT" : "Gestisci i metodi di spedizione dei tuoi prodotti","en-US" : ""},
+		"icon" : "icons/shipments.png"
+	},
+	{
+		"page" : "orders",
+		"name" : {"it-IT" : "Gestisci Ordini","en-US" : "Manage Orders"},
+		"description" : {"it-IT" : "Visualizza gli ordini dei clienti, imposta lo stato degli ordini e quali notifiche ricevere alla tua casella email","en-US" : ""},
+		"icon" : "icons/orders.png"
+	},
+	{
+		"page" : "payments",
+		"name" : {"it-IT" : "Metodi di pagamento","en-US" : ""},
+		"description" : {"it-IT" : "Gestisci i metodi di pagamento supportarti.","en-US" : ""},
+		"icon" : "icons/payments.png"
+	}
+]

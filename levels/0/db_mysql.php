@@ -4,7 +4,12 @@ include_once('db_SQL.php');
 class ALEmysql extends ALESQLDatabase {
 
 	public function SQLEscape($q) {
-		return mysql_real_escape_string($q);
+		$this->connect();
+		return mysql_real_escape_string($q,$this->connection);
+	}
+	
+	public function in_apices($q) {
+		return '`'.$q.'`';
 	}
 	
 	public function connect() {
@@ -28,6 +33,10 @@ class ALEmysql extends ALESQLDatabase {
 	
 	public function assoc($r) {
 		return mysql_fetch_assoc($r);
+	}
+	
+	public function last_insert() {
+		return mysql_insert_id();
 	}
 
 }

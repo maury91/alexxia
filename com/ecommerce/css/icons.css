@@ -1,0 +1,18 @@
+.img.pr {
+	width:48px;
+	height:48px;
+	background-size:100%;
+	-moz-background-size:100%;
+	display:block;
+	float:right;
+	cursor:pointer;
+}
+.img.pr.del {
+	background-image:url(images/del.png);
+}
+.img.pr.double {
+	background-image:url(images/double.png);
+}
+.img.pr.edit {
+	background-image:url(images/edit.png);
+}

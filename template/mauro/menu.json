@@ -2,7 +2,9 @@
     "menus": [
 		{"name":"top","accept":"links","absorbe":["bottom"],"move":{"mod":"right"}},
 		{"name":"right","absorbe":["left"]},
-		{"name":"slider","accept":"mod"},		{"name":"footer","accept":"mod"}
+		{"name":"slider","accept":"mod"},
+		{"name":"header","accept":"mod"},
+		{"name":"footer","accept":"mod"}
 	],
 	"move": {"mod":"right","links":"top"},
 	"cache": 2
