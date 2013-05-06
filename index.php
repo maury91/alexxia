@@ -6,26 +6,9 @@ header('CMS: Alexxia v'.__ALE_version.' http://alexxia.it');
 define('__base_path',dirname(__FILE__).'/');
 require(__base_path.'levels/3/loader.php');
 //Criptazione
-if (isset($_POST['init'])) {
-	echo SECURE::init();
-	exit(0);
-} elseif (isset($_POST['cr'])) {
-	//Decodifica
-	$data = SECURE::decrypt($_POST['cr'],$_POST['data']);
-	$params = json_decode($data,true);
-	if ($params!=NULL) {
-		$input = $params['params'];
-		switch ($params['action']) {
-			case 'new_aes' :
-				echo SECURE::new_aes($input['rsa_key']);
-				break;
-		}
-	} else echo 'decription error';
-	exit(0);
-}
+SECURE::init();
 //Installazione
 if (file_exists('install/make.php')) {
-	session_start();
 	$point = (isset($_SESSION['step']))? $_SESSION['step'] : 1;
 	if ($point == 'end') {
 		$handle = opendir('install/');

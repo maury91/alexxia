@@ -4,6 +4,39 @@ set_include_path(__base_path.'admin/levels/0/');
 require_once(__base_path.'admin/levels/0/Crypt/RSA.php');
 
 class SECURE {
+	static private $params;
+
+	static public function active() {
+		return self::$params!=NULL;
+	}
+	
+	static public function init() {
+		if (isset($_POST['init']))
+			SECURE::start();
+		if (isset($_POST['cr'])&&isset($_POST['data'])) {
+			$data = SECURE::decrypt($_POST['cr'],$_POST['data']);
+			self::$params = json_decode($data,true);
+			if ((self::$params!=NULL)&&(self::$params['action']=='new_aes'))
+				SECURE::new_aes(self::$params['params']['rsa_key']);
+		}
+	}
+	
+	static public function all() {
+		return self::$params;
+	}
+	
+	static public function get($v) {
+		return isset(self::$params[$v])?self::$params[$v]:null;
+	}
+	
+	static public function exists($v) {
+		return isset(self::$params[$v]);
+	}
+	
+	static public function returns($vals) {
+		echo json_encode(array('cr' => (SECURE::crypt_AES($_POST['cr'],json_encode($vals)))));
+		exit(0);
+	}
 	
 	static public function new_aes($rsa_pub_key) {
 		$aes_key = substr(base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF).crypt_random($min = 0, $max = 0xEFFFFFFF).crypt_random($min = 0, $max = 0xEFFFFFFF)),0,32);
@@ -11,7 +44,8 @@ class SECURE {
 		$_SESSION[$sess_id]['key'] = $aes_key;
 		$_SESSION[$sess_id]['type'] = 'aes';
 		$crypted=SECURE::crypt_RSA($rsa_pub_key,$aes_key);
-		return json_encode(array('key'=>$crypted,'sess'=>$sess_id));
+		echo json_encode(array('key'=>$crypted,'sess'=>$sess_id));
+		exit(0);
 	}
 	
 	static public function crypt_AES($session,$value) {
@@ -61,7 +95,7 @@ class SECURE {
 		}
 	}
 
-	static public function init() {
+	static public function start() {
 		define('CRYPT_RSA_MODE', CRYPT_RSA_MODE_INTERNAL);
 		$rsa = new Crypt_RSA();
 		$rsa->setPublicKeyFormat(CRYPT_RSA_PUBLIC_FORMAT_RAW);
@@ -71,7 +105,8 @@ class SECURE {
 		$_SESSION[$sess_id]['type'] = 'rsa';
 		$e = new Math_BigInteger($key['publickey']['e'], 10);
 		$n = new Math_BigInteger($key['publickey']['n'], 10);
-		return json_encode(array('RSA' => array('e' => $e->toHex(), 'n' => $n->toHex()), 'id' => $sess_id));
+		echo json_encode(array('RSA' => array('e' => $e->toHex(), 'n' => $n->toHex()), 'id' => $sess_id));
+		exit(0);
 	}
 
 }

@@ -67,8 +67,9 @@ function point1() {
 	return array($bt_class,$content);
 }
 //Invio dei dati
-if (isset($_POST['crypted'])) {
-	$data = json_decode(SECURE::decrypt_AES($_POST['crypted'],$_POST['data']),true);
+if (SECURE::active()) {
+	$params = SECURE::get('params');
+	$data = $params['params'];
 	$assoc = array();
 	$error='';
 	foreach ($data as $v)
@@ -539,8 +540,8 @@ define(\'__http_host\',\'http://'.$_SERVER['SERVER_NAME'].'/\'); ?>');
 				$content = '<meta http-equiv="REFRESH" content="0;url=index.html"/>';
 			break;
 	}
-	echo json_encode(array('cr' => (SECURE::crypt_AES($_POST['crypted'],json_encode(array('content'=>$content,'point'=>$point,'error'=>$error))))));
-	exit(0);
+	SECURE::returns(array('content'=>$content,'point'=>$point,'error'=>$error));
+	
 }
 //Controlli pre installazione
 //Required
@@ -577,7 +578,7 @@ if ($point==1) {
 		<script type="text/javascript" src="admin/js/prng4.js"></script>
 		<script type="text/javascript" src="admin/js/rng.js"></script>
 		<script type="text/javascript" src="admin/js/aes.js"></script>
-		<script type="text/javascript" src="admin/js/aes-ctr.js"></script>
+		<script type="text/javascript" src="admin/js/pad-zeropadding-min.js"></script>
 		<script type="text/javascript" src="admin/js/rsa.js"></script>
 		<script type="text/javascript" src="admin/js/json2.js"></script>
 		<script type="text/javascript" src="admin/js/rsa2.js"></script>

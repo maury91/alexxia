@@ -68,14 +68,8 @@ function page_loaded() {
 }
 function load_page() {
 	if ($().secure('loaded')) {
-		$.ajax({
-			url : 'index.php',
-			data : {crypted : $().secure('session'),data : $().secure('encrypt',JSON.stringify({load:'home'}, null, 2))},
-			type : 'post',
-			dataType : 'json',
-			success : function (d) {
-				//Decodifica
-				data = $().secure('decrypt',d.cr);
+		$().secure({host:'',act:'ajax_page',page:'',params:{load:'home'},
+			user_func:function (data) {
 				$('.main_content').html(data.error+data.content);
 				page_loaded();
 				if ((data.point>1)&&(data.point<5)) {
@@ -85,20 +79,14 @@ function load_page() {
 					$('#go_back').hide();
 					$('#go_next').attr('class','go');
 				}
-			}		
-		});
+			}
+		},"ajax_call");
 	}
 }
 function next() {
 	if ($().secure('loaded')) {
-		$.ajax({
-			url : 'index.php',
-			data : {crypted : $().secure('session'),data : $().secure('encrypt',JSON.stringify($(":input").serializeArray(), null, 2))},
-			type : 'post',
-			dataType : 'json',
-			success : function (d) {
-				//Decodifica
-				data = $().secure('decrypt',d.cr);
+		$().secure({host:'',act:'ajax_page',page:'',params:$(":input").serializeArray(),
+			user_func: function (data) {
 				$('.main_content').html(data.error+data.content);
 				page_loaded();
 				if ((data.point>1)&&(data.point<5)) {
@@ -109,19 +97,13 @@ function next() {
 					$('#go_next').attr('class','go');
 				}
 			}			
-		});
+		},"ajax_call");
 	}
 }
 function back() {
 	if ($().secure('loaded')) {
-		$.ajax({
-			url : 'index.php',
-			data : {crypted : $().secure('session'),data : $().secure('encrypt',JSON.stringify([{name:'back',value:' '}], null, 2))},
-			type : 'post',
-			dataType : 'json',
-			success : function (d) {
-				//Decodifica
-				data = $().secure('decrypt',d.cr);
+		$().secure({host:'',act:'ajax_page',page:'',params:[{name:'back',value:' '}],
+			user_func: function (data) {
 				$('.main_content').html(data.error+data.content);
 				page_loaded();
 				if ((data.point>1)&&(data.point<5)) {
@@ -132,7 +114,7 @@ function back() {
 					$('#go_next').attr('class','go');
 				}
 			}			
-		});
+		},"ajax_call");
 	}
 }
 $(function() {

@@ -15,16 +15,16 @@ class ALEmysql extends ALESQLDatabase {
 			case 'integer' 	: return strval($x); break;
 			case 'string' 	: 
 				if ($x==CURRENT)
-					return '"'.date('Y-m-d H:i:s').'"';
+					return '"'.@date('Y-m-d H:i:s').'"';
 			break;
 			case 'NULL'		: return 'NULL'; break;
 			case 'array'	:
 				if (isset($x['date']))
-					return '"'.date( 'Y-m-d', $x['date']).'"';
+					return '"'.@date( 'Y-m-d', $x['date']).'"';
 				if (isset($x['dateTime']))
-					return '"'.date( 'Y-m-d H:i:s', $x['dateTime']).'"';
+					return '"'.@date( 'Y-m-d H:i:s', $x['dateTime']).'"';
 				if (isset($x['time']))
-					return '"'.date( 'H:i:s', $x['time']).'"';
+					return '"'.@date( 'H:i:s', $x['time']).'"';
 			break;
 			case 'object'	:
 				switch(get_class($x)) {
