@@ -94,7 +94,7 @@ elseif (PERMISSION::has('mediamanager_navigate')) {
 		case 'del' : // Elimino un file
 			function del_file($a,$b) {
 				//Elimina un file o una directory
-				if ($b=='d') del_dir("$a/"); else unlink($a);
+				if ($b=='d') del_dir(__base_path.$a.'/'); else @unlink(__base_path.$a);
 			}
 			$content = $external;
 			foreach ($external['sel'] as $v) {
@@ -113,7 +113,7 @@ elseif (PERMISSION::has('mediamanager_navigate')) {
 			}
 		break;
 		case 'newd' : /* Nuova cartella */
-			$content = (mkdir($external['f']))?array('s' => 'y'):array('s' => 'n');
+			$content = (mkdir(__base_path.$external['f']))?array('s' => 'y'):array('s' => 'n');
 		break;
 		case 'upl' :
 			$content=$external;

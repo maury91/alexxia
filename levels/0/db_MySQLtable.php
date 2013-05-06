@@ -1,7 +1,4 @@
 <?php
-if(!defined('CURRENT'))
-	define('CURRENT','ALECurTime');
-
 class ALEMySQLEnum {
 	private $values=array(),$column;
 	

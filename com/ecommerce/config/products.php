@@ -1,5 +1,63 @@
 <?php
-if (isset($external['add_prod'])) {
+if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
+	if (isset($external['edit_offer'])) {
+		function date_convert($d) {
+			return date( 'd/m/y', strtotime($d));
+		}
+		$saled = DB::assoc(DB::select('*','nc__sales',array('WHERE'=>array(array('id','=',$external['edit_offer'])))));
+		$sale=$saled['sale'];
+		$start=date_convert($saled['start']);
+		$end=date_convert($saled['end']);
+		$sal_id=$saled['id'];
+		$prods = DB::select('*',array('nc__sales','nxn__nc__productsxnc__sales_sxs'),array('WHERE'=>array(
+			array('nc__sales','=','id','nxn__nc__productsxnc__sales_sxs','nc__sales'),
+			'and',
+			array('id','=',$external['edit_offer'],'nc__sales')
+		)));
+		$external['prod'] = array();
+		while ($p = DB::assoc($prods))
+			$external['prod'][] = $p['id'];
+	} else {
+		$sale=0;
+		$sal_id=-1;
+		$start=$end='';
+	}
+	$content['html'] = '
+	<div class="ins_data">
+		<div class="left">
+			Sconto sui prodotti scelti
+		</div>
+		<div class="right">
+			<span contenteditable="true" id="sale">'.$sale.'</span>%
+		</div>
+		<div class="left">
+			Data inizio
+		</div>
+		<div class="right">
+			<input type="text" id="salesStart" value="'.$start.'"/>
+		</div>
+		<div class="left">
+			Data fine
+		</div>
+		<div class="right">
+			<input type="text" id="salesEnd" value="'.$end.'"/>
+		</div>
+		<div class="left">&nbsp;</div>
+		<div class="right">
+			<a class="abutton" id="save_sale">Salva</a>';
+	if ($start)
+		$content['html'] .= '<a class="com config_link abutton" href="ecommerce/config/products.php?offer_del='.$sal_id.'">Elimina</a>';
+	$content['html'] .= '</div>
+	</div>
+	<script>
+		prods = '.json_encode($external['prod']).';
+		sal_id = '.$sal_id.';
+		$(".abutton").button();
+	</script>
+	';
+	STYLE::add('css/sales_data.css','ecommerce/');
+	SCRIPT::add('js/sales.js');
+} elseif (isset($external['add_prod'])) {
 	if (isset($external['edit'])) {
 		if (DB::delete('nc__prices','WHERE nc__products_ref = ',$external['edit'])&&DB::delete('nc__translates','WHERE nc__products_ref = ',$external['edit'])&&DB::delete('nc__images','WHERE nc__products_ref = ',$external['edit'])&&DB::update('nc__products',array('nc__categories_ref' => $external['add_prod']['cats'][0]),'WHERE id = ',$external['edit'])&&DB::update('nc__products',array('peso'=>$external['add_prod']['peso'],'duration'=>$external['add_prod']['duration'],'dimension_H'=>$external['add_prod']['dimensions']['h'],'dimension_W'=>$external['add_prod']['dimensions']['w'],'dimension_L'=>$external['add_prod']['dimensions']['l']),'WHERE id = ',$external['edit']))
 			$prod_id = $external['edit'];
@@ -165,6 +223,27 @@ if (isset($external['add_prod'])) {
 	SCRIPT::add('js/config.js');
 	STYLE::add('css/style.css','ecommerce/');
 } else {
+	//Eliminazione Offerte
+	if (isset($external['offer_del'])) {
+		if (DB::delete('nxn__nc__productsxnc__sales_sxs',array('WHERE'=>array(array('nc__sales','=',$external['offer_del']))))&&DB::delete('nc__sales',array('WHERE'=>array(array('id','=',$external['offer_del'])))))
+			echo 'Offerta Cancellata<br/>';
+		else
+			echo $GLOBALS['query'];
+	}
+	//Creazione offerte
+	if (isset($external['new_offer'])) {
+		if ($external['new_offer']['id']!=-1) {
+			if (DB::update('nc__sales', array('sale' => $external['new_offer']['sale'],'start' => array('date' => strtotime($external['new_offer']['start'])),'end' => array('date' => strtotime($external['new_offer']['end']))),array('WHERE'=>array(array('id','=',$external['new_offer']['id']))))) 
+				echo 'Offerta Modificata<br/>';
+		} else {
+			$sale_id = DB::insert('nc__sales', array('sale' => $external['new_offer']['sale'],'start' => array('date' => strtotime($external['new_offer']['start'])),'end' => array('date' => strtotime($external['new_offer']['end']))));
+			if ($sale_id) {
+				foreach ($external['prod'] as $v)
+					DB::insert('nxn__nc__productsxnc__sales_sxs',array('nc__sales' => $sale_id,'nc__products' => $v));
+				echo 'Offerta Inserita<br/>';
+			}
+		}
+	}
 	//Eliminazione prodotti
 	if (isset($external['del'])) {
 		if (DB::delete('nc__prices','WHERE nc__products_ref = ',$external['del'])&&DB::delete('nc__translates','WHERE nc__products_ref = ',$external['del'])&&DB::delete('nc__images','WHERE nc__products_ref = ',$external['del'])&&DB::delete('nc__products','WHERE id = ',$external['del']))
@@ -195,11 +274,24 @@ if (isset($external['add_prod'])) {
 	SCRIPT::add('js/home.js');
 	STYLE::add('css/style.css','ecommerce/');
 	STYLE::add('css/icons.css','ecommerce/');
-	echo '<a class="com config_link abutton" href="ecommerce/config/products.php?add">Aggiungi Prodotto</a><script type="text/javascript">$(".abutton").button();</script><br/><br/><table width="100%" cellpadding="0" cellspacing="0"><thead><tr><td>#</td><td>Nome</td><td>Categoria</td><td></td></tr></thead>';
+	echo '<a class="com config_link abutton" href="ecommerce/config/products.php?add">Aggiungi Prodotto</a><a id="offer_add" class="abutton">Aggiungi Offerta</a><script type="text/javascript">$(".abutton").button();</script><br/><br/><table width="100%" cellpadding="0" cellspacing="0"><thead><tr><td>#</td><td>Nome</td><td>Categoria</td><td>Offerte</td><td></td></tr></thead>';
 	//Lista prodotti
 	$prods = DB::select(DB::$pre.'nc__products.id,'.DB::$pre.'nc__translates.name,'.DB::$pre.'nc__translatesC.name AS cat_name',array('nc__products','nc__translates','nc__translatesC'),'WHERE  `nc__products_ref` =  `'.DB::$pre.'nc__products`.id AND `'.DB::$pre.'nc__translatesC`.`nc__categories_ref` =  `'.DB::$pre.'nc__products`.`nc__categories_ref` GROUP BY id');
+	function date_convert($d) {
+		return date( 'd/m/y', strtotime($d));
+	}
 	while ($prod = DB::assoc($prods)) {
-		echo '<tr><td>'.$prod['id'].'</td><td>'.$prod['name'].'</td><td>'.$prod['cat_name'].'</td><td><a class="img pr edit"></a> <a class="img del pr"></a> <a class="img pr double"></a></tr>';
+		echo '<tr><td>'.$prod['id'].'</td><td>'.$prod['name'].'</td><td>'.$prod['cat_name'].'</td><td>';
+		//Offerte
+		$sales = DB::select(array(array('nc__sales','*')),array('nxn__nc__productsxnc__sales_sxs','nc__sales'),array(
+			'WHERE'=>array(
+				'nc__products' => array('=',$prod['id']),
+				'and',
+				'nc__sales' => array('=','id','nxn__nc__productsxnc__sales_sxs','nc__sales')	
+			)));
+		while ($sale = DB::assoc($sales))
+			echo '<a class="com config_link" href="ecommerce/config/products.php?edit_offer='.$sale['id'].'">'.$sale['sale'].'% ('.date_convert($sale['start']).' - '.date_convert($sale['end']).')</a> ';
+		echo '</td><td><a class="img pr edit"></a> <a class="img del pr"></a> <a class="img pr double"></a></tr>';
 	}
 	echo '</table>';
 }

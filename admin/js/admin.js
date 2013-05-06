@@ -47,17 +47,19 @@ function elab_links() {
 		});
 	});
 }
-function config_load_page(url,lato) {
+function config_load_page(url,lato,param) {
 	if (typeof lato=="string")
-		var zone=lato;
+		zone=lato;
 	else {
 		var i = url.indexOf('/');
 		zone=url.slice(0,i);
 		switch(zone) {
 			case 'com' : zone='components'; break;
 		}
-		href = url.slice(i+1).split('?');
-		params={};
+	}
+	href = url.slice(i+1).split('?');
+	params={};
+	if (href[1] != null) {
 		par=href[1].split('&');
 		for (i in par) {
 			dat=par[i].split('=');
@@ -66,9 +68,10 @@ function config_load_page(url,lato) {
 			else
 				params[dat[0]]='';
 		}
-		params['config']=href[0];
-		$().secure({host:admin_host_path,act:'ajax_page',page:zone,params:params,user_func:"elab_links_sec"});
 	}
+	params=$.extend(params,param);
+	params['config']=href[0];
+	$().secure({host:admin_host_path,act:'ajax_page',page:zone,params:params,user_func:"elab_links_sec"});
 }
 function open_com(param) {
 	$().secure({host:admin_host_path,act:'ajax_page',page:'components',params:{config:param},user_func : "elab_links_sec"});

@@ -6,6 +6,7 @@
 	position: absolute;
 	left: 10px;
 	top: 10px;
+	overflow: hidden;
 }
 .product_info .images .image {
 	border: 1px solid #DDD;
@@ -148,4 +149,21 @@ td {
 table {
 	border-left: 1px solid #CCC;
 	border-top: 1px solid #CCC;
+}
+table tbody td input[type="checkbox"] {
+	float: right;
+}
+.product_info .sale {
+	color: #FFF;
+	background: #D55;
+	font-weight: bolder;
+	font-size: 1.1em;
+	padding: 5px 0;
+	-webkit-transform: rotate(30deg);
+	display: block;
+	width: 150px;
+	text-align: center;
+	position: absolute;
+	right: -40px;
+	top: 5px;
 }

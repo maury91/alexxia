@@ -1,0 +1,15 @@
+.ins_data {
+	overflow: hidden;
+}
+.ins_data .left {
+	width: 150px;
+	float: left;
+	text-align: right;
+	margin-right: 10px;
+	clear: left;
+}
+.ins_data .right {
+	float: left;
+	padding: 0;
+	margin-bottom: 7px;
+}

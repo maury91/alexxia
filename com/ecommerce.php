@@ -1,7 +1,7 @@
 <?php
-/*
+
 if (isset($_GET['install']))
-include('ecommerce/install.php');*/
+include('ecommerce/install.php');
 if (isset($_GET['show_cats'])) {
 	HTML::add_style('com/ecommerce/css/cats.css');
 	$cat = DB::select(DB::$pre.'nc__translatesC.name,'.DB::$pre.'nc__categories.*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref IS NULL AND lang = ',LANG::short());
@@ -41,9 +41,26 @@ if (isset($_GET['show_cats'])) {
 		} else
 			$u_type=1;
 		$prod = DB::assoc($prod);
+		$sales = DB::select(array(array('nc__sales','*')),array('nxn__nc__productsxnc__sales_sxs','nc__sales'),array(
+			'WHERE'=>array(
+				array('nc__products','=',$prod['id']),
+				'and',
+				array('nc__sales','=','id','nxn__nc__productsxnc__sales_sxs','nc__sales'),
+				'and',
+				array('start','<=',CURRENT),
+				'and',
+				array('end','>',CURRENT)
+			)));
+		$c_sale=0;
+		while ($sale = DB::assoc($sales)) {
+			if (floatval($sale['sale'])>$c_sale)
+				$c_sale=floatval($sale['sale']);
+		}
 		echo '<div class="product_info">
-		<div class="images">
-			<div class="image"></div>
+		<div class="images">';
+		if ($c_sale)
+			echo '<span class="sale">-'.$c_sale.'%</span>';
+		echo '<div class="image"></div>
 			<div class="thumbs">';
 		$images = DB::select('url','nc__images','WHERE nc__products_ref = ',$prod['id']);
 		while ($img=DB::assoc($images))
@@ -57,6 +74,7 @@ if (isset($_GET['show_cats'])) {
 		$prices = DB::select('*','nc__prices','WHERE nc__products_ref = ',$prod['id'],' AND nc__categoriesU_ref = ',$u_type);
 		$first=true;
 		while ($price = DB::assoc($prices)) {
+			$price['price'] = floatval($price['price'])*(100-$c_sale)/100;
 			if ($first)$tprice=$price['price'];
 			echo '<p '.(($first)?'':'class="secondary"').'><span class="price">&euro; <b class="price_n">'.$price['price'].'</b></span>/<span class="price_q">'.(($price['q_max'])?$price['q_min'].'-'.$price['q_max']:$price['q_min'].'+').'</span> '.$__prod_pi.'</p>';
 			if($first)$first=false;
