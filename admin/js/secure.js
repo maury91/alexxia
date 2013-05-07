@@ -27,9 +27,10 @@ $(function() {
 		}
 	}, false);
 });
+var bcrypt=null;
 (function($) {
 	var do_nothing=function() {};
-	var code,sess,cr_type,bcrypt=null,bc_controller,login_success=false,bc_stat=0,load_animation=load_complete=do_nothing,log_err_anim=0,host;
+	var code,sess,cr_type,bc_controller,login_success=false,bc_stat=0,load_animation=load_complete=do_nothing,log_err_anim=0,host;
 	var bc_enable = function() {
 		bc_stat++;
 		load_animation(bc_stat);

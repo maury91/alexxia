@@ -7,7 +7,7 @@ if (isset($_GET['show_cats'])) {
 	$cat = DB::select(DB::$pre.'nc__translatesC.name,'.DB::$pre.'nc__categories.*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref IS NULL AND lang = ',LANG::short());
 	while($c = DB::assoc($cat)) {
 		echo '<ul class="cats"><li class="title"><a href="'.__http_host.__http_path.'/com/ecommerce/category/'.$c['id'].'-'.$c['name'].'.html">'.$c['name'].'</a></li>';
-		$subcat = DB::select('*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref = ',$c['id'],' AND lang = ',LANG::short());  DB::select('*','nc__categories','WHERE');
+		$subcat = DB::select('*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref = ',$c['id'],' AND lang = ',LANG::short());
 		while ($d = DB::assoc($subcat))
 			echo '<li><a href="'.__http_host.__http_path.'/com/ecommerce/category/'.$d['id'].'-'.$d['name'].'.html">'.$d['name'].'</a></li>';
 		echo '</ul>';
@@ -41,11 +41,11 @@ if (isset($_GET['show_cats'])) {
 		} else
 			$u_type=1;
 		$prod = DB::assoc($prod);
-		$sales = DB::select(array(array('nc__sales','*')),array('nxn__nc__productsxnc__sales_sxs','nc__sales'),array(
+		$sales = DB::simple_select(array(array('nc__sales','*')),array('NxN__nc__productsxnc__sales_sxs','nc__sales'),array(
 			'WHERE'=>array(
 				array('nc__products','=',$prod['id']),
 				'and',
-				array('nc__sales','=','id','nxn__nc__productsxnc__sales_sxs','nc__sales'),
+				array('nc__sales','=','id','NxN__nc__productsxnc__sales_sxs','nc__sales'),
 				'and',
 				array('start','<=',CURRENT),
 				'and',

@@ -18,6 +18,7 @@ class ALEmysqli extends ALESQLDatabase {
 	
 	public function query($q) {
 		$this->connect();
+		$this->queryes[] = $q;
 		return $this->connection->query($q);
 	}
 	

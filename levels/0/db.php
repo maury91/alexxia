@@ -1,6 +1,7 @@
 <?php
 $GLOBALS['query'] = '';
 abstract class ALEDatabase {
+	public $queryes=array();
 
 	protected $h,$u,$p,$db;
 	public $pre;
@@ -45,6 +46,10 @@ class DB {
 	protected static $db;
 	public static $pre;
 	
+	public static function debug() {
+		return self::$db->queryes;
+	}
+	
 	public static function set_DB($db) {
 		self::$db=$db;
 		self::$pre=$db->pre;
@@ -88,9 +93,19 @@ class DB {
 		return self::$db->select($cols,$from,$args);
 	}
 	
+	public static function simple_select($cols,$from) {
+		$args = array_slice(func_get_args(),2);
+		return self::$db->select($cols,$from,self::$db->ArrayToQuery($args));
+	}
+	
 	public static function delete($from) {
 		$args = array_slice(func_get_args(),1);
 		return self::$db->delete($from,$args);
+	}
+	
+	public static function simple_delete($from) {
+		$args = array_slice(func_get_args(),1);
+		return self::$db->delete($from,self::$db->ArrayToQuery($args));
 	}
 	
 	public static function insert($t,$el) {
@@ -100,6 +115,11 @@ class DB {
 	public static function update($t,$el) {
 		$args = array_slice(func_get_args(),2);
 		return self::$db->update($t,$el,$args);
+	}
+	
+	public static function simple_update($t,$el) {
+		$args = array_slice(func_get_args(),2);
+		return self::$db->update($t,$el,self::$db->ArrayToQuery($args));
 	}
 	
 	public static function create($name,$dim=5) {

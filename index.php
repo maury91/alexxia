@@ -35,10 +35,21 @@ if (GLOBALS::val('offline')) {
 		exit(0);
 	}
 }
-//Localizazione Script da chiamare
-if(POST::exists('page'))	$page 	= POST::val('page'); 	else $page 	= (GET::exists('page'))?GET::val('page') : '';
-if(POST::exists('com'))		$com 	= POST::val('com'); 	else $com 	= (GET::exists('com'))?GET::val('com') : '';
-if(POST::exists('zone'))	$zone 	= POST::val('zone'); 	else $zone 	= (GET::exists('zone'))?GET::val('zone') : '';
+//Localizazione Script criptata
+if (SECURE::active()) {
+	$params = SECURE::get('params');
+	$pages = $params['page'];
+	$_CRIPTED = $params['params'];
+	$page = (isset($pages['page']))?$pages['page']:''; 
+	$com  = (isset($pages['com'])) ?$pages['com']:''; 
+	$zone = (isset($pages['zone']))?$pages['zone']:''; 
+}
+if (!isset($pages)) {
+	//Localizazione Script da chiamare
+	if(POST::exists('page'))	$page 	= POST::val('page'); 	else $page 	= (GET::exists('page'))?GET::val('page') : '';
+	if(POST::exists('com'))		$com 	= POST::val('com'); 	else $com 	= (GET::exists('com'))?GET::val('com') : '';
+	if(POST::exists('zone'))	$zone 	= POST::val('zone'); 	else $zone 	= (GET::exists('zone'))?GET::val('zone') : '';
+}
 if($page != '')
 	$pag = 'pages/'.$page; 
 else 

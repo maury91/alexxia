@@ -25,6 +25,11 @@ class SECURE {
 		return self::$params;
 	}
 	
+	static public function libs() {
+		HTML::add_script('admin/js/jsbn.js','admin/js/jsbn2.js','admin/js/base64.js','admin/js/base64_2.js','admin/js/utf8.js','admin/js/prng4.js','admin/js/rng.js','admin/js/aes.js','admin/js/pad-zeropadding-min.js','admin/js/rsa.js','admin/js/json2.js','admin/js/rsa2.js','admin/js/md5.js','admin/js/secure.js','admin/js/isaac.js','admin/js/bCrypt.js');
+		HTML::add_style('css/secure.css','css/images.css');
+	}
+	
 	static public function get($v) {
 		return isset(self::$params[$v])?self::$params[$v]:null;
 	}

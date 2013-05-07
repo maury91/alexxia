@@ -5,8 +5,81 @@ if(!defined('CURRENT'))
 abstract class ALESQLDatabase extends ALEDatabase {
 	
 	abstract function SQLEscape($q);
-	abstract function ConvertType($el);
-	abstract function ArrayToQuery($arr);
+	
+	public function ConvertType($x) {
+		switch (gettype($x)) {
+			case 'boolean' 	: return ($x)? '1' : '0'; break;
+			case 'double' 	:
+			case 'integer' 	: return strval($x); break;
+			case 'string' 	: 
+				if ($x==CURRENT)
+					return '"'.@date('Y-m-d H:i:s').'"';
+			break;
+			case 'NULL'		: return 'NULL'; break;
+			case 'array'	:
+				if (isset($x['date']))
+					return '"'.@date( 'Y-m-d', $x['date']).'"';
+				if (isset($x['dateTime']))
+					return '"'.@date( 'Y-m-d H:i:s', $x['dateTime']).'"';
+				if (isset($x['time']))
+					return '"'.@date( 'H:i:s', $x['time']).'"';
+			break;
+			case 'object'	:
+				switch(get_class($x)) {
+					case 'DateTime' : return '"'.$x->format('Y-m-d H:i:s').'"';	break;
+				}
+			break;
+		}
+		return '"'.$this->SQLEscape(strval($x)).'"'; break;
+	}
+	
+	public function ArrayToQuery($arr) {
+		foreach ($arr as $k=>$v)
+			if (is_array($v)) {
+				$nq='';
+				if (isset($v['WHERE'])) {
+					$nq.=' WHERE ';
+					$i = 0;
+					foreach ($v['WHERE'] as $b)	{
+						if ($i++&1)
+							$nq .= ' '.$b.' ';
+						else {
+							if (isset($b[3])) {
+								if (isset($b[4]))
+									$nq .= $this->in_apices($this->pre.$b[3]).'.'.$this->in_apices($b[0]).' '.$b[1].' '.$this->in_apices($this->pre.$b[4]).'.'.$this->in_apices($b[2]);
+								else
+									$nq .= $this->in_apices($this->pre.$b[3]).'.'.$this->in_apices($b[0]).' '.$b[1].' '.$this->ConvertType($b[2]);
+							} else 								
+								$nq .= $this->in_apices($b[0]).' '.$b[1].' '.$this->ConvertType($b[2]);
+						}
+					}
+				}
+				if (isset($v['LIMIT'])) {
+					$nq .= ' LIMIT ';
+					if (is_array($v['LIMIT']))
+						$nq .= $v['LIMIT'][0].','.$v['LIMIT'][1];
+					else
+						$nq .= $v['LIMIT'];
+				}
+				if (isset($v['GROUP'])) {
+					$nq .= ' GROUP BY ';
+					if (is_array($v['GROUP']))
+						$nq .= implode(',',array_map(array($this,'in_apices'),$v['GROUP']));
+					else
+						$nq .=  $this->in_apices($v['GROUP']);
+				}
+				if (isset($v['ORDER'])) {
+					$nq .= ' ORDER BY ';
+					if (is_array($v['ORDER']))
+						$nq .= implode(',',array_map(array($this,'in_apices'),$v['ORDER']));
+					else
+						$nq .=  $this->in_apices($v['ORDER']);
+				}
+				if ($nq!='')
+					$arr[$k] = $nq;
+			}
+		return $arr;
+	}
 	
 	public function create($name,$dim=5) {
 		return new ALEMySQLTable($name,$dim,true,$this);
@@ -52,7 +125,6 @@ abstract class ALESQLDatabase extends ALEDatabase {
 					$values[$j][$x] = '""';
 			$values[$j] = '('.implode(',',$values[$j]).')';
 		}
-		$GLOBALS['query'] .= 'INSERT INTO '.$this->in_apices(($this->pre).$t).' ('.substr($camps,0,-1).') VALUES '.implode(',',$values)."\n";
 		if ($this->query('INSERT INTO '.$this->in_apices(($this->pre).$t).' ('.substr($camps,0,-1).') VALUES '.implode(',',$values)))
 			return $this->last_insert();
 		else
@@ -63,8 +135,6 @@ abstract class ALESQLDatabase extends ALEDatabase {
 		$set = array();
 		foreach ($el as $k=>$v)
 			$set[] = $this->in_apices($k).' = '.$this->ConvertType($v);
-		$arr = $this->ArrayToQuery($arr);
-		$GLOBALS['query'] .= 'UPDATE '.$this->in_apices(($this->pre).$t).' SET '.implode(' , ',$set).' '.($this->create_query($arr))."\n";
 		return $this->query('UPDATE '.$this->in_apices(($this->pre).$t).' SET '.implode(' , ',$set).' '.($this->create_query($arr)));
 	}
 	
@@ -77,8 +147,6 @@ abstract class ALESQLDatabase extends ALEDatabase {
 			$from=substr($fr,0,-1);
 		} else
 			$from=$this->in_apices(($this->pre).$from);
-		$arr = $this->ArrayToQuery($arr);
-		$GLOBALS['query'] .= 'DELETE FROM '.$from.' '.($this->create_query($arr))."\n";
 		return $this->query('DELETE FROM '.$from.' '.($this->create_query($arr)));
 	}
 	
@@ -107,8 +175,6 @@ abstract class ALESQLDatabase extends ALEDatabase {
 			$from=substr($fr,0,-1);
 		} else
 			$from=$this->in_apices(($this->pre).$from);
-		$arr = $this->ArrayToQuery($arr);
-		$GLOBALS['query'] .= 'SELECT '.$cols.' FROM '.$from.' '.($this->create_query($arr))."\n";
 		return $this->query('SELECT '.$cols.' FROM '.$from.' '.($this->create_query($arr)));
 	}
 

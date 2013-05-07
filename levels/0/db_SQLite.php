@@ -27,6 +27,7 @@ class ALESQLite extends ALESQLDatabase {
 	
 	public function query($q) {
 		$this->connect();
+		$this->queryes[] = $q;
 		return sqlite_query($this->connection,$q);
 	}	
 	

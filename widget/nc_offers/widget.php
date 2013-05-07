@@ -4,7 +4,7 @@ function widget_nc_offers() {
 		//identificazione tipo
 	} else
 		$u_type=1;
-	$prods = DB::select(
+	$prods = DB::simple_select(
 		array(
 			array('nc__products','*'),
 			array('nc__images','url','image'),
@@ -12,7 +12,7 @@ function widget_nc_offers() {
 			array('nc__prices','price'),
 			array('nc__sales','sale','salee','MAX')
 		),
-		array('nc__products','nc__images','nc__translates','nc__prices','nc__sales','nxn__nc__productsxnc__sales_sxs'),
+		array('nc__products','nc__images','nc__translates','nc__prices','nc__sales','NxN__nc__productsxnc__sales_sxs'),
 		array(
 			'WHERE'=> array(
 				array('nc__products_ref','=','id','nc__images','nc__products'),
@@ -27,9 +27,9 @@ function widget_nc_offers() {
 				'and',
 				array('q_min','<',2),
 				'and',
-				array('nc__products','=','id','nxn__nc__productsxnc__sales_sxs','nc__products'),
+				array('nc__products','=','id','NxN__nc__productsxnc__sales_sxs','nc__products'),
 				'and',
-				array('nc__sales','=','id','nxn__nc__productsxnc__sales_sxs','nc__sales')
+				array('nc__sales','=','id','NxN__nc__productsxnc__sales_sxs','nc__sales')
 				
 				
 			),

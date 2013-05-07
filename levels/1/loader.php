@@ -13,6 +13,8 @@ function level_1_autoload($class) {
 			include __base_path.'levels/1/lang.php'; break;
 		case 'MEDIA_MAN' :
 			include __base_path.'levels/1/media_man.php'; break;
+		case 'CAPTCHA' : 
+			include __base_path.'levels/1/captcha.php'; break;
 		default :
 			include_once(__base_path.'levels/0/loader.php');
 			level_0_autoload($class);

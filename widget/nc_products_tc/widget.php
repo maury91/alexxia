@@ -8,11 +8,11 @@ function widget_nc_products_tc() {
 	$mod = '<div class="list-title">Pi&ugrave; Comprati</div>
 <ol class="list">';
 	while ($pr = DB::assoc($prods)) {
-		$sales = DB::select(array(array('nc__sales','*')),array('nxn__nc__productsxnc__sales_sxs','nc__sales'),array(
+		$sales = DB::simple_select(array(array('nc__sales','*')),array('NxN__nc__productsxnc__sales_sxs','nc__sales'),array(
 			'WHERE'=>array(
 				 array('nc__products','=',$pr['id']),
 				'and',
-				 array('nc__sales','=','id','nxn__nc__productsxnc__sales_sxs','nc__sales'),
+				 array('nc__sales','=','id','NxN__nc__productsxnc__sales_sxs','nc__sales'),
 				'and',
 				array('start','<=',CURRENT),
 				'and',

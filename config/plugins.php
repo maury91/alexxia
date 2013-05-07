@@ -7,6 +7,10 @@ $__plugins = array(
 			'after_page' => array(),
 			'template' => array(),
 			'end' => array()
+		),
+		'reg' => array(
+			'add_camps' => array(),
+			'insert_data' => array()
 		)
 	)
 );

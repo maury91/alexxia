@@ -88,5 +88,11 @@ class LANG {
 		return self::$lang['sn'];
 	}
 	
+	public static function path() {
+		if (self::$lang==null)
+			self::find_lang();
+		return __base_path.'langs/'.self::$lang['sn'].'/';
+	}
+	
 }
 ?>
