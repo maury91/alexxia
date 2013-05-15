@@ -1,5 +1,14 @@
 <?php
 $__permissions=array(
+	'users_access' => 2,
+	'groups_access' => 1,
+
+	'mediamanager_navigate' => 2,
+	'mediamanager_upload' => 1,
+	'mediamanager_del' => 1,
+
+
+
 	'admin_home' => 3,
 	'backup_access' => 1,
 	'backup_sql' => 0,
@@ -39,9 +48,6 @@ $__permissions=array(
 	'extention_install' => 2,
 	'globalsettings_access' => 2,
 	'live_access' => 2,
-	'mediamanager_navigate' => 2,
-	'mediamanager_upload' => 1,
-	'mediamanager_del' => 1,
 	'menu_access' => 2,
 	'menu_change_order' => 2,
 	'menu_edit' => 2,
@@ -86,7 +92,7 @@ $__permissions=array(
 	'trash_delete_plugin' => 1,
 	'trash_delete_component' => 1,
 	'trash_delete_module' => 1,
-	'users_access' => 2,
+	
 	'users_change_level' => 2,
 	'users_auth' => 2,
 	'users_uban' => 3,

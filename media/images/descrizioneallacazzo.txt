@@ -1,0 +1,3 @@
+Maurizio è un giovane programmatore FreeLancer, la sua carriera inizia già alle superiori quando con la sua abilità in programmazione riesce ad ottenere la medaglia di bronzo alle olimpiadi nazionali di informatica.
+Successivamente sposta il suo interesse al web, e dopo aver realizzato una prima versione di NiiCMS allora nota SolarCMS, decide assieme ad altri programmatori di sviluppare un browser game e dal software creato per il suo sviluppo nasce NiiCMS
+Tuttora maurizio continua a sviluppare sia lato web che lato client, sviluppando software esteticamente affascinante e funzionalmente performante

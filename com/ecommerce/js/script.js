@@ -26,4 +26,14 @@ $(function() {
 	$('.thumbs .thumb').mouseenter(function() {
 		$('.images .image').css('background-image',$(this).css('background-image'));
 	});
+	$('#addcart').click(function() {
+		$.ajax({
+			url : __http_base+'com_ecommerce.html',
+			data : {cart_add_json:$('#prod_id').text(),q:$('#quantity').val()},
+			dataType : 'json',
+			success : function(d) {
+				console.log(d);
+			}
+		});
+	})
 })

@@ -1,4 +1,29 @@
 <?php
+/**
+ * Captcha module for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
 CLASS CAPTCHA {
 	private $items,$id=-1,$type=-1,$w,$h,$center,$size;
 
@@ -35,7 +60,7 @@ CLASS CAPTCHA {
 			if (is_null($id))
 				$this->id = RAND::word();
 			$this->type=rand()%18;
-			$this->size=rand()%(min($this->w,$this->h)/4+20)+(min($this->w,$this->h)/4);
+			$this->size=rand()%(min($this->w,$this->h)/4)+(min($this->w,$this->h)/4);
 			$this->center=array('x'=>$this->size+rand()%($this->w-$this->size*2),'y'=>$this->size+rand()%($this->h-$this->size*2));
 			$_SESSION['captcha'][$this->id] = array('type'=>$this->type,'size'=>$this->size,'center'=>$this->center,'w'=>$this->w,'h'=>$this->h,'items'=>$this->items);
 		}
@@ -169,7 +194,7 @@ CLASS CAPTCHA {
 			case 1 :
 				$this->draw_circle($image,$this->size,$this->center);
 				for ($i=0;$i<$this->items;$i++)
-					$this->draw_circle($image,rand()%((min($this->w,$this->h)/2)-$this->size)+$this->size*1.2);
+					$this->draw_circle($image,rand()%((min($this->w,$this->h)/2)-$this->size*1.2)+$this->size*1.2);
 			break;
 			case 2 :
 				$this->draw_square($image,$this->size,$this->center);
@@ -179,7 +204,7 @@ CLASS CAPTCHA {
 			case 3 :
 				$this->draw_square($image,$this->size,$this->center);
 				for ($i=0;$i<$this->items;$i++)
-					$this->draw_square($image,rand()%((min($this->w,$this->h)/2)-$this->size)+$this->size*1.2);
+					$this->draw_square($image,rand()%((min($this->w,$this->h)/2)-$this->size*1.2)+$this->size*1.2);
 			break;
 			case 4 :
 				$this->draw_triangle($image,$this->size,$this->center);
@@ -189,7 +214,7 @@ CLASS CAPTCHA {
 			case 5 :
 				$this->draw_triangle($image,$this->size,$this->center);
 				for ($i=0;$i<$this->items;$i++)
-					$this->draw_triangle($image,rand()%((min($this->w,$this->h)/2)-$this->size)+$this->size*1.2);
+					$this->draw_triangle($image,rand()%((min($this->w,$this->h)/2)-$this->size*1.2)+$this->size*1.2);
 			break;
 			case 16 :
 			case 6 :

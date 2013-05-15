@@ -1,3 +1,28 @@
+/**
+ *	Admin (css) for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
 @import url(http://fonts.googleapis.com/css?family=Gabriela);
 html,body,.main,.com_div,.inner_com {
 	height:100%;
@@ -115,11 +140,11 @@ h1 {
 	border-top-right-radius: 6px;
 	background: #FDFDFD;
 	margin-left: -120px;
-	-webkit-transition: all 0.1s ease-out 0.45s;
-	-moz-transition: all 0.1s ease-out 0.45s;
-	-ms-transition: all 0.1s ease-out 0.45s;
-	-o-transition: all 0.1s ease-out 0.45s;
-	transition: all 0.1s ease-out 0.45s;
+	-webkit-transition: all 0.4s ease-out 0.1s;
+	-moz-transition: all 0.4s ease-out 0.1s;
+	-ms-transition: all 0.4s ease-out 0.1s;
+	-o-transition: all 0.4s ease-out 0.1s;
+	transition: all 0.4s ease-out 0.1s;
 	cursor: pointer;
 	background-repeat: no-repeat;
 	background-size: 60px 60px;
@@ -243,4 +268,143 @@ h1 {
 }
 .niiWin .niiTitleBar .niiButton.niiMinimize,.niiWin .niiTitleBar .niiButton.niiMaximize {
 	display: none;
+}
+.usr_bar {
+	padding: 10px;
+}
+.usr_main {
+	padding: 0 10px;
+	padding-right: 90px;
+}
+.inner_usr .usr,.inner_grp .grp {
+	border-bottom: 1px solid #DDD;
+	padding: 5px 10px;
+	font-size: 1.3em;
+	overflow: hidden;
+	position: relative;
+	height: 48px;
+}
+.usr .name,.grp .name,.grp .lvl {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	display: table;
+	color: #666; 
+}
+.grp .name {
+	left: 40px;
+}
+.usr .actions, .grp .actions {
+	float: right;
+	clear: right;
+	display: inline;
+}
+.usr .actions span, .grp .actions span {
+	width: 48px;
+	height: 48px;
+	display: block;
+	float: left;
+	margin-right: 3px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+.usr .actions .ban {
+	background-image: url(images/usr_ban.png);
+}
+.usr .actions .unban {
+	background-image: url(images/usr_unban.png);
+}
+.usr .actions .approve {
+	background-image: url(images/usr_ok.png);
+}
+.usr .actions .level, .grp .actions .change {
+	background-image: url(images/usr_lvl.png);
+}
+.usr .actions .del {
+	background-image: url(images/usr_del.png);
+}
+.usr .actions .edit {
+	background-image: url(images/usr_edit.png);
+}
+.usr .actions .info.i0 {
+	background-image: url(images/info0.png);
+}
+.usr .actions .info.i1 {
+	background-image: url(images/info1.png);
+}
+.usr .actions .info.i2 {
+	background-image: url(images/info2.png);
+}
+.usr .actions .info.i3 {
+	background-image: url(images/info3.png);
+}
+.grp_main {
+	position: relative;
+	height: 100%;
+	padding-left: 90px;
+}
+.usr_next,.grp_prev {
+	width: 70px;
+	position: absolute;
+	right: 0;
+	overflow: hidden;
+	top: 0;
+	height: 100%;
+	font-size: 2em;
+	padding-left: 10px;
+	border-left: 1px solid #EEE;
+	background: #FCFCFC;
+	color: #BBB;
+	-webkit-transition: all 0.3s ease-out 0s;
+	-moz-transition: all 0.3s ease-out 0s;
+	-ms-transition: all 0.3s ease-out 0s;
+	-o-transition: all 0.3s ease-out 0s;
+	transition: all 0.3s ease-out 0s;
+	cursor: pointer;
+}
+.usr_next .arrow,.grp_prev .arrow {
+	background: url(images/right.png);
+	width: 48px;
+	height: 48px;
+	display: block;
+	opacity: 0.3;
+	position: absolute;
+	top: 50%;
+	margin-top: -24px;
+	left: 1em;
+	margin-left: 5px;
+}
+.grp_prev .arrow {
+	background-image: url(images/left.png);
+	right: 1em;
+	left: auto;
+	margin-right: 10px;
+}
+.grp_prev {
+	left:0;
+	right:auto;
+}
+.usr_next:hover,.grp_prev:hover {
+	padding-right: 15px;
+}
+.vertical_text {
+	word-wrap: break-word;
+	letter-spacing: 3em;	
+	position: absolute;
+	top:50%;
+	width: 1em;
+}
+.grp_prev .vertical_text {
+	right: 10px;
+}
+.usr_bar input {
+	float: right;
+	padding: 3px;
+	border: 1px solid #DDD;
+	color: #999;
+	font-size: 1.2em;
+	padding-right: 24px;
 }

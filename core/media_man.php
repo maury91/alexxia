@@ -1,10 +1,31 @@
 <?php
-/*
-	Media Manager
-	Ultima modifica : 08/03/13 (v0.6.1)
-*/
-//Lingua
-if (isset($_GET['langvars'])) {
+/**
+ *	Media manager for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
+if (GET::exists('langvars')) {
+	header("Content-type: application/x-javascript");
 	include(__base_path.'langs/'.LANG::short().'/media_man.php');
 	echo 'var l__name = "'.$__name.' : ";
 var l__del = "'.$__del_file.'";
@@ -15,13 +36,13 @@ var l__abort = \''.$__abort.'\';
 ';
 	exit(0);
 }
-if (empty($_GET['act'])) {
+if (!GET::exists('act')) {
 	echo '{"r" : "404"}';
 	exit(0);
 }
-if ($_GET['act'] == 'perms') {
+if (GET::val('act') == 'perms') {
 	session_start();
-	echo json_encode($_SESSION['media_man'][$_GET['uid']]);
+	echo json_encode($_SESSION['media_man'][GET::val('uid')]);
 	exit(0);
 }
 //Controllo permessi
@@ -29,9 +50,9 @@ if (!PERMISSION::has('mediamanager_navigate')) {
 	//Controllo azione da intraprendere
 	session_start();
 	//Controllo esistenza chiave
-	if (isset($_GET['uid'])&&isset($_SESSION['media_man'][$_GET['uid']])) {
-		$data = $_SESSION['media_man'][$_GET['uid']];
-		switch ($_GET['act']) {
+	if (GET::exists('uid'))&&isset($_SESSION['media_man'][GET::val('uid')])) {
+		$data = $_SESSION['media_man'][GET::val('uid')];
+		switch (GET::val('act')) {
 			case 'del' :
 				//Controllo che abbia i permessi per eliminare
 				if (!$data['del']) { echo '{"r" : "407"}'; exit(0);}
@@ -41,7 +62,7 @@ if (!PERMISSION::has('mediamanager_navigate')) {
 				break;
 			case 'list' :
 				//Controllo che la directory richiesta sia valida
-				if (((!$data['navigable'])&&($_GET['d']!=$data['dir']))||(((!(strpos($_GET['d'],'..')===false))||(strpos('!'.$_GET['d'],$data['dir'])!=1)))) { echo json_encode(array('r'=>406,'data'=>$data)); exit(0);}
+				if (((!$data['navigable'])&&(GET::val('d')!=$data['dir']))||(((!(strpos(GET::val('d'),'..')===false))||(strpos('!'.GET::val('d'),$data['dir'])!=1)))) { echo json_encode(array('r'=>406,'data'=>$data)); exit(0);}
 				break;			
 		}		
 	} else {
@@ -50,15 +71,15 @@ if (!PERMISSION::has('mediamanager_navigate')) {
 		exit(0);
 	}
 } else {
-	if (isset($_GET['uid'])) {
+	if (GET::exists('uid')) {
 		session_start();
-		$data = $_SESSION['media_man'][$_GET['uid']];
+		$data = $_SESSION['media_man'][GET::val('uid')];
 	} else 
 		$data = array('dir' => '', 'extensions' => 'all', 'multiple' => true,'navigable' => true);
 	$data['upload'] =  PERMISSION::has('mediamanager_upload');
 	$data['del'] =  PERMISSION::has('mediamanager_del');
 }
-switch ($_GET['act']) {
+switch (GET::val('act')) {
 	case 'list' : 
 		function get_perms($filename)
 		{ // Questa funzione è stata presa da : http://it2.php.net/manual/it/function.fileperms.php
@@ -138,7 +159,7 @@ switch ($_GET['act']) {
 			echo '{ "data": [ '.$r.' ] } ';
 			exit(0);		
 		}
-		show_dir($_GET['d']); 	
+		show_dir(GET::val('d')); 	
 		/* Do il contenuto della cartella */ 
 	break;
 	case 'del' : /* Elimino un file */
@@ -146,8 +167,8 @@ switch ($_GET['act']) {
 			//Elimina un file o una directory
 			if ($b=='d') del_dir("$a/"); else unlink($a);
 		}
-		for ($i=0;$i<count($_GET['f']);$i++) {			
-			$dir = dirname($_GET['f'][$i]);	
+		for ($i=0;$i<count(GET::val('f'));$i++) {			
+			$dir = dirname(GET::val('f')[$i]);	
 			//ultimo carattere della stringa
 			if (substr($data['dir'],-1)=='/')
 				$dir .= '/';
@@ -157,13 +178,13 @@ switch ($_GET['act']) {
 					$point = 'ondelete';
 					include($data['ondelete']);
 				}
-				del_file($_GET['f'][$i],$_GET['d'][$i]);
+				del_file(GET::val('f')[$i],GET::val('d')[$i]);
 			}
 		}		
 		exit(0);
-	case 'newd' : /* Nuova cartella */if (mkdir($_GET['f'])) echo ' { "s" : "y"} '; else echo ' { "s" : "n"} '; exit(0); break;
+	case 'newd' : /* Nuova cartella */if (mkdir(GET::val('f'))) echo ' { "s" : "y"} '; else echo ' { "s" : "n"} '; exit(0); break;
 	case 'upl' :
-		$dir = $_GET['d'].'/';
+		$dir = GET::val('d').'/';
 		$sizeLimit = trim(ini_get('upload_max_filesize'));
 		$last = strtolower($sizeLimit[strlen($sizeLimit)-1]);
 		switch($last) {
@@ -175,7 +196,7 @@ switch ($_GET['act']) {
             echo '{ error : 1 }';
 			exit(0);
 		}
-		if (isset($_GET['myfile'])) {
+		if (GET::exists('myfile')) {
 			if (isset($_SERVER["CONTENT_LENGTH"]))
 				$filesize = (int)$_SERVER["CONTENT_LENGTH"];	
 			function save_file($path) {    
@@ -195,7 +216,7 @@ switch ($_GET['act']) {
 				
 				return true;
 			}
-			$filename = $_GET['myfile'];
+			$filename = GET::val('myfile');
 				
 		} elseif (isset($_FILES['myfile'])) {
 			function save_file($path) {

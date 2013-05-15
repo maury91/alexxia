@@ -1,4 +1,30 @@
+/**
+ *	User Registration (js) for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
 $(function() {
+	//Initialize the secure connection
 	$().secure_init('',
 		function(stat) {
 			$(".secure_status .points").html("");
@@ -10,6 +36,7 @@ $(function() {
 			$(".secure_status .img.unsecure").removeClass("unsecure").addClass("secure");
 		}
 	);
+	//Check the nick while the user is writing
 	$('#nick').on('input',function() {
 		if ($(this).val().length<4)
 			$(this).addClass('error').removeClass('ok').next('.info').html(__nick_short);
@@ -32,6 +59,7 @@ $(function() {
 			
 			});
 	}).val('');
+	//Check the password(s) while the user is writing
 	$('#pass').bind('input',function() {
 		if ($(this).val().length<6)
 			$(this).removeClass('ok').addClass('error').next('.info').html(__pass_short);
@@ -48,6 +76,7 @@ $(function() {
 		else
 			$(this).removeClass('error').addClass('ok').next('.info').html('');
 	}).val('');
+	//Check the email(s) while the user is writing
 	$('#email').bind('input',function() {
 		if(!$(this).val().match(/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i))
 			$(this).removeClass('ok').addClass('error').next('.info').html(__email_invalid);
@@ -77,15 +106,22 @@ $(function() {
 		else
 			$(this).removeClass('error').addClass('ok').next('.info').html('');
 	}).val('');
+	//When the user click on the captcha
 	captcha_click(function(captcha_data) {
+		//Check the user have compiled the data correctly
 		if ($('#nick').hasClass('ok')&&$('#pass').hasClass('ok')&&$('#email').hasClass('ok')) {
+			//Cript password(1)
 			salt_a = bcrypt.gensalt(6);
 			bcrypt.hashpw($('#pass').val(), salt_a, function(pass_s) {
+				//Cript password(2)
 				salt_b = bcrypt.gensalt(7);
 				bcrypt.hashpw($('#pass').val(),salt_b,function(pass_r) {
+					//Cript the password(3)
 					var pass=CryptoJS.MD5(pass_s).toString()+':'+pass_s.substr(0,29)+'|'+pass_r;
+					//Send the data via secure connection
 					$().secure({host:'',act:'ajax_page',page:{zone:'reg'},params:{captcha : captcha_data,nick : $('#nick').val(),pass : pass,email : $('#email').val(),name : $('#name').val(),lname : $('#lname').val(),extra : $(".extra_data :input").serializeArray()},
 						user_func:function (data) {
+							//Check if was a error
 							if (data.ok) 
 								$('.registration').html(data.html);
 							else {

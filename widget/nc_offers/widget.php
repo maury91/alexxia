@@ -42,9 +42,9 @@ function widget_nc_offers() {
 		$c_sale=floatval($pr['salee']);
 		$mod .= '<a href="'.__http_host.__http_path.'/com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><span class="sale">-'.$c_sale.'%</span><div class="stars">';
 		for ($i=0;$i<intval($pr['stars']);$i++)
-			$mod .= '<span class="on">';
+			$mod .= '<span class="on"></span>';
 		for ($i=intval($pr['stars']);$i<5;$i++)
-			$mod .= '<span class="off">';
+			$mod .= '<span class="off"></span>';
 		$desc = substr(strip_tags($pr['descrizione']),0,40);
 		$mod .= '</div></div><span class="desc">'.substr($desc,0,strrpos($desc,' ')).'</span><span class="price">'.floatval($pr['price'])*((100-$c_sale)/100).' &euro;</span><span class="id">'.$pr['id'].'</span></li></a>';
 	}

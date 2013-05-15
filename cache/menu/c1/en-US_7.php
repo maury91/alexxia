@@ -10,34 +10,58 @@ $menu = array (
       'image' => '',
       'text' => '',
       'lang' => 'all',
+      'html' => '',
       'links' => 
       array (
         0 => 
         array (
-          'text' => 'Link1',
-          'href' => '#',
-          'lang' => 'all',
+          'text' => 'Offers',
+          'href' => 'offers.htm',
+          'lang' => 'en-US',
           'class' => '',
           'image' => '',
+          'html' => '',
           'level' => 10,
         ),
         1 => 
         array (
-          'text' => 'Link2',
-          'href' => '#',
-          'lang' => 'all',
+          'text' => 'Food recipes',
+          'href' => 'recipes.htm',
+          'lang' => 'en-US',
           'class' => '',
           'image' => '',
+          'html' => '',
           'level' => 10,
         ),
         2 => 
         array (
-          'text' => 'Link4',
-          'href' => '#',
-          'lang' => 'it-IT',
+          'text' => 'Product Categories',
+          'href' => 'products.htm',
+          'lang' => 'en-US',
           'class' => '',
           'image' => '',
+          'html' => '',
           'level' => 10,
+        ),
+        3 => 
+        array (
+          'text' => 'Cart',
+          'href' => '',
+          'lang' => 'en-US',
+          'class' => 'cart',
+          'image' => '',
+          'html' => 'id="cart_button"',
+          'level' => 10,
+        ),
+        4 => 
+        array (
+          'text' => 'My Account',
+          'href' => 'zone_profile.html',
+          'lang' => 'en-US',
+          'class' => 'cart',
+          'image' => '',
+          'html' => '',
+          'level' => 9,
         ),
       ),
     ),
@@ -46,42 +70,14 @@ $menu = array (
   array (
     0 => 
     array (
-      'type' => true,
+      'type' => false,
       'level' => 10,
       'class' => '',
       'image' => '',
-      'text' => '',
-      'lang' => 'all',
-      'links' => 
-      array (
-        0 => 
-        array (
-          'text' => 'Link1',
-          'href' => '#',
-          'lang' => 'all',
-          'class' => '',
-          'image' => '',
-          'level' => 10,
-        ),
-        1 => 
-        array (
-          'text' => 'Link2',
-          'href' => '#',
-          'lang' => 'all',
-          'class' => '',
-          'image' => '',
-          'level' => 10,
-        ),
-        2 => 
-        array (
-          'text' => 'Link4',
-          'href' => '#',
-          'lang' => 'all',
-          'class' => '',
-          'image' => '',
-          'level' => 10,
-        ),
-      ),
+      'text' => 'Categories',
+      'lang' => 'en-US',
+      'html' => '',
+      'module' => 'pr_cats',
     ),
   ),
   'slider' => 
@@ -94,7 +90,58 @@ $menu = array (
       'image' => '',
       'text' => '',
       'lang' => 'all',
-      'module' => 'mauro_banner',
+      'html' => '',
+      'module' => 'nivoslider',
+    ),
+  ),
+  'header' => 
+  array (
+    0 => 
+    array (
+      'type' => false,
+      'level' => 10,
+      'class' => '',
+      'image' => '',
+      'text' => '',
+      'lang' => 'all',
+      'html' => '',
+      'module' => 'search',
+    ),
+    1 => 
+    array (
+      'type' => false,
+      'level' => 10,
+      'class' => '',
+      'image' => '',
+      'text' => '',
+      'lang' => 'all',
+      'html' => '',
+      'module' => 'langs',
+    ),
+    2 => 
+    array (
+      'type' => false,
+      'level' => 10,
+      'class' => '',
+      'image' => '',
+      'text' => '',
+      'lang' => 'all',
+      'html' => '',
+      'module' => 'pr_cart',
+    ),
+  ),
+  'footer' => 
+  array (
+    0 => 
+    array (
+      'type' => false,
+      'level' => 10,
+      'class' => '',
+      'image' => '',
+      'text' => '',
+      'lang' => 'all',
+      'html' => '',
+      'module' => 'infomauro',
     ),
   ),
 );

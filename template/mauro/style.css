@@ -1,9 +1,15 @@
+@font-face {
+  font-family: 'Tangerine';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Tangerine Bold'), local('Tangerine-Bold'), url(http://themes.googleusercontent.com/static/fonts/tangerine/v3/UkFsr-RwJB_d2l9fIWsx3nhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
 body {
-	background-image: url('images/1.6.13.jpg'),url('images/mirto1.png'),url('images/orecchini.png')/*,url('images/2.3.png')*/;
+	background-image: url('images/oliveoil.jpg'),url('images/manipasta41.jpg'),url('images/2.41.jpg'),url('images/2.41.png');
 	color: #777;
-	background-size: 100%, 500px,300px;
+	background-size: 384px,271px,1383px,1383px;
 	background-repeat: no-repeat,no-repeat,no-repeat;
-	background-position: 0 0, -100px 480px, 100% 980px;
+	background-position: -10% 836px, 106% 857px,center 0px,center 0px;
 }
 .wrapper {
 	width: 950px;
@@ -12,7 +18,7 @@ body {
 	margin-left: -475px;
 }
 header {
-	height: 170px;
+	height: 270px;
 	position: relative;
 }
 header .cerca {
@@ -26,22 +32,27 @@ header .cerca input[type="text"] {
 	font-size: 16px;
 	color: #888;
 	width: 330px;
+	background-image: url("images/lens.png");
+	background-repeat: no-repeat;
+	background-position: 98% 2px;
+	background-size: 6%;
 }
 header .logo {
 	display: block;
 	width: 500px;
 	height: 125px;
-	margin-left: 10px;
-	background: url(images/logo.png), url(images/titolo3.png);
+	margin-left: -50px;
+	background: url(images/logo.png), url(images/titolo5.png);
 	background-repeat: no-repeat;
-	background-position: 0 0, 128px 22px;
-	background-size: 120px 120px,370px 40px;
+	background-position: 0 0, 128px 34px;
+	background-size: 120px 120px,370px 0px;
+	margin-top: 29px;
 }
 header nav {
 	position: absolute;
 	bottom: 0;
 	padding: 4px 2px;
-	background: #EEF;
+	background: #F77820;
 	width: 100%;
 	margin-left: -3px;
 	height: 26px;
@@ -51,7 +62,7 @@ header nav:before {
 	display: block;
 	height: 68px;
 	width: 20px;
-	background: -webkit-linear-gradient(270deg, #EEF 50%,transparent 33%) 0 0%, transparent -webkit-linear-gradient(225deg, #CCD 62%, transparent 33%) 0 0%;
+	background: -webkit-linear-gradient(270deg, #F77820 50%,transparent 33%) 0 0%, transparent -webkit-linear-gradient(225deg, #C74810 62%, transparent 33%) 0 0%;
 	position: absolute;
 	top: 0;
 	left: -17px;
@@ -65,28 +76,26 @@ nav li {
 }
 header nav li {
 	float: left;
-	border-right: 1px solid #CCD;
+	border-right: 1px solid #FF9830;
 	padding: 3px 20px;
 	min-width: 100px;
 	text-align: center;
-	color: #AAE;
+	color: #722;
 	cursor: pointer;
 	font-weight: bold;
-	text-shadow: -1px -1px 0px #FFF;
+	/*text-shadow: -1px -1px 0px #FFF;*/
 }
 .main {
 	position: relative;
 	border-left: 1px solid;
 	border-right: 1px solid;
-	border-color: #BBE;
-	background: #FFF;
+	border-color: #CECE68;
+	background: #FEFE92;
 	padding-top:1px;
 }
 .main .banner {
 	height: 290px;
 	overflow: hidden;
-	background: url(images/banner.jpg);
-	background-size: 100% 100%;
 	margin: 10px;
 }
 .second_wrapper {
@@ -96,7 +105,7 @@ header nav li {
 .main .page {
 	width: 845px;
 	display: table-cell;
-	background: url(images/sardegna_trasp92.png);
+	background: url(images/sard.png);
 	background-repeat: no-repeat; 
 	background-position: right;
 	margin-right: 200px; 
@@ -105,7 +114,7 @@ header nav li {
 .main .menu_r {
 	width: 250px;
 	display: table-cell;
-	border-left: 1px solid #DDF;
+	border-left: 1px solid #EB2;
 	vertical-align: top;
 }
 .page .list {
@@ -120,18 +129,24 @@ header nav li {
 	overflow: hidden;
 }
 .page .list-title {
-	background: #EEF;
+	background: #F77820;
 	padding: 5px 2px;
 	font-size: 16px;
-	color: #AAC;
+	color: #722;
 	position: relative;
+	font-weight: bold;
+}
+.page .list-title.with-sardinia {
+	background-image: url(images/Sardegna_Carta2.png);
+	background-position: 363px -203px;
+	background-repeat: no-repeat;
 }
 .page .list-title:before {
 	content: " ";
 	display: block;
 	height: 60px;
 	width: 20px;
-	background: -webkit-linear-gradient(270deg, #EEF 50%,transparent 33%) 0 0%, transparent -webkit-linear-gradient(225deg, #CCD 62%, transparent 33%) 0 0%;
+	background: -webkit-linear-gradient(270deg, #F77820 50%,transparent 33%) 0 0%, transparent -webkit-linear-gradient(225deg, #C74810 62%, transparent 33%) 0 0%;
 	position: absolute;
 	top: 0;
 	left: -20px;
@@ -142,7 +157,7 @@ ul.list li {
 	float: left;
 	height: 170px;
 	margin: 10px 0;
-	border-left: 1px solid #DDD;
+	border-left: 1px solid #ED8;
 }
 ul.list li.first {
 	margin-left:20px;
@@ -158,9 +173,11 @@ ul.list li.first {
 .page ul li .title {
 	font-weight: bold;
 	display: block;
-	height: 40px;
+	height: 35px;
 	padding: 3px;
-	color: #777;
+	color: #944;
+	text-align: center;
+	margin-top: 10px;
 }
 .recipes a{
 	text-decoration: none;
@@ -178,7 +195,7 @@ ul.list li.first {
 	float: left;
 	padding: 10px;
 	margin: 10px;
-	border: 1px solid #BBB;
+	border: 1px solid #ED8;
 	overflow:hidden;
 }
 .page ol li .image {
@@ -204,16 +221,17 @@ ul.list li.first {
 }
 .page ol li .title {
 	font-weight: bold;
-	color: #777;
+	color: #944;
 }
 .page ol li .desc {
 	display: block;
-	font-size: 0.8em;
-	margin-top:4px;
+	font-size: 0.7em;
 	position: absolute;
 	bottom: 10px;
-	height: 35px;
-	color: #888;
+	height: 30px;
+	color: #944;
+	width: 70%;
+	overflow: hidden;
 }
 .page ol li .price {
 	font-weight: bold;
@@ -223,19 +241,20 @@ ul.list li.first {
 	color: #F55;
 }
 .menu_r .list-title {
-	background: #EEF;
+	background: #F77820;
 	padding: 5px 2px;
-	color: #AAC;
+	color: #722;
 	padding-left: 10px;
 	margin-bottom: 6px;
 	position: relative;
+	font-weight: bold;
 }
 .menu_r .list-title:before {
 	content: " ";
 	display: block;
 	height: 60px;
 	width: 20px;
-	background: -webkit-linear-gradient(270deg, #EEF 50%,transparent 33%) 0 0%, transparent -webkit-linear-gradient(315deg, #CCD 62%, transparent 33%) 0 0%;
+	background: -webkit-linear-gradient(270deg, #F77820 50%,transparent 33%) 0 0%, transparent -webkit-linear-gradient(315deg, #C74810 62%, transparent 33%) 0 0%;
 	position: absolute;
 	top: 0;
 	right: -20px;
@@ -247,7 +266,7 @@ ul.list li.first {
 .menu_r nav li:before {
 	content: ">";
 	margin-right : 6px;
-	color: #888;
+	color: #611;
 	font-weight: bold;
 	font-size:1em;
 }
@@ -255,23 +274,25 @@ ul.list li.first {
 	padding-left: 39px;
 }
 footer {
-	border: 1px solid #BBE;
+	border: 1px solid #CECE68;
 	height: 100px;
-	border-top-color: #DDF;
+	border-top-color: #EB2;
 	margin-bottom: 60px;
-	background: #FFF;
+	background: #FEFE92;
 }
 header nav li a {
-	color: #558;
+	color: #722;
 	text-decoration: none;
 }
 .menu_r nav li a {
-	color: #559;
+	color: #722;
 	text-decoration: none;
 }
 li.cart {
 	float: right;
-	border-left: 1px solid #CCD;
+	border-left: 1px solid #FF9830;
+	position:relative;
+	height: 30px;
 }
 .nivo-directionNav,.nivo-controlNav {
 	display:none;
@@ -297,4 +318,22 @@ header .langs {
 }
 .page .list li .id {
 	display:none;
+}
+.title_text {
+	font-family: 'Tangerine', cursive;
+	font-size: 80px;
+	color: #F77820;
+	position: absolute;
+	top: 5px;
+	left: 75px;
+	font-weight: bolder;
+	text-shadow: 1px 1px 5px #AAA;
+}
+#cart_button{
+	background-image: url("http://tradizionesarda.it///media/images/cart.png");
+	background-repeat: no-repeat;
+	background-size: 19%;
+	background-position: 7px 1px;
+	padding-left: 29px;
+	padding-bottom: 0px;
 }

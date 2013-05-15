@@ -1,7 +1,9 @@
 <?php
 $menu = array (
-  'top' => '<li ><a href=\'#\'>Link1</a></li><li ><a href=\'#\'>Link2</a></li><li ><a href=\'#\'>Link4</a></li>',
-  'right' => '<div ></div><nav><ul><li ><a href=\'#\'>Link1</a></li><li ><a href=\'#\'>Link2</a></li><li ><a href=\'#\'>Link4</a></li></ul></nav>',
-  'slider' => ''.self::mod('mauro_banner').'',
+  'top' => '<li  ><a href=\'http://localhost/alexxia/offers.htm\'>Offers</a></li><li  ><a href=\'http://localhost/alexxia/recipes.htm\'>Food recipes</a></li><li  ><a href=\'http://localhost/alexxia/products.htm\'>Product Categories</a></li><li  class="cart "  id="cart_button"><a href=\'http://localhost/alexxia/\'>Cart</a></li><li  class="cart "  ><a href=\'http://localhost/alexxia/zone_login.html\'>Sign-in</a></li>',
+  'right' => '<div  class="list-title" >Categories</div><nav><ul>'.self::mod('pr_cats').'</ul></nav>',
+  'slider' => ''.self::mod('nivoslider').'',
+  'header' => ''.self::mod('search').''.self::mod('langs').''.self::mod('pr_cart').'',
+  'footer' => ''.self::mod('infomauro').'',
 );
 ?>

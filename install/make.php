@@ -1,9 +1,34 @@
 <?php
-define('__http_path',dirname($_SERVER['SCRIPT_NAME']).'/');
-define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
+/**
+ *	Installation for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
+
+//Set a header information
 header('Installed:no');
 include(LANG::short().'.php');
-//Controllo dipendenze
+//Check CMS dependencies
 function point1() {
 	function test_write_cf() {
 		if (is_writable(__base_path.'config/dbconfig.php'))
@@ -222,13 +247,18 @@ if (SECURE::active()) {
 						->property('actived')->type('BOOLEAN')->set_default(0)->not_null()->end()
 						->property('verifyCode')->dimension(10)->not_null()->end()
 						->property('cookieCode')->dimension(60)->not_null()->end()
-						->property('level')->type('INT')->dimension(1)->set_default(9)->unsigned()->end();
+						->property('level')->type('INT')->dimension(1)->set_default(9)->unsigned()->end()
+						->property('info')->type('INT')->dimension(1)->set_default(0)->not_null()->end()
+						->property('lang')->dimension(5)->not_null()->end()
+						->property('banned')->type('BOOLEAN')->set_default(0)->not_null()->end();
 					$admin->property('nick')->dimension(30)->not_null()->unique()->end()
 						->property('email')->dimension(100)->not_null()->unique()->end()
 						->property('lastVisit')->type('TIMESTAMP')->end()
 						->property('password')->dimension(125)->not_null()->unique()->end()
 						->property('sessionCode')->dimension(60)->not_null()->end()
-						->property('level')->type('INT')->dimension(1)->set_default(3)->unsigned()->end();
+						->property('level')->type('INT')->dimension(1)->set_default(3)->unsigned()->end()
+						->property('lang')->dimension(5)->end()
+						->property('banned')->type('BOOLEAN')->set_default(0)->not_null()->end();
 					if ($users->save()&&$admin->save())
 						$_SESSION['step']=$point=5;					
 					$pass=CRYPT::BF($_SESSION['site_data']['pass'],6);
@@ -566,6 +596,7 @@ if ($point==1) {
 	<head>
 		<title>ALExxia Installation</title>
 		<link rel="stylesheet" href="css/images.css" />
+		<link rel="stylesheet" href="css/secure.css" />
 		<link rel="stylesheet" href="install/style.css" />
 		<link rel="icon" href="media/images/favicon.png" sizes="64x64" type="image/png" />
 		<script type="text/javascript" src="js/jquery.js"></script>

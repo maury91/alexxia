@@ -3,6 +3,7 @@
 	$favicon = 'media/images/favicon.png';
 	$sitemail = 'noreply@mysite.com';
 	$sitemailn = 'NoReply My Site';
+	$sitesmtp = true;
 	$sitename = 'My Site';
 	$sitedesc = 'My Site the site of we talk of lol';
 	$sitetags = '';

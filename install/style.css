@@ -1,3 +1,28 @@
+/**
+ *	Installation (css) for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
 body {
 	margin: 0;
 	background: #FAFAFA;
@@ -15,28 +40,6 @@ header {
 	background: linear-gradient(to bottom, rgba(242,246,248,1) 0%,rgba(216,225,231,1) 50%,rgba(181,198,208,1) 51%,rgba(250,250,250,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#fcfcfc',GradientType=0 );
 	height: 170px;
-}
-.secure_status {
-	position: fixed;
-	right: 10px;
-	bottom: 10px;
-	width: 70px;
-	height:70px;
-}
-.secure_status  .points {
-	position:relative;
-	height: 70px;
-	top: -10px;
-}
-.secure_status  .points  span{
-	position:absolute;
-	left:50%;
-	top:50%;
-}
-.secure_status .img.unsecure,.secure_status .img.secure {
-	left: 11px;
-	top: 11px;
-	position: absolute;
 }
 header .logo {
 	position: relative;

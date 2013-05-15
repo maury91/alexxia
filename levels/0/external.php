@@ -1,7 +1,29 @@
 <?php
-/*
-	Lettura di variabili esterne
-*/
+/**
+ *	External variables class for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
 class External {	
 	public static function restore(&$restored) {
 		if((function_exists("get_magic_quotes_gpc")&&get_magic_quotes_gpc())||ini_get('magic_quotes_sybase'))		
@@ -25,6 +47,10 @@ class GET extends External {
 		self::restore();
 		return isset($_GET[$var])?$_GET[$var]:false;
 	}
+	public static function int($var) {
+		self::restore();
+		return isset($_GET[$var])?intval($_GET[$var]):false;
+	}
 }
 
 class POST extends External {
@@ -42,6 +68,10 @@ class POST extends External {
 	public static function val($var) {
 		self::restore();
 		return isset($_POST[$var])?$_POST[$var]:false;
+	}
+	public static function int($var) {
+		self::restore();
+		return isset($_POST[$var])?intval($_POST[$var]):false;
 	}
 }
 

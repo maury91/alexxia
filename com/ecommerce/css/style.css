@@ -1,6 +1,7 @@
 .product_info {
 	position: relative;
 	font-size: 13px;
+	color: #955;
 }
 .product_info .images {
 	position: absolute;
@@ -9,7 +10,7 @@
 	overflow: hidden;
 }
 .product_info .images .image {
-	border: 1px solid #DDD;
+	border: 1px solid #FD8;
 	width: 200px;
 	height: 250px;
 	background-size: contain;
@@ -20,6 +21,8 @@
 	padding: 10px 0 0 230px;
 	min-height: 320px;
 	overflow: hidden;
+	color: #922;
+	background: rgba(255,255,255,0.7);
 }
 .product_info .scheda .left {
 	width: 150px;
@@ -44,13 +47,13 @@
 #pacco_regalo {
 	width: 12px;
 	height: 12px;
-	border: 1px solid #CCC;
+	border: 1px solid #FE9;
 	margin: 0 5px 0 0;
-	color: #CCC;
+	color: #FE9;
 }
 .scheda h1 {
-	color: #55D;
-	border-bottom: 1px solid #EEE;
+	color: #D52;
+	border-bottom: 1px solid #FD9;
 }
 .ui-widget-header {
 	border:none;
@@ -60,7 +63,8 @@
 	border:none;
 }
 .ui-tabs .ui-tabs-panel {
-	border-top: 1px solid #79b7e7;
+	border-top: 1px solid #FD9;
+	color: #922;
 }
 .abutton.special {
 	background: rgb(255,48,25);
@@ -74,6 +78,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 );
 	color: #EBA;
 	font-weight: bolder;
+	border-color: #D52;
 }
 .abutton.special:hover,
 .abutton.special:active,
@@ -104,7 +109,7 @@
 	width: 50px;
 	height: 30px;
 	display: block;
-	border: 1px solid #CCC;
+	border: 1px solid #FE9;
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -142,13 +147,13 @@ thead {
 	background: #EEE;
 }
 td {
-	border-right: 1px solid #CCC;
+	border-right: 1px solid #FE9;
 	padding: 5px 10px;
-	border-bottom: 1px solid #CCC;
+	border-bottom: 1px solid #FE9;
 }
 table {
-	border-left: 1px solid #CCC;
-	border-top: 1px solid #CCC;
+	border-left: 1px solid #FE9;
+	border-top: 1px solid #FE9;
 }
 table tbody td input[type="checkbox"] {
 	float: right;

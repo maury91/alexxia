@@ -1,8 +1,100 @@
 <?php
-
-if (isset($_GET['install']))
-include('ecommerce/install.php');
-if (isset($_GET['show_cats'])) {
+/**
+ *	Ecommerce Component for ALExxia
+ *	This component is only for didactical use
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
+//Ritorna il tipo di utente
+function get_user_type() {
+	if (USER::logged()) {
+		//identificazione tipo
+	} else
+		return 1;
+}
+if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
+	//Eliminazione in json
+	@session_start();
+	if (!isset($_SESSION['nc_cart']))
+		$_SESSION['nc_cart']=array();
+	if (isset($_SESSION['nc_cart'][GET::val('cart_del')])) 
+		unset($_SESSION['nc_cart'][GET::val('cart_del')]);
+	echo json_encode(array('r' => 'y'));
+	exit(0);
+} elseif (GET::exists('cart')) { //Mostro il carrello
+	@session_start();
+	HTML::add_style('com/ecommerce/css/cart.css');
+	HTML::add_script('com/ecommerce/js/cart.js');
+	if (!isset($_SESSION['nc_cart']))
+		$_SESSION['nc_cart']=array();
+	echo '<div class="fp_cart"><h2>Carrello</h2>';
+	if (empty($_SESSION['nc_cart'])) {
+		echo '<h3>Il tuo carrello &egrave; vuoto</h3>
+<p>Il tuo carrello &egrave; vuoto. Per aggiungere articoli al tuo carrello naviga sul sito, quando trovi un articolo che ti interessa, clicca su "Aggiungi al carrello".</p>';
+	} else {
+		echo '<script type="text/javascript">__cart_removed = "L\'articolo &egrave; stato rimosso";cart='.json_encode($_SESSION['nc_cart']).'</script>';
+		if (GET::exists('del')) {
+			if (isset($_SESSION['nc_cart'][GET::val('del')])) {
+				echo '<p class="information">'.$_SESSION['nc_cart'][GET::val('del')]['name'].' &egrave; stato rimosso</p>';
+				unset($_SESSION['nc_cart'][GET::val('del')]);
+			}
+		}
+		$tot=0;
+		foreach($_SESSION['nc_cart'] as $k=>$v) {
+			$tot += $v['price']*$v['tot'];
+			$url = __http_host.__http_path.'/com/ecommerce/show/'.$k.'-'.$v['name'];
+			echo '<div id="'.$k.'" class="fp_cart_prod">
+			<a class="fp_cart_img" style="background-image:url('.$v['img'].')" href="'.$url.'.html">&nbsp;</a>
+			<a class="fp_cart_name" href="'.$url.'.html">'.$v['name'].'</a>
+			<span class="fp_cart_price">'.$v['price'].' &euro;</span>
+			<input class="fp_cart_q" type="text" value="'.$v['tot'].'" />
+			<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http_host.__http_path.'/com/ecommerce/cart.html?del='.$k.'">Rimuovi</a></div>
+		</div>';
+		}
+		echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> &euro;</p>';
+	}
+	echo '</div>';
+} elseif (GET::exists('cart_add_json')) {
+	@session_start();
+	if (!isset($_SESSION['nc_cart']))
+		$_SESSION['nc_cart']=array();
+	$u_type = get_user_type();
+	$buyed = (isset($_SESSION['nc_cart'][GET::val('cart_add_json')]))?$_SESSION['nc_cart'][GET::val('cart_add_json')]['tot']+GET::int('q'):GET::int('q');
+	$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,MIN(`'.(DB::$pre).'nc__prices`.`price`) as price',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE  `'.(DB::$pre).'nc__products`.`id` = ',GET::val('cart_add_json'),'  AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<'.($buyed+1).' GROUP BY id');
+	$prod_data = @DB::assoc($prod);
+	if (isset($prod_data['id'])) {
+		$_SESSION['nc_cart'][$prod_data['id']] = array('tot'=>$buyed,'price'=>$prod_data['price'],'img'=>$prod_data['image'],'name'=>$prod_data['name']);
+		echo json_encode(array('r'=>'y','data'=>$_SESSION['nc_cart'][$prod_data['id']],'q'=>DB::debug()));
+	} else
+		echo json_encode(array('r'=>'n'));
+	exit(0);
+} elseif (GET::exists('cart_json')) {
+	@session_start();
+	if (!isset($_SESSION['nc_cart']))
+		$_SESSION['nc_cart']=array();
+	echo json_encode($_SESSION['nc_cart']);
+	exit(0);
+} elseif (GET::exists('show_cats')) {
 	HTML::add_style('com/ecommerce/css/cats.css');
 	$cat = DB::select(DB::$pre.'nc__translatesC.name,'.DB::$pre.'nc__categories.*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref IS NULL AND lang = ',LANG::short());
 	while($c = DB::assoc($cat)) {
@@ -12,12 +104,9 @@ if (isset($_GET['show_cats'])) {
 			echo '<li><a href="'.__http_host.__http_path.'/com/ecommerce/category/'.$d['id'].'-'.$d['name'].'.html">'.$d['name'].'</a></li>';
 		echo '</ul>';
 	}
-} elseif (isset($_GET['category'])) {
-	if (USER::logged()) {
-		//identificazione tipo
-	} else
-		$u_type=1;
-	$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE  `nc__categories_ref` IN ((SELECT id FROM  `'.(DB::$pre).'nc__categories`  WHERE  `nc__categories_ref` = ',$_GET['category'],'),',$_GET['category'],')  AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id');
+} elseif (GET::exists('category')) {
+	$u_type=get_user_type();
+	$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE  `nc__categories_ref` IN ((SELECT id FROM  `'.(DB::$pre).'nc__categories`  WHERE  `nc__categories_ref` = ',GET::val('category'),'),',GET::val('category'),')  AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id');
 	echo '<ol class="list">';
 	while ($pr = DB::assoc($prods)) {
 		echo '<a href="'.__http_host.__http_path.'/com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
@@ -30,16 +119,13 @@ if (isset($_GET['show_cats'])) {
 		echo '</div></div><div class="desc">'.$desc.'</div><span class="price">'.$pr['price'].' &euro;</span></li></a>';
 	}
 	echo '</ol>';
-} elseif (isset($_GET['show'])) {
+} elseif (GET::exists('show')) {
 	include(__base_path.'com/ecommerce/lang/'.LANG::short().'.php');
 	HTML::add_style('com/ecommerce/css/style.css');
 	HTML::add_script('com/ecommerce/js/script.js');
-	$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`',array('nc__products','nc__translates'),'WHERE `nc__products_ref` = `'.(DB::$pre).'nc__products`.id AND `'.(DB::$pre).'nc__products`.id = ',$_GET['show'],' AND lang = ',LANG::short());
+	$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`',array('nc__products','nc__translates'),'WHERE `nc__products_ref` = `'.(DB::$pre).'nc__products`.id AND `'.(DB::$pre).'nc__products`.id = ',GET::val('show'),' AND lang = ',LANG::short());
 	if ($prod) {
-		if (USER::logged()) {
-			//identificazione tipo
-		} else
-			$u_type=1;
+		$u_type=get_user_type();
 		$prod = DB::assoc($prod);
 		$sales = DB::simple_select(array(array('nc__sales','*')),array('NxN__nc__productsxnc__sales_sxs','nc__sales'),array(
 			'WHERE'=>array(
@@ -66,12 +152,12 @@ if (isset($_GET['show_cats'])) {
 		while ($img=DB::assoc($images))
 			echo '<div class="thumb" style="background-image:url('.$img['url'].')"></div>';
 		echo '</div>
-			<div class="prod_id">'.$__prod_id.' : '.$prod['id'].'</div>
+			<div class="prod_id">'.$__prod_id.' : <span id="prod_id">'.$prod['id'].'</span></div>
 		</div>
 		<div class="scheda">
 			<h1 id="prod_name">'.$prod['name'].'</h1>
 			<div class="left">'.$__prod_p.'</div><div class="right">';
-		$prices = DB::select('*','nc__prices','WHERE nc__products_ref = ',$prod['id'],' AND nc__categoriesU_ref = ',$u_type);
+		$prices = DB::select('*','nc__prices','WHERE nc__products_ref = ',$prod['id'],' AND nc__categoriesU_ref = ',$u_type,' ORDER BY price DESC');
 		$first=true;
 		while ($price = DB::assoc($prices)) {
 			$price['price'] = floatval($price['price'])*(100-$c_sale)/100;
@@ -99,23 +185,23 @@ if (isset($_GET['show_cats'])) {
 				<span class="price">&euro; <b class="price_tot">'.$tprice.'</b></span>
 			</div>
 			<div class="left">&nbsp;</div>
-			<div class="right"><br/><br/><a class="abutton special">'.$__prod_bn.'</a> <a class="abutton special">'.$__prod_cart.'</a></div>
+			<div class="right"><br/><br/><a class="abutton special">'.$__prod_bn.'</a> <a id="addcart" class="abutton special">'.$__prod_cart.'</a></div>
 		</div>
 		<div class="ale_bar">
 			<ul>
 				<li><a href="#prod_details">'.$__prod_det.'</a></li>
-				<li><a href="#prod_shipments">'.$__prod_shp.'</a></li>
-				<li><a href="#prod_payments">'.$__prod_pay.'</a></li>
+				<!--<li><a href="#prod_shipments">'.$__prod_shp.'</a></li>
+				<li><a href="#prod_payments">'.$__prod_pay.'</a></li>-->
 			</ul>
 			<div id="prod_details">
 				'.$prod['descrizione'].'
 			</div>
-			<div id="prod_shipments">
+			<!--<div id="prod_shipments">
 				Da fare...
 			</div>
 			<div id="prod_payments">
 				Da fare...
-			</div>
+			</div>-->
 		</div>
 		<script type="text/javascript">
 			$(\'.ale_bar\').tabs();
