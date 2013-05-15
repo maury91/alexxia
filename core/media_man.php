@@ -168,7 +168,7 @@ switch (GET::val('act')) {
 			if ($b=='d') del_dir("$a/"); else unlink($a);
 		}
 		for ($i=0;$i<count(GET::val('f'));$i++) {			
-			$dir = dirname(GET::val('f')[$i]);	
+			$dir = dirname(GET::val('f',$i));	
 			//ultimo carattere della stringa
 			if (substr($data['dir'],-1)=='/')
 				$dir .= '/';
@@ -178,7 +178,7 @@ switch (GET::val('act')) {
 					$point = 'ondelete';
 					include($data['ondelete']);
 				}
-				del_file(GET::val('f')[$i],GET::val('d')[$i]);
+				del_file(GET::val('f',$i),GET::val('d',$i));
 			}
 		}		
 		exit(0);

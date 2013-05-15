@@ -24,5 +24,8 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-
+$__no_param = 'Non son stati specificati dei parametri validi';
+$__invalid	= 'I data non sono validi, contatta un\'amministratore per risolvere';
+$__actived	= 'Il tuo account &egrave; stato attivato<br/>Vai qui per fare il login : <a href="%s">Login</a>';
+$__error	= 'Si &egrave; verificato un\'errore con il database, prova a ricaricare la pagina';
 ?>

@@ -25,13 +25,13 @@
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
 if (POST::exists('check')) {		//Ajax control for existent users and emails
-	if (isset(POST::val('check')['nick'])) {
-		if (DB::rows(DB::select('*','users','WHERE nick = ',POST::val('check')['nick'])))
+	if (POST::exists('check','nick')) {
+		if (DB::rows(DB::select('*','users','WHERE nick = ',POST::val('check','nick'))))
 			echo json_encode(array('r'=>'n','err'=>1));
 		else
 			echo json_encode(array('r'=>'y'));
-	} elseif (isset(POST::val('check')['email'])) {
-		if (DB::rows(DB::select('*','users','WHERE email LIKE ',POST::val('check')['email'])))
+	} elseif (POST::exists('check','email')) {
+		if (DB::rows(DB::select('*','users','WHERE email LIKE ',POST::val('check','email'))))
 			echo json_encode(array('r'=>'n','err'=>1));
 		else
 			echo json_encode(array('r'=>'y'));
@@ -53,13 +53,13 @@ if (POST::exists('check')) {		//Ajax control for existent users and emails
 	//Data to insert in the database
 	$insert_data = array('nick'=>$_CRIPTED['nick'],'password'=>$_CRIPTED['pass'],'email'=>$_CRIPTED['email'],'name' => $_CRIPTED['name'],'lastname' => $_CRIPTED['lname'],'verifyCode' => $act_email);
 	//Plug-ins inclusion (if a developer want to make a plug-in that add or alter the data inserted in the database)
-	foreach (PLUGINS::in('core','reg','insert_data') as $p) include("plugin/$p.php");
+	foreach (PLUGINS::in('core','reg','insert_data') as $p) include($p);
 	//Data is inserted in the database
 	if (DB::insert('users',$insert_data)) {
 		//Inclusion of the file of the language
 		include(LANG::path().'reg.php');
 		//Buil the email
-		$content=str_replace(array('%sitename','%nick','%fname','%lname','%url'), array(GLOBALS::val('sitename'),$_CRIPTED['nick'],$_CRIPTED['name'],$_CRIPTED['lname'],__http_host.__http_path.'zone_act.html?nick='.$_CRIPTED['nick'].'&code='.$act_email), $__regemail);
+		$content=str_replace(array('%sitename','%nick','%fname','%lname','%url'), array(GLOBALS::val('sitename'),$_CRIPTED['nick'],$_CRIPTED['name'],$_CRIPTED['lname'],__http.'zone_act.html?nick='.$_CRIPTED['nick'].'&code='.$act_email), $__regemail);
 		//Sending the email
 		if (MAIL::send($_CRIPTED['email'],sprintf($__sbjct,GLOBALS::val('sitename')),$content))
 			SECURE::returns(array('ok'=>true,'html'=>$__regsuccess));		//Email sendend
@@ -108,7 +108,7 @@ if (POST::exists('check')) {		//Ajax control for existent users and emails
 		<div class="right"><input type="text" id="lname" /></div>
 		<div class="extra_data">';
 	//Plug-ins inclusion (if a developer want to make a plug-in that add some data in the registration)
-	foreach (PLUGINS::in('core','reg','add_camps') as $p) include("plugin/$p.php");
+	foreach (PLUGINS::in('core','reg','add_camps') as $p) include($p);
 echo	'</div>
 		<div class="left"><br/><br/><br/></div>
 		<div class="left">'.$captcha->text().'</div>

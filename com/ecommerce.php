@@ -62,13 +62,13 @@ if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 		$tot=0;
 		foreach($_SESSION['nc_cart'] as $k=>$v) {
 			$tot += $v['price']*$v['tot'];
-			$url = __http_host.__http_path.'/com/ecommerce/show/'.$k.'-'.$v['name'];
+			$url = __http.'com/ecommerce/show/'.$k.'-'.$v['name'];
 			echo '<div id="'.$k.'" class="fp_cart_prod">
 			<a class="fp_cart_img" style="background-image:url('.$v['img'].')" href="'.$url.'.html">&nbsp;</a>
 			<a class="fp_cart_name" href="'.$url.'.html">'.$v['name'].'</a>
 			<span class="fp_cart_price">'.$v['price'].' &euro;</span>
 			<input class="fp_cart_q" type="text" value="'.$v['tot'].'" />
-			<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http_host.__http_path.'/com/ecommerce/cart.html?del='.$k.'">Rimuovi</a></div>
+			<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http.'com/ecommerce/cart.html?del='.$k.'">Rimuovi</a></div>
 		</div>';
 		}
 		echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> &euro;</p>';
@@ -98,10 +98,10 @@ if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 	HTML::add_style('com/ecommerce/css/cats.css');
 	$cat = DB::select(DB::$pre.'nc__translatesC.name,'.DB::$pre.'nc__categories.*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref IS NULL AND lang = ',LANG::short());
 	while($c = DB::assoc($cat)) {
-		echo '<ul class="cats"><li class="title"><a href="'.__http_host.__http_path.'/com/ecommerce/category/'.$c['id'].'-'.$c['name'].'.html">'.$c['name'].'</a></li>';
+		echo '<ul class="cats"><li class="title"><a href="'.__http.'com/ecommerce/category/'.$c['id'].'-'.$c['name'].'.html">'.$c['name'].'</a></li>';
 		$subcat = DB::select('*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref = ',$c['id'],' AND lang = ',LANG::short());
 		while ($d = DB::assoc($subcat))
-			echo '<li><a href="'.__http_host.__http_path.'/com/ecommerce/category/'.$d['id'].'-'.$d['name'].'.html">'.$d['name'].'</a></li>';
+			echo '<li><a href="'.__http.'com/ecommerce/category/'.$d['id'].'-'.$d['name'].'.html">'.$d['name'].'</a></li>';
 		echo '</ul>';
 	}
 } elseif (GET::exists('category')) {
@@ -109,7 +109,7 @@ if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 	$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE  `nc__categories_ref` IN ((SELECT id FROM  `'.(DB::$pre).'nc__categories`  WHERE  `nc__categories_ref` = ',GET::val('category'),'),',GET::val('category'),')  AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id');
 	echo '<ol class="list">';
 	while ($pr = DB::assoc($prods)) {
-		echo '<a href="'.__http_host.__http_path.'/com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
+		echo '<a href="'.__http.'com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
 		for ($i=0;$i<intval($pr['stars']);$i++)
 			echo '<span class="on">';
 		for ($i=intval($pr['stars']);$i<5;$i++)

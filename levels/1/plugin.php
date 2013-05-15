@@ -36,11 +36,16 @@ class PLUGINS {
 		}
 	}
 	
+	//Return valid path of plugin
+	protected static function form($v) {
+		return __base_path.'plugins/'.$v.'.php';
+	}
+
 	//Return the plug-ins for a specified zone
 	public static function in($l1,$l2,$l3) {
 		self::load();
 		if (isset(self::$plugins[$l1][$l2][$l3]))
-			return self::$plugins[$l1][$l2][$l3];
+			return array_map('PLUGINS::form', self::$plugins[$l1][$l2][$l3]);
 		else
 			return array();
 	}

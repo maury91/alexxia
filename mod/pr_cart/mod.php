@@ -6,5 +6,5 @@
 	__cart_go = "Vai al carrello";
 	__cart_empty = "Il carrello &egrave; vuoto";
 	</script>	
-	<script type="text/javascript" src="'.__http_host.__http_path.'/mod/pr_cart/script.js"></script><link rel="stylesheet" href="'.__http_host.__http_path.'/mod/pr_cart/style.css" />';
+	<script type="text/javascript" src="'.__http.'mod/pr_cart/script.js"></script><link rel="stylesheet" href="'.__http.'mod/pr_cart/style.css" />';
 ?>

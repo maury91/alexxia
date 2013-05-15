@@ -40,16 +40,37 @@ class GET extends External {
 			parent::restore($_GET);
 		}
 	}
-	public static function exists($var) {
-		return isset($_GET[$var]);
+	public static function exists() {
+		$a = func_get_args();
+		$tr = $_GET;
+		foreach ($a as $v) {
+			if (!isset($tr[$v]))
+				return false;
+			$tr = $tr[$v];
+		}
+		return true;
 	}
 	public static function val($var) {
 		self::restore();
-		return isset($_GET[$var])?$_GET[$var]:false;
+		$a = func_get_args();
+		$tr = $_GET;
+		foreach ($a as $v) {
+			if (!isset($tr[$v]))
+				return false;
+			$tr = $tr[$v];
+		}
+		return $tr;
 	}
 	public static function int($var) {
 		self::restore();
-		return isset($_GET[$var])?intval($_GET[$var]):false;
+		$a = func_get_args();
+		$tr = $_GET;
+		foreach ($a as $v) {
+			if (!isset($tr[$v]))
+				return false;
+			$tr = $tr[$v];
+		}
+		return intval($tr);
 	}
 }
 
@@ -62,16 +83,37 @@ class POST extends External {
 			parent::restore($_POST);
 		}
 	}
-	public static function exists($var) {
-		return isset($_POST[$var]);
+	public static function exists() {
+		$a = func_get_args();
+		$tr = $_POST;
+		foreach ($a as $v) {
+			if (!isset($tr[$v]))
+				return false;
+			$tr = $tr[$v];
+		}
+		return true;
 	}
 	public static function val($var) {
 		self::restore();
-		return isset($_POST[$var])?$_POST[$var]:false;
+		$a = func_get_args();
+		$tr = $_POST;
+		foreach ($a as $v) {
+			if (!isset($tr[$v]))
+				return false;
+			$tr = $tr[$v];
+		}
+		return $tr;
 	}
 	public static function int($var) {
 		self::restore();
-		return isset($_POST[$var])?intval($_POST[$var]):false;
+		$a = func_get_args();
+		$tr = $_POST;
+		foreach ($a as $v) {
+			if (!isset($tr[$v]))
+				return false;
+			$tr = $tr[$v];
+		}
+		return intval($tr);
 	}
 }
 

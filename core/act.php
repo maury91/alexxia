@@ -24,5 +24,22 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-includ(LANG::path('act.php'));
+//Including language file
+include(LANG::path('act.php'));
+//If exists parameters
+if (GET::exists('nick')&&GET::exists('code')) {
+	//Retrieve data from DB
+	$data = DB::assoc(DB::select('*','users',' WHERE nick = ',GET::val('nick')));
+	//Check the data
+	if (strcmp($data['verifyCode'],GET::val('code')))
+		echo $__invalid;
+	else {
+		//Update activation state and print feedback
+		if (DB::update('users',array('verifyCode'=>'','actived'=>true)))
+			echo sprintf($__actived,__http.'zone_login.html');
+		else
+			echo $__error;
+	}
+} else
+	echo $__no_param;
 ?>

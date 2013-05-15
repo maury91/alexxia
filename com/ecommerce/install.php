@@ -45,7 +45,8 @@ $shipments = DB::create('nc__shipments');
 $traduzioniS = DB::create('nc__translatesS');
 $weights = DB::create('nc__weights');
 $users
-	->property('founds')->type('float')->not_null()->end();
+	->property('founds')->type('float')->not_null()->end()
+	->property('nc__cat')->type('int')->unsigned()->not_null()->end();
 $categories
 	->belongs_to($categories);
 $traduzioniC
@@ -135,7 +136,6 @@ $weights
 	->property('min')->type('float')->not_null()->end()
 	->property('max')->type('float')->not_null()->end()
 	->belongs_to($shipments);
-
 $users->save();
 $categories->save();
 $traduzioniC->save();

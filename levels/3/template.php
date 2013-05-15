@@ -59,7 +59,7 @@ class MENU {
 									if ((isset($rll->rule))?self::rule_l($rll->rule,$j,$tot2):true) {
 										$cla = (trim($menu[$i]['links'][$j]['class'].(isset($rll->{'class'})?$rll->{'class'}:''))=='')?'':' class="'.$menu[$i]['links'][$j]['class'].' '.(isset($rll->{'class'})?$rll->{'class'}:'').'" ';
 										if (strpos('.'.$menu[$i]['links'][$j]['href'],'http://')!==1)
-											$menu[$i]['links'][$j]['href'] = __http_host.__http_path.$menu[$i]['links'][$j]['href'];
+											$menu[$i]['links'][$j]['href'] = __http.$menu[$i]['links'][$j]['href'];
 										$links.=str_ireplace(array('%class%','%text%','%image%','%href%','%html%'),
 											array($cla,
 												$menu[$i]['links'][$j]['text'],
@@ -177,7 +177,7 @@ class MENU {
 								if ($j['type']) {
 									foreach ($j['links'] as $a => $b)
 										if (strpos('.'.$b['href'],'http://')!==1)
-											$j['links'][$a]['href'] = __http_host.__http_path.$j['links'][$a]['href'];
+											$j['links'][$a]['href'] = __http.$j['links'][$a]['href'];
 									$men2[$men_conf->move->links][] = $j;
 								} else
 									$men2[$men_conf->move->mod][] = $j;
@@ -256,11 +256,11 @@ class MENU {
 class TEMPLATE {
 	
 	private static function compile_template($template) {
-		define('template_path',__http_host.__http_path.'template/'.$template.'/');
+		define('template_path',__http.'template/'.$template.'/');
 		$y = file_get_contents(__base_path.'template/'.$template.'/index.html');
 		$y = str_ireplace(
 			array('<ALE::LOGO/>','<ALE::HEAD/>','<ALE::PAGE/>','<ALE:TEMPLATE/>','<ALE:COPYRIGHTS/>','<ALE:HOME/>'),
-			array('<?php echo HTML::get_logo(); ?>','<?php echo HTML::get_head(); ?>','<?php echo $html; ?>',template_path,'<a href="http://niicms.net" target="_blank">Powered by Alexxia Open Source Content Manager</a>',__http_host.__http_path),$y);
+			array('<?php echo HTML::get_logo(); ?>','<?php echo HTML::get_head(); ?>','<?php echo $html; ?>',template_path,'<a href="http://niicms.net" target="_blank">Powered by Alexxia Open Source Content Manager</a>',__http),$y);
 		//Rilevazione del tag <body>
 		$pos = stripos($y,'<body');
 		$pos2= strpos(substr($y,$pos+5),'>');

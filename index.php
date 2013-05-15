@@ -31,8 +31,9 @@ header('Content-Type: text/html; charset=utf-8');
 header('CMS: Alexxia v'.__ALE_version.' http://alexxia.it');
 //Define the constants
 define('__base_path',dirname(__FILE__).'/');
-define('__http_path',dirname($_SERVER['SCRIPT_NAME']).'/');
-define('__http_host','http://'.$_SERVER['SERVER_NAME'].'/');
+define('__http_path',rtrim(dirname($_SERVER['SCRIPT_NAME']), '/').'/');
+define('__http_host',rtrim('http://'.$_SERVER['SERVER_NAME'], '/'));
+define('__http',rtrim(__http_host.__http_path, '/').'/');
 //Class Auto-loader
 require(__base_path.'levels/3/loader.php');
 //Enable secure connection

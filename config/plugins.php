@@ -9,7 +9,7 @@ $__plugins = array(
 			'end' => array()
 		),
 		'reg' => array(
-			'add_camps' => array(),
+			'add_camps' => array('ecommerce/reg_add'),
 			'insert_data' => array()
 		)
 	)

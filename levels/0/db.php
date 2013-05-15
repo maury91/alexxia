@@ -46,12 +46,14 @@ abstract class ALEDatabase {
 	
 	//Execute a query and get the number of the rows
 	public function q_rows($q) {
-		return $this->rows($this->query($this->create_query(func_get_args())));
+		$a = func_get_args();
+		return $this->rows($this->query($this->create_query($a)));
 	}
 	
 	//Execute a query and return one array
 	public function q_assoc($q) {
-		return $this->assoc($this->query($this->create_query(func_get_args())));
+		$a = func_get_args();
+		return $this->assoc($this->query($this->create_query($a)));
 	}
 	
 	//Connection function

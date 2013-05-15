@@ -1,0 +1,10 @@
+[
+	{
+		"file" : "reg_add",
+		"connect" : "core/reg/add_camps"
+	},
+	{
+		"file" : "reg_ins",
+		"connect" : "core/reg/insert_data"
+	}
+]

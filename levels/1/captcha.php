@@ -280,7 +280,7 @@ CLASS CAPTCHA {
 	}
 	
 	public function get_img($no_html=false) {
-		return '<div class="ale_captcha" style="width:'.$this->w.'px;height:'.$this->h.'px;background:url('.__http_host.__http_path.'/captcha.php?id='.$this->id.')" id="'.$this->id.'"></div>';
+		return '<div class="ale_captcha" style="width:'.$this->w.'px;height:'.$this->h.'px;background:url('.__http.'captcha.php?id='.$this->id.')" id="'.$this->id.'"></div>';
 	}
 	
 	public function text($no_html=false) {

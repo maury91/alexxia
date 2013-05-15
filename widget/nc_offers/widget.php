@@ -40,7 +40,7 @@ function widget_nc_offers() {
 	$mod = '<ol class="list">';
 	while ($pr = DB::assoc($prods)) {
 		$c_sale=floatval($pr['salee']);
-		$mod .= '<a href="'.__http_host.__http_path.'/com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><span class="sale">-'.$c_sale.'%</span><div class="stars">';
+		$mod .= '<a href="'.__http.'com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><span class="sale">-'.$c_sale.'%</span><div class="stars">';
 		for ($i=0;$i<intval($pr['stars']);$i++)
 			$mod .= '<span class="on"></span>';
 		for ($i=intval($pr['stars']);$i<5;$i++)

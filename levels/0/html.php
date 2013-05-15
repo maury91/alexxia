@@ -89,12 +89,12 @@ class HTML {
 	
 	//Return the script in html form
 	static public function script_form($v) {
-		return "\t\t".'<script type="text/javascript" src="'.__http_host.__http_path.addslashes($v).'"></script>'."\n";
+		return "\t\t".'<script type="text/javascript" src="'.__http.addslashes($v).'"></script>'."\n";
 	}
 	
 	//Return the style in html form
 	static public function style_form($v) {
-		return "\t\t".'<link rel="stylesheet" type="text/css" href="'.__http_host.__http_path.addslashes($v).'" />'."\n";
+		return "\t\t".'<link rel="stylesheet" type="text/css" href="'.__http.addslashes($v).'" />'."\n";
 	}
 	
 	//Return the current title of the page
@@ -150,7 +150,7 @@ class HTML {
 		return
 		'<title>'.(self::get_title()).'</title>'."\n"
 		.(META_TAGS::get_html())
-		.'<script type="text/javascript">__http_base = "'.__http_host.__http_path.'"</script>'
+		.'<script type="text/javascript">__http_base = "'.__http.'"</script>'
 		.implode('',array_merge(array_map('HTML::style_form',array_unique(self::$styles)),array_map('HTML::script_form',array_unique(self::$scripts))));
 	}
 }

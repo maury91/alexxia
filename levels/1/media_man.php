@@ -37,7 +37,7 @@ class MEDIA_MAN {
 			//Add the scripts of the media manager
 			HTML::add_script('js/media_man.js','zone_media_man.html?langvars"')
 			//Print the script
-			echo '<script type="text/javascript">__media_man_base_path = "'.__http_host.__http_path.'"</script>';
+			echo '<script type="text/javascript">__media_man_base_path = "'.__http.'"</script>';
 		}
 		//Make a random id for this media manager
 		$media_id=RAND::word(15);

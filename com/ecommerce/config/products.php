@@ -142,7 +142,7 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 		<div class="images">
 			<div class="image"></div>
 			<div class="thumbs"></div>
-			<a class="abutton" style="clear: both;" onclick=\'media_manager({uid : "'.$media_id.'", onSelected : choose_img, dir : "./media/images/",base_path : "'.__http_host.__http_path.'"})\'>Aggiungi</a>
+			<a class="abutton" style="clear: both;" onclick=\'media_manager({uid : "'.$media_id.'", onSelected : choose_img, dir : "./media/images/",base_path : "'.__http.'"})\'>Aggiungi</a>
 		</div>
 		<div class="scheda">
 			<h1 contenteditable="true" id="prod_name">Nome Prodotto</h1>

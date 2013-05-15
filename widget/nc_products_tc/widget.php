@@ -23,7 +23,7 @@ function widget_nc_products_tc() {
 			if (floatval($sale['sale'])>$c_sale)
 				$c_sale=floatval($sale['sale']);
 		}
-		$mod .= '<a href="'.__http_host.__http_path.'/com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')">';
+		$mod .= '<a href="'.__http.'com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')">';
 		if ($c_sale)
 			$mod .= '<span class="sale">-'.$c_sale.'%</span>';
 		$mod .= '<div class="stars">';

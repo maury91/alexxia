@@ -172,3 +172,9 @@ table tbody td input[type="checkbox"] {
 	right: -40px;
 	top: 5px;
 }
+.ui-tabs .ui-tabs-panel {
+	display: block;
+	border-width: 0;
+	padding: 1em 1.4em;
+	background: rgba(255,255,255,0.7);
+}
