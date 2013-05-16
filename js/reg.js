@@ -109,7 +109,12 @@ $(function() {
 	//When the user click on the captcha
 	captcha_click(function(captcha_data) {
 		//Check the user have compiled the data correctly
-		if ($('#nick').hasClass('ok')&&$('#pass').hasClass('ok')&&$('#email').hasClass('ok')) {
+		ok=true;
+		$('.required').each(function() {
+			if (!$(this).hasClass('ok'))
+				ok=false;
+		});
+		if (ok) {
 			//Cript password(1)
 			salt_a = bcrypt.gensalt(6);
 			bcrypt.hashpw($('#pass').val(), salt_a, function(pass_s) {

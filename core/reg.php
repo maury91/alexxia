@@ -92,23 +92,27 @@ if (POST::exists('check')) {		//Ajax control for existent users and emails
 	</script>
 	<div title="'.$__secure.'" class="secure_status"><div class="points"></div><div class="img unsecure"></div></div>
 	<div class="registration">
+		<div class="extra_data">';
+	//Plug-ins inclusion (if a developer want to make a plug-in that add some data in the registration)
+	foreach (PLUGINS::in('core','reg','add_camps1') as $p) include($p);
+echo	'</div>
 		<div class="left">'.$__nick.'*</div>
-		<div class="right"><input type="text" id="nick" /><span class="info"></span></div>		
+		<div class="right"><input type="text" class="required" id="nick" /><span class="info"></span></div>		
 		<div class="left">'.$__pass.'*</div>
-		<div class="right"><input type="password" id="pass" /><span class="info"></span></div>	
+		<div class="right"><input type="password" class="required" id="pass" /><span class="info"></span></div>	
 		<div class="left">'.$__pass2.'*</div>		
-		<div class="right"><input type="password" id="pass2" /><span class="info"></span></div>		
+		<div class="right"><input type="password" class="required" id="pass2" /><span class="info"></span></div>		
 		<div class="left">'.$__email.'*</div>
-		<div class="right"><input type="email" id="email" /><span class="info"></span></div>	
+		<div class="right"><input type="email" class="required" id="email" /><span class="info"></span></div>	
 		<div class="left">'.$__email2.'*</div>		
-		<div class="right"><input type="email" id="email2" /><span class="info"></span></div>
+		<div class="right"><input type="email" class="required" id="email2" /><span class="info"></span></div>
 		<div class="left">'.$__name.'</div>
 		<div class="right"><input type="text" id="name" /></div>			
 		<div class="left">'.$__lname.'</div>
 		<div class="right"><input type="text" id="lname" /></div>
 		<div class="extra_data">';
 	//Plug-ins inclusion (if a developer want to make a plug-in that add some data in the registration)
-	foreach (PLUGINS::in('core','reg','add_camps') as $p) include($p);
+	foreach (PLUGINS::in('core','reg','add_camps2') as $p) include($p);
 echo	'</div>
 		<div class="left"><br/><br/><br/></div>
 		<div class="left">'.$captcha->text().'</div>

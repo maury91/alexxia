@@ -1,7 +1,11 @@
 [
 	{
-		"file" : "reg_add",
-		"connect" : "core/reg/add_camps"
+		"file" : "reg_add1",
+		"connect" : "core/reg/add_camps1"
+	},
+	{
+		"file" : "reg_add2",
+		"connect" : "core/reg/add_camps2"
 	},
 	{
 		"file" : "reg_ins",

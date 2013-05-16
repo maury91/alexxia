@@ -1,5 +1,6 @@
+<?php
 /**
- *	Registration (css) for ALExxia
+ *	Login (lang file) for ALExxia
  *	
  *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
  *
@@ -23,40 +24,4 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-.registration {
-	padding: 20px;
-}
-.registration input[type="text"],.registration input[type="password"],.registration input[type="email"],.registration select {
-	width: 100%;
-	border: 1px solid #CCC;
-	padding: 3px;
-	font-size: 1em;
-	color: #777;
-	border-radius: 3px;
-}
-.registration select {
-	width: 103.5%;
-}
-.registration input[type="text"].error, .registration input[type="password"].error, .registration input[type="email"].error {
-	outline-color: #E66;
-	outline-offset: -2px;
-	outline-style: auto;
-	outline-width: 5px;
-}
-.registration input[type="text"].ok, .registration input[type="password"].ok, .registration input[type="email"].ok {
-	outline-color: #3A3;
-	outline-offset: -2px;
-	outline-style: auto;
-	outline-width: 5px;
-}
-.registration .left {
-	float: left;
-	clear: left;
-	font-size: 1.04em;
-	padding: 5px 0;
-	width:150px;
-}
-.registration .right {
-	width: 250px;
-	float: left;
-}
+?>

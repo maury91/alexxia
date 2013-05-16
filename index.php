@@ -113,7 +113,7 @@ HTML::add_style('css/jquery-ui.css');
 */
 $pg_html = '';
 //Plug-ins inclusion
-foreach (PLUGINS::in('core','index','begin') as $p) include("plugin/$p.php");
+foreach (PLUGINS::in('core','index','begin') as $p) include($p);
 //Prevent output
 ob_start();
 //Script inclusion
@@ -121,10 +121,10 @@ if(strpos($pag,'..') === false) {
 	//Check if the script exists
 	if (file_exists($pag)) {
 		//Plug-ins inclusion
-		foreach (PLUGINS::in('core','index','before_page') as $p) include("plugin/$p.php");
+		foreach (PLUGINS::in('core','index','before_page') as $p) include($p);
 		include($pag);
 		//Plug-ins inclusion
-		foreach (PLUGINS::in('core','index','after_page') as $p) include("plugin/$p.php");
+		foreach (PLUGINS::in('core','index','after_page') as $p) include($p);
 	}
 	else
 		ERRORS::display(404,$pag);	//Display 404 error
@@ -134,7 +134,7 @@ else
 //Template elaboration (if the mode is not ajax)
 if (!GET::exists('aj')||(GET::val('aj')=='no')){
 	//Plug-ins inclusion
-	foreach (PLUGINS::in('core','index','template') as $p) include("plugin/$p.php");
+	foreach (PLUGINS::in('core','index','template') as $p) include($p);
 	//Get the data send in output
 	$pg_html .= ob_get_contents();
 	//Clear output
@@ -146,5 +146,5 @@ if (!GET::exists('aj')||(GET::val('aj')=='no')){
 	echo'<script>document.title = "'.(HTML::get_title()).'";</script>';
 }
 //Plug-ins inclusion
-foreach (PLUGINS::in('core','index','end') as $p) include("plugin/$p.php");
+foreach (PLUGINS::in('core','index','end') as $p) include($p);
 ?>

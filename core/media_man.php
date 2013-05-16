@@ -50,7 +50,7 @@ if (!PERMISSION::has('mediamanager_navigate')) {
 	//Controllo azione da intraprendere
 	session_start();
 	//Controllo esistenza chiave
-	if (GET::exists('uid'))&&isset($_SESSION['media_man'][GET::val('uid')])) {
+	if (GET::exists('uid')&&isset($_SESSION['media_man'][GET::val('uid')])) {
 		$data = $_SESSION['media_man'][GET::val('uid')];
 		switch (GET::val('act')) {
 			case 'del' :
