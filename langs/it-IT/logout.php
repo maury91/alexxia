@@ -1,6 +1,6 @@
 <?php
 /**
- *	CRYPT module for ALExxia
+ *	Logout (lang file) for ALExxia
  *	
  *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
  *
@@ -24,25 +24,6 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-//This class implements this crypt algoritms : blowfish(hash)
-class CRYPT {	
-	const BF_STRENGH = 8;
-	
-	public static function BF($val,$strength=0) {
-		if ($strength<4||$strength>31) $strength=self::BF_STRENGH;
-		$salt = '$2a$'.str_pad($strength,2,'0',STR_PAD_LEFT).'$'.(RAND::word(22));
-		return crypt($val,$salt);
-	}
-	
-	public static function is_BF($val) {
-		return substr($val, 0, 4)=='$2a$';
-	}
-	
-	public static function BF_check($original,$crypted) {
-		if (self::is_BF($crypted))
-			return crypt($original, $crypted) == $crypted;
-		else
-			return false;
-	}
-}
+$__no_logged	= 'Non sei loggato';
+$__logged_out	= 'Logout effetuato con successo';
 ?>

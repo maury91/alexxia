@@ -24,4 +24,14 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
+$__title	= 'Accedi al sito';
+$__secure	= 'La connessione &egrave; sicura';
+$__login	= 'Accedi';
+$__nick		= 'Nick';
+$__pass		= 'Password';
+$__submit	= 'Accedi';
+$__login_success	= 'Login effettuato con successo!';
+$__login_error		= 'Credenziali errate';
+$__already_logged	= 'Sei gi&agrave; loggato, se vuoi accedere con un\'altro account prima effettua il <a href="zone_logout.html">Logout</a>';
+$__no_accout		= 'Non hai un\'account? <a href="zone_reg.html">Iscriviti</a>';
 ?>

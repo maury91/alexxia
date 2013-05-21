@@ -1,0 +1,78 @@
+/**
+ *	Login (css) for ALExxia
+ *	
+ *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
+ *
+ *	This file is part of ALExxia.
+ *	
+ *	ALExxia is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *	
+ *	ALExxia is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with ALExxia.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package     alexxia
+ * @author      Maurizio Carboni <maury91@gmail.com>
+ * @copyright   2013 Maurizio Carboni
+ * @license     http://www.gnu.org/licenses/  GNU General Public License
+**/
+.login {
+	position: relative;
+}
+.login h2 {
+	text-align: center;
+	font-size: 1.7em;
+}
+.login .datas {
+	padding: 30px;
+	text-align: center;
+	width: 250px;
+	position: relative;
+	left: 50%;
+	margin-left: -155px;
+}
+.login .datas .label {
+	display: block;
+	font-size: 1.1em;
+}
+.login .datas input[type="text"], .login .datas input[type="password"] {
+	display: block;
+	width: 250px;
+	font-size: 1.1em;
+	padding: 3px;
+	color: #444;
+	border-radius: 3px;
+	border: 1px solid #CCC;
+	text-align: center;
+}
+.login .datas input[type="button"] {
+	width: 150px;
+	color: #444;
+	background: #EEE;
+	border: 1px solid #CCC;
+	margin-top: 30px;
+	font-size: 1.1em;
+	padding: 5px;
+	cursor: pointer;
+	border-radius: 3px;
+}
+.login .info {
+	width: 250px;
+	position: absolute;
+	left: 50%;
+	margin-left: -175px;
+	top: 80px;
+	text-align: center;
+	background: #FFFFF2;
+	border: 1px solid #CCC;
+	padding: 50px;
+	color: #C22;
+	border-radius: 3px;
+}

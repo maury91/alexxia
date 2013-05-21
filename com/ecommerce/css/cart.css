@@ -75,6 +75,16 @@
 	font-weight: bolder;
 	font-family: sans-serif;
 }
+.fp_update {
+	position: absolute;
+	width: 80px;
+	right: 6px;
+	top: 45px;
+	text-decoration: none;
+	color: #F44;
+	cursor: pointer;
+	text-align: center;
+}
 h3,p {
 	padding: 0 1em;
 	color: #A22;

@@ -47,12 +47,7 @@ class USER {
 					self::$user=false;
 				} else {
 					//Hash and check the authcode
-					if (CRYPT::BF_check(COOKIE::val('ale_auth'),$line['sauth'])) {
-						//If is not valid delete the currents cookies
-						COOKIE::set('ale_user');
-						COOKIE::set('ale_auth');
-						self::$user=false;
-					} else {
+					if (CRYPT::BF_check(COOKIE::val('ale_auth'),$user_data['cookieCode'])) {
 						//If is valid update last time the user visit the page
 						DB::update('users',array('last'=>time()),'WHERE id = ',$user_data['id']);
 						//Set the data of the user
@@ -60,6 +55,11 @@ class USER {
 						//Extend the life of the cookies
 						COOKIE::extend('ale_user');
 						COOKIE::extend('ale_auth');
+					} else {
+						//If is not valid delete the currents cookies
+						COOKIE::set('ale_user');
+						COOKIE::set('ale_auth');
+						self::$user=false;
 					}
 				}
 			} else

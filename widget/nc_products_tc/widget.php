@@ -1,8 +1,8 @@
 <?php
 function widget_nc_products_tc() {
-	if (USER::logged()) {
-		//identificazione tipo
-	} else
+	if (USER::logged()) 
+		$u_type=(USER::data('nc_cat')==0)? 1 : intval(USER::data('nc_cat'));
+	else
 		$u_type=1;
 	$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id ORDER BY sells LIMIT 12');
 	$mod = '<div class="list-title with-sardinia">Pi&ugrave; Comprati</div>

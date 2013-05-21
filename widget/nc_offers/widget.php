@@ -1,8 +1,8 @@
 <?php
 function widget_nc_offers() {
-	if (USER::logged()) {
-		//identificazione tipo
-	} else
+	if (USER::logged()) 
+		$u_type=(USER::data('nc_cat')==0)? 1 : intval(USER::data('nc_cat'));
+	else
 		$u_type=1;
 	$prods = DB::simple_select(
 		array(

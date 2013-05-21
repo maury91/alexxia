@@ -124,9 +124,14 @@ $(function() {
 					//Cript the password(3)
 					var pass=CryptoJS.MD5(pass_s).toString()+':'+pass_s.substr(0,29)+'|'+pass_r;
 					//Send the data via secure connection
-					$().secure({host:'',act:'ajax_page',page:{zone:'reg'},params:{captcha : captcha_data,nick : $('#nick').val(),pass : pass,email : $('#email').val(),name : $('#name').val(),lname : $('#lname').val(),extra : $(".extra_data :input").serializeArray()},
+					extra = $(".extra_data :input").serializeArray();
+					extr_ = {};
+					for (i in extra)
+						extr_[extra[i].name] = extra[i].value;
+					$().secure({host:'',act:'ajax_page',page:{zone:'reg'},params:{captcha : captcha_data,nick : $('#nick').val(),pass : pass,email : $('#email').val(),name : $('#name').val(),lname : $('#lname').val(),extra : extr_},
 						user_func:function (data) {
 							//Check if was a error
+							console.log(data);
 							if (data.ok) 
 								$('.registration').html(data.html);
 							else {

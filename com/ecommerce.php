@@ -27,12 +27,27 @@
 **/
 //Ritorna il tipo di utente
 function get_user_type() {
-	if (USER::logged()) {
-		//identificazione tipo
-	} else
+	if (USER::logged()) 
+		return (USER::data('nc_cat')==0)? 1 : intval(USER::data('nc_cat'));
+	else
 		return 1;
 }
-if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
+include(__base_path.'com/ecommerce/lang/'.LANG::short().'.php');
+if (GET::exists('install'))
+	include('ecommerce/install.php');
+else
+if (GET::exists('cart_edit')) { //Modifica elementi dal carrello
+	@session_start();
+	$u_type = get_user_type();
+	$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,MIN(`'.(DB::$pre).'nc__prices`.`price`) as price',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE  `'.(DB::$pre).'nc__products`.`id` = ',GET::val('cart_edit'),'  AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<'.(GET::val('q')+1).' GROUP BY id');
+	$prod_data = @DB::assoc($prod);
+	if (isset($prod_data['id'])) {
+		$_SESSION['nc_cart'][$prod_data['id']] = array('tot'=>intval(GET::val('q')),'price'=>$prod_data['price'],'img'=>$prod_data['image'],'name'=>$prod_data['name']);
+		echo json_encode(array('r'=>'y','data'=>$_SESSION['nc_cart'][$prod_data['id']]));
+	} else
+		echo json_encode(array('r'=>'n'));
+	exit(0);
+} elseif (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 	//Eliminazione in json
 	@session_start();
 	if (!isset($_SESSION['nc_cart']))
@@ -47,15 +62,15 @@ if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 	HTML::add_script('com/ecommerce/js/cart.js');
 	if (!isset($_SESSION['nc_cart']))
 		$_SESSION['nc_cart']=array();
-	echo '<div class="fp_cart"><h2>Carrello</h2>';
+	echo '<div class="fp_cart"><h2>'.$__cart.'</h2>';
 	if (empty($_SESSION['nc_cart'])) {
-		echo '<h3>Il tuo carrello &egrave; vuoto</h3>
-<p>Il tuo carrello &egrave; vuoto. Per aggiungere articoli al tuo carrello naviga sul sito, quando trovi un articolo che ti interessa, clicca su "Aggiungi al carrello".</p>';
+		echo '<h3>'.$__cart_emp.'</h3>
+<p>'.$__cart_empt.'</p>';
 	} else {
-		echo '<script type="text/javascript">__cart_removed = "L\'articolo &egrave; stato rimosso";cart='.json_encode($_SESSION['nc_cart']).'</script>';
+		echo '<script type="text/javascript">__cart_emp = "'.addcslashes($__cart_emp,'"').'";__cart_empt="'.addcslashes($__cart_empt,'"').'";__cart_removed = "'.$__cart_removed.'";cart='.json_encode($_SESSION['nc_cart']).'</script>';
 		if (GET::exists('del')) {
 			if (isset($_SESSION['nc_cart'][GET::val('del')])) {
-				echo '<p class="information">'.$_SESSION['nc_cart'][GET::val('del')]['name'].' &egrave; stato rimosso</p>';
+				echo '<p class="information">'.$_SESSION['nc_cart'][GET::val('del')]['name'].$__cart_rem.'</p>';
 				unset($_SESSION['nc_cart'][GET::val('del')]);
 			}
 		}
@@ -68,7 +83,8 @@ if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 			<a class="fp_cart_name" href="'.$url.'.html">'.$v['name'].'</a>
 			<span class="fp_cart_price">'.$v['price'].' &euro;</span>
 			<input class="fp_cart_q" type="text" value="'.$v['tot'].'" />
-			<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http.'com/ecommerce/cart.html?del='.$k.'">Rimuovi</a></div>
+			<a class="fp_update">Aggiorna</a>
+			<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http.'com/ecommerce/cart.html?del='.$k.'">'.$__remove.'</a></div>
 		</div>';
 		}
 		echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> &euro;</p>';
@@ -84,7 +100,7 @@ if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 	$prod_data = @DB::assoc($prod);
 	if (isset($prod_data['id'])) {
 		$_SESSION['nc_cart'][$prod_data['id']] = array('tot'=>$buyed,'price'=>$prod_data['price'],'img'=>$prod_data['image'],'name'=>$prod_data['name']);
-		echo json_encode(array('r'=>'y','data'=>$_SESSION['nc_cart'][$prod_data['id']],'q'=>DB::debug()));
+		echo json_encode(array('r'=>'y','data'=>$_SESSION['nc_cart'][$prod_data['id']]));
 	} else
 		echo json_encode(array('r'=>'n'));
 	exit(0);
@@ -120,7 +136,6 @@ if (GET::exists('cart_del')) {	//Elimazione elementi dal carrello
 	}
 	echo '</ol>';
 } elseif (GET::exists('show')) {
-	include(__base_path.'com/ecommerce/lang/'.LANG::short().'.php');
 	HTML::add_style('com/ecommerce/css/style.css');
 	HTML::add_script('com/ecommerce/js/script.js');
 	$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`',array('nc__products','nc__translates'),'WHERE `nc__products_ref` = `'.(DB::$pre).'nc__products`.id AND `'.(DB::$pre).'nc__products`.id = ',GET::val('show'),' AND lang = ',LANG::short());

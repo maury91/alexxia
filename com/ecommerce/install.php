@@ -46,7 +46,10 @@ $traduzioniS = DB::create('nc__translatesS');
 $weights = DB::create('nc__weights');
 $users
 	->property('founds')->type('float')->not_null()->end()
-	->property('nc__cat')->type('int')->unsigned()->not_null()->end();
+	->property('nc_cat')->type('int')->unsigned()->not_null()->end()
+	->property('nc_nation')->dimension(3)->not_null()->set_default('IT')->end()
+	->property('nc_soc')->dimension(60)->not_null()->end()
+	->property('nc_piva')->dimension(20)->not_null()->end();
 $categories
 	->belongs_to($categories);
 $traduzioniC
@@ -93,6 +96,7 @@ $prices
 	->belongs_to($categoriesU);
 $categoriesU
 	->property('name')->dimension(30)->not_null()->unique()->end()
+	->property('fixed_sale')->type('float')->not_null()->end()
 	->has_many($users);
 $images
 	->property('url')->dimension(150)->not_null()->end();	

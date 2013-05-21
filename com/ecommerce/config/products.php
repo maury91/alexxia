@@ -105,6 +105,22 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 				}
 				DB::insert('nc__prices',array('price'=>$a['price'],'q_min'=>$min,'q_max'=>$max,'nc__categoriesU_ref'=>$k,'nc__products_ref'=>$prod_id));
 			}
+		//Collegamento prezzi con sconto fisso
+		$fixed_saless = DB::SELECT('*','nc__categoriesU',' WHERE fixed_sale != 0');
+		while ($fs = DB::assoc($fixed_saless)) {
+			list($k,$v) = each($external['add_prod']['prices']);
+			foreach ($v as $a) {
+				if ($a['quantity'][strlen($a['quantity'])-1]=='+') {
+					$min=substr($a['quantity'],0,-1);
+					$max=0;
+				} else {
+					$mm = explode('-',$a['quantity']);
+					$min = $mm[0];
+					$max = $mm[1];
+				}
+				DB::insert('nc__prices',array('price'=>floatval($a['price'])*(100-floatval($fs['fixed_sale']))/100,'q_min'=>$min,'q_max'=>$max,'nc__categoriesU_ref'=>$fs['id'],'nc__products_ref'=>$prod_id));
+			}
+		}
 		//Collegamento dati multi lingua
 		foreach ($external['add_prod']['langs'] as $k=>$v)
 			DB::insert('nc__translates',array('lang'=>$k,'name'=>$v['name'],'descrizione'=>$v['description'],'nc__products_ref'=>$prod_id));
@@ -148,8 +164,9 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 			<h1 contenteditable="true" id="prod_name">Nome Prodotto</h1>
 			<div id="price_accordion">';
 	$pcats = DB::select('*','nc__categoriesU');
-	while($pcat = DB::assoc($pcats))
-	$content['html'] .= '
+	while($pcat = DB::assoc($pcats)) {
+		if ($pcat['fixed_sale']=='0')
+			$content['html'] .= '
 				<h3>Prezzo Utente '.$pcat['name'].'</h3>
 				<div>
 					<div class="left">Prezzo</div><div class="right price_group" id="pc_'.$pcat['id'].'">
@@ -157,6 +174,14 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 						<p><a class="abutton add_price">Aggiungi</a></p>
 					</div>
 				</div>';
+		else
+			$content['html'] .= '
+				<h3>Prezzo Utente '.$pcat['name'].'</h3>
+				<div>
+					Sconto fisso : -'.$pcat['fixed_sale'].'% rispetto al prezzo della prima categoria.
+				</div>
+		';
+	}
 	$content['html'] .= '
 				<h3 id="add_t_price">Aggiungi Tipologia di prezzi</h3>
 			</div>

@@ -52,14 +52,14 @@ if (POST::exists('check')) {		//Ajax control for existent users and emails
 	$act_email = RAND::word(10);
 	//Data to insert in the database
 	$insert_data = array('nick'=>$_CRIPTED['nick'],'password'=>$_CRIPTED['pass'],'email'=>$_CRIPTED['email'],'name' => $_CRIPTED['name'],'lastname' => $_CRIPTED['lname'],'verifyCode' => $act_email);
+	//Inclusion of the file of the language
+	include(LANG::path().'reg.php');
+	//Buil the email
+	$content=str_replace(array('%sitename','%nick','%fname','%lname','%url'), array(GLOBALS::val('sitename'),$_CRIPTED['nick'],$_CRIPTED['name'],$_CRIPTED['lname'],__http.'zone_act.html?nick='.$_CRIPTED['nick'].'&code='.$act_email), $__regemail);
 	//Plug-ins inclusion (if a developer want to make a plug-in that add or alter the data inserted in the database)
 	foreach (PLUGINS::in('core','reg','insert_data') as $p) include($p);
 	//Data is inserted in the database
 	if (DB::insert('users',$insert_data)) {
-		//Inclusion of the file of the language
-		include(LANG::path().'reg.php');
-		//Buil the email
-		$content=str_replace(array('%sitename','%nick','%fname','%lname','%url'), array(GLOBALS::val('sitename'),$_CRIPTED['nick'],$_CRIPTED['name'],$_CRIPTED['lname'],__http.'zone_act.html?nick='.$_CRIPTED['nick'].'&code='.$act_email), $__regemail);
 		//Sending the email
 		if (MAIL::send($_CRIPTED['email'],sprintf($__sbjct,GLOBALS::val('sitename')),$content))
 			SECURE::returns(array('ok'=>true,'html'=>$__regsuccess));		//Email sendend

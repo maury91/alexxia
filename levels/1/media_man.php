@@ -35,7 +35,7 @@ class MEDIA_MAN {
 		if (self::$first&&!$admin) {
 			self::$first=false;
 			//Add the scripts of the media manager
-			HTML::add_script('js/media_man.js','zone_media_man.html?langvars"')
+			HTML::add_script('js/media_man.js','zone_media_man.html?langvars"');
 			//Print the script
 			echo '<script type="text/javascript">__media_man_base_path = "'.__http.'"</script>';
 		}

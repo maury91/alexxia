@@ -25,69 +25,87 @@
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
 session_start();
+//Define base constants
 define('__base_path',dirname(dirname(__FILE__)).'/');
 include(__base_path.'config/infoserver.php');
+define('__http',rtrim(__http_host.__http_path, '/').'/');
 require(__base_path.'admin/levels/0/loader.php');
+//Initialize secure connection
 SECURE::init();
+//Check if is using the secure connection
 if (SECURE::active()) {
-	//Decodifica
+	//Save the data in a support var
 	$input = SECURE::get('params');
 	switch (SECURE::get('action')) {
-		case 'new_token' :
-			$a = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF));
-			$b = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF).crypt_random($min = 0, $max = 0xEFFFFFFF));
-			$_SESSION[$_POST['cr']]['tokens'][$a] = $b;
-			SECURE::returns(array('token'=>$b,'id'=>$a));
-			break;
 		case 'login' :
+			//Default login insuccess
 			$to_c = array('login'=>'no');
+			//Retrieve the data from the database
 			$res = DB2::select('*','admins','WHERE nick = ',$input['nick']);
 			if ($res) {
 				$data = DB2::assoc($res);
+				//Compare the passwords
 				if ((strcmp(md5($input['pass']).':'.substr($input['pass'],0,29),substr($data['password'],0,62))==0)&&(strcmp(md5(substr($data['password'],63,60).$_SESSION[$_POST['cr']]['tokens'][$input['id']]),$input['pass2'])==0)) {
+					//In case of success crypt the "clear" password
 					$new_k = CRYPT::BF(substr($data['password'],63,60),7);
+					//Create a new session
 					$sess_id = base64_encode(crypt_random());
+					//The new key is composed from the old key and a random hash of the  crypted password
 					$_SESSION[$sess_id]['key'] = substr($_SESSION[$_POST['cr']]['key'],0,16).substr(md5($new_k),0,16);
 					$_SESSION[$sess_id]['type'] = 'aes';
 					$_SESSION[$sess_id]['id'] = $data['id'];
+					//Return the data and the random salt for crypt the password
 					$to_c = array('login'=>'ok','sess'=>$sess_id,'tk'=>substr($new_k,0,29));
 				}
 			}
-			//Distruzione token
+			//Destroy token (can't use 2 times)
 			unset($_SESSION[$_POST['cr']]['tokens'][$input['id']]);
+			//Returns the sucess or failure of the login
 			SECURE::returns($to_c);
 			break;
 		case 'salt_pass' :
+			//Make a new token
 			$a = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF));
 			$b = base64_encode(crypt_random($min = 0, $max = 0xEFFFFFFF).crypt_random($min = 0, $max = 0xEFFFFFFF));
 			$_SESSION[$_POST['cr']]['tokens'][$a] = $b;
+			//Retrieve data from the database
 			$salt_a=$salt_b='';
 			$res = DB2::select('*','admins','WHERE nick = ',$input['nick']);
 			if ($res) {
 				$data = DB2::assoc($res);
+				//Retrieve the salt of the hash of the password
 				$salt_a = substr($data['password'],33,29);
 				$salt_b = substr($data['password'],63,29);
 			}
+			//Returns the token data and the salts
 			SECURE::returns(array('token'=>$b,'id'=>$a,'salt_a'=>$salt_a,'salt_b'=>$salt_b));
 			break;
 		case 'area' :
+			//Increase the exection_time (the crypt/encrypt for big data is slow)
 			ini_set('max_execution_time', 100);
+			//No output = error
 			$content=array('r' => 'Error!','in' =>$input);
+			//Check the session
 			if (isset($_SESSION[$_POST['cr']]['id'])) {
-				//Dati utente
+				//Retrieve from the database the data of the user
 				$res = DB2::select('*','admins','WHERE id = ',$_SESSION[$_POST['cr']]['id']);
 				if ($res) {
 					$user = DB2::assoc($res);
+					//Assoc the user
 					USER::admin($user);
+					//Use a support variable for the datas passed as input
 					$external = $input['params'];
+					//Call the script
 					if (file_exists(__base_path.'admin/panel/'.$input['page'].'.php'))
 						include(__base_path.'admin/panel/'.$input['page'].'.php');
 				}
 			}
+			//Return the success
 			SECURE::returns(array('content'=>$content));
 			break;
 	}
 } else {
+	//Initializzation script
 	$__lang = LANG::short();
 ?>
 <!DOCTYPE html>

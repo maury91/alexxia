@@ -136,9 +136,9 @@ class COOKIE extends External {
 		return isset($_COOKIE[$var]);
 	}
 	
-	public static function set($name,$value,$duration=0) {
+	public static function set($name,$value='',$duration=0) {
 		if ($duration)
-			return setcookie($name,$value,time()+$duration*60,dirname(__http_path),$_SERVER['SERVER_NAME'],false,true);
+			return setcookie($name,$value,time()+$duration*60,dirname(__http_path),($_SERVER['SERVER_NAME']=='localhost')?'':$_SERVER['SERVER_NAME'],false,false);
 		else
 			return setcookie($name,$value,0);
 	}
