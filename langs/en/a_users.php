@@ -1,6 +1,6 @@
 <?php
 /**
- *	Logout (lang file) for ALExxia
+ *	Users Management (lang file) for ALExxia
  *	
  *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
  *
@@ -24,6 +24,5 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-$__no_logged	= 'Non sei loggato';
-$__logged_out	= 'Logout effettuato con successo';
+	$__new = 'New';
 ?>

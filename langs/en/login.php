@@ -1,6 +1,6 @@
 <?php
 /**
- *	Logout (lang file) for ALExxia
+ *	Login (lang file) for ALExxia
  *	
  *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
  *
@@ -24,6 +24,14 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-$__no_logged	= 'Non sei loggato';
-$__logged_out	= 'Logout effettuato con successo';
+$__title	= 'Access to site';
+$__secure	= 'The connection is secure';
+$__login	= 'Login';
+$__nick		= 'Username';
+$__pass		= 'Password';
+$__submit	= 'Submit';
+$__login_success	= 'access successfully carried out!';
+$__login_error		= 'incorrect credentials';
+$__already_logged	= 'You are already logged in, if you want to sign in with another account please <a href="zone_logout.html">Logout</a> before';
+$__no_accout		= 'Do not have an account? <a href="zone_reg.html">Sign up</a>';
 ?>

@@ -24,6 +24,6 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-$__no_logged	= 'Non sei loggato';
-$__logged_out	= 'Logout effettuato con successo';
+$__no_logged	= 'Not already logged on';
+$__logged_out	= 'Logout successfully performed';
 ?>

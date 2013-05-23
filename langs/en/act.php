@@ -1,6 +1,6 @@
 <?php
 /**
- *	Logout (lang file) for ALExxia
+ *	User Activation (lang file) for ALExxia
  *	
  *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
  *
@@ -24,6 +24,8 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-$__no_logged	= 'Non sei loggato';
-$__logged_out	= 'Logout effettuato con successo';
+$__no_param = 'Not valid parameters';
+$__invalid	= 'Invalid data, contact administrators to resolve';
+$__actived	= 'Your account has been activated<br/>Click here to login : <a href="%s">Login</a>';
+$__error	= 'Database error, refresh the page';
 ?>
