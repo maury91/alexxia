@@ -1,7 +1,7 @@
 <?php $__langs = array (
-  'en-US' => 
+  'en' => 
   array (
-    'sn' => 'en-US',
+    'sn' => 'en',
     'n' => 'English',
     'a' => 
     array (
@@ -9,9 +9,9 @@
       1 => 'en-US',
     ),
   ),
-  'it-IT' => 
+  'it' => 
   array (
-    'sn' => 'it-IT',
+    'sn' => 'it',
     'n' => 'Italiano',
     'a' => 
     array (
@@ -20,8 +20,8 @@
     ),
   ),
 ); $__flangs = array (
-  'en' => 'en-US',
-  'en-us' => 'en-US',
-  'it' => 'it-IT',
-  'it-it' => 'it-IT',
+  'en' => 'en',
+  'en-us' => 'en',
+  'it' => 'it',
+  'it-it' => 'it',
 ); ?>

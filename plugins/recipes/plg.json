@@ -1,0 +1,6 @@
+[
+	{
+		"file" : "search",
+		"connect" : "com/all_search/search_data"
+	}
+]

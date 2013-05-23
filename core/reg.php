@@ -92,6 +92,8 @@ if (POST::exists('check')) {		//Ajax control for existent users and emails
 	</script>
 	<div title="'.$__secure.'" class="secure_status"><div class="points"></div><div class="img unsecure"></div></div>
 	<div class="registration">
+		<div class="reg_loading">
+		</div>
 		<div class="extra_data">';
 	//Plug-ins inclusion (if a developer want to make a plug-in that add some data in the registration)
 	foreach (PLUGINS::in('core','reg','add_camps1') as $p) include($p);

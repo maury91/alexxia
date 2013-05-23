@@ -344,7 +344,7 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 			)));
 		while ($sale = DB::assoc($sales))
 			echo '<a class="com config_link" href="ecommerce/config/products.php?edit_offer='.$sale['id'].'">'.$sale['sale'].'% ('.date_convert($sale['start']).' - '.date_convert($sale['end']).')</a> ';
-		echo '</td><td><a class="img pr edit"></a> <a class="img del pr"></a> <a class="img pr double"></a></tr>';
+		echo '</td><td><a title="Modifica prodotto" class="img pr edit"></a> <a title="Elimina prodotto" class="img del pr"></a> <a title="Duplica prodotto" class="img pr double"></a></tr>';
 	}
 	echo '</table>';
 }

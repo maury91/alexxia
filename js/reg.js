@@ -23,7 +23,12 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
+var reg_step=0,lat_cost=0.01308996938995747182692768076366,reg_animation;
 $(function() {
+	//Initialize loading
+	for (i=0;i<5;i++)
+		$('.reg_loading').append($('<span></span>').html('&#9679;'));
+	$('.reg_loading').hide();
 	//Initialize the secure connection
 	$().secure_init('',
 		function(stat) {
@@ -115,6 +120,17 @@ $(function() {
 				ok=false;
 		});
 		if (ok) {
+			//Show loading dialog
+			reg_animation = setInterval(function() {
+				reg_step=(reg_step+1)%480;
+				rst=Math.cos(reg_step*Math.PI/240)*480;
+				sst=40;
+				//sst=((reg_step>240)?(480-reg_step)*40/240:reg_step*40/240);
+				$('.reg_loading span').each(function(i,el) {
+					$(this).animate({left : (50-Math.cos((i*25+rst)*lat_cost-1.57)*sst)+'%',top : (50-Math.sin((i*25+rst)*lat_cost-1.57)*sst)+'%'},12);
+				})
+			},12);
+			$('.reg_loading').show();
 			//Cript password(1)
 			salt_a = bcrypt.gensalt(6);
 			bcrypt.hashpw($('#pass').val(), salt_a, function(pass_s) {
@@ -130,6 +146,9 @@ $(function() {
 						extr_[extra[i].name] = extra[i].value;
 					$().secure({host:'',act:'ajax_page',page:{zone:'reg'},params:{captcha : captcha_data,nick : $('#nick').val(),pass : pass,email : $('#email').val(),name : $('#name').val(),lname : $('#lname').val(),extra : extr_},
 						user_func:function (data) {
+							$('.reg_loading').hide();
+							clearInterval(reg_animation);
+							$('html, body').animate({scrollTop: $('.registration').offset().top}, 400);
 							//Check if was a error
 							console.log(data);
 							if (data.ok) 

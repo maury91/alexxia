@@ -1,0 +1,35 @@
+.all_search {
+	padding: 0;
+}
+.all_search li.result {
+	display: block;
+	background: rgba(255,255,255,0.7);
+	padding: 20px;
+	border-bottom: 1px solid #FC9;
+	position: relative;
+	height: 70px;
+}
+.all_search li.result h2.title {
+	position: absolute;
+	left: 133px;
+	top: 0px;
+}
+.all_search li.result .image {
+	width: 100px;
+	height: 90px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+.founded {
+	background: #F77820;
+	padding: 5px 2px;
+	color: #722;
+	padding-left: 10px;
+	margin-bottom: 6px;
+	position: relative;
+	font-weight: bold;
+}

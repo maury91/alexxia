@@ -57,7 +57,7 @@ $menu = array(
 			'class' => '',
 			'image' => '',
 			'text' => 'Categorie',
-			'lang'=>'it-IT',
+			'lang'=>'it',
 			'html'=>'',
 			'module' => 'pr_cats'
 		),
@@ -67,7 +67,7 @@ $menu = array(
 			'class' => '',
 			'image' => '',
 			'text' => 'Categories',
-			'lang'=>'en-US',
+			'lang'=>'en',
 			'html'=>'',
 			'module' => 'pr_cats'
 		)
@@ -95,18 +95,18 @@ $menu = array(
 			'lang'=>'all',
 			'html'=>'',
 			'links' => array(
-				0 => array('text'=>'Offerte','href'=>'offerte.htm','lang'=>'it-IT','class'=>'','image'=>'','html'=>'','level' => 10),
-				1 => array('text'=>'Offers','href'=>'offers.htm','lang'=>'en-US','class'=>'','image'=>'','html'=>'','level' => 10),
-				2 => array('text'=>'Le Nostre Ricette','href'=>'ricette.htm','lang'=>'it-IT','class'=>'','image'=>'','html'=>'','level' => 10),
-				3 => array('text'=>'Food recipes','href'=>'recipes.htm','lang'=>'en-US','class'=>'','image'=>'','html'=>'','level' => 10),
-				4 => array('text'=>'Categorie Prodotti','href'=>'prodotti.htm','lang'=>'it-IT','class'=>'','image'=>'','html'=>'','level' => 10),
-				5 => array('text'=>'Product Categories','href'=>'products.htm','lang'=>'en-US','class'=>'','image'=>'','html'=>'','level' => 10),
-				6 => array('text'=>'Carrello','href'=>'','lang'=>'it-IT','class'=>'cart','image'=>'','html'=>'id="cart_button"','level' => 10),
-				7 => array('text'=>'Cart','href'=>'','lang'=>'en-US','class'=>'cart','image'=>'','html'=>'id="cart_button"','level' => 10),
-				8 => array('text'=>'Il mio profilo','href'=>'zone_profile.html','lang'=>'it-IT','class'=>'cart','image'=>'','html'=>'','level' => 9),
-				9 => array('text'=>'My Account','href'=>'zone_profile.html','lang'=>'en-US','class'=>'cart','image'=>'','html'=>'','level' => 9),
-				10 => array('text'=>'Accedi','href'=>'zone_login.html','lang'=>'it-IT','class'=>'cart','image'=>'','html'=>'','level' => 11),
-				11 => array('text'=>'Sign-in','href'=>'zone_login.html','lang'=>'en-US','class'=>'cart','image'=>'','html'=>'','level' => 11)
+				0 => array('text'=>'Offerte','href'=>'offerte.htm','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 10),
+				1 => array('text'=>'Offers','href'=>'offers.htm','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 10),
+				2 => array('text'=>'Le Nostre Ricette','href'=>'ricette.htm','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 10),
+				3 => array('text'=>'Food recipes','href'=>'recipes.htm','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 10),
+				4 => array('text'=>'Categorie Prodotti','href'=>'prodotti.htm','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 10),
+				5 => array('text'=>'Product Categories','href'=>'products.htm','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 10),
+				6 => array('text'=>'Carrello','href'=>'','lang'=>'it','class'=>'cart','image'=>'','html'=>'id="cart_button"','level' => 10),
+				7 => array('text'=>'Cart','href'=>'','lang'=>'en','class'=>'cart','image'=>'','html'=>'id="cart_button"','level' => 10),
+				8 => array('text'=>'Il mio profilo','href'=>'zone_profile.html','lang'=>'it','class'=>'cart','image'=>'','html'=>'','level' => 9),
+				9 => array('text'=>'My Account','href'=>'zone_profile.html','lang'=>'en','class'=>'cart','image'=>'','html'=>'','level' => 9),
+				10 => array('text'=>'Accedi','href'=>'zone_login.html','lang'=>'it','class'=>'cart','image'=>'','html'=>'','level' => 11),
+				11 => array('text'=>'Sign-in','href'=>'zone_login.html','lang'=>'en','class'=>'cart','image'=>'','html'=>'','level' => 11)
 			)
 		)
 	),

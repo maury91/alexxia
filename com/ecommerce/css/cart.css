@@ -89,3 +89,8 @@ h3,p {
 	padding: 0 1em;
 	color: #A22;
 }
+.cart_buttons {
+	text-align: right;
+	padding: 10px 20px;
+	font-size: 0.9em;
+}

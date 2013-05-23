@@ -70,10 +70,9 @@ abstract class ALESQLDatabase extends ALEDatabase {
 				//WHERE
 				if (isset($v['WHERE'])) {
 					$nq.=' WHERE ';
-					$i = 0;
 					foreach ($v['WHERE'] as $b)	{
 						//odd elements of the array are the congiuntion between a clause and another clause
-						if ($i++&1)
+						if (is_string($b))
 							$nq .= ' '.$b.' ';
 						else {
 							//Transform the query content (add prefix to table name and ect...)

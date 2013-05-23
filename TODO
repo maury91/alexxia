@@ -1,0 +1,62 @@
+TODOS :
+
+	- Ecommerce
+		- Pagamenti
+			- Paypal bozza
+	- Gestione utenti
+		- Hint su tutti i campi
+		- Informazioni sull'utente
+			- Tutti i prodotti comprati
+			- Pagamenti da effettuare (+2*giorni passati)
+			- Merci da spedire (+10)
+			- Pagamento irregolare (+30)
+	- Ecommerce
+		- Spedizioni
+			- Inserire i metodi di spedizione
+			- Calcolo prezzo spese in base ai prodotti comprati
+		- FrontEnd
+			- Scegliere l'indirizzo di spedizione
+			- Mostrare le spese di spedizione
+			- Procedere col pagamento
+		- Ordini
+			- Lista ordini evasi e il loro stato
+			- Aggiornare lo stato degli ordini
+	- Titoli per tutte le pagine
+	- Ecommerce
+		- Pagamenti
+			- Paypal funzionante
+			- Gestione categorie utenti
+		- Scelte di oggi personalizzabili
+
+	--> consegna sito <--
+
+	
+	- Modalità sicura a richiesta
+		- Possibilità di richiedere un nuovo login
+	- Permessi aggiuntivi (2/permissions.php)
+	- Profilo utente
+		- Cambiare informazioni utente (nome,cognome,etc..)
+		- Cambiare password
+	- Ecommerce
+		- Aggiunta produttore
+		- Aggiunta permessi
+	- Gestione utenti
+		- Cambio di livello
+		- Permessi gruppi
+	- Libreria recensioni e commenti
+	- Ecommerce
+		- RichData per prodotti e ricette
+		- Slide dedicate in base al prodotto
+
+	- Login
+		- Limite 3 tentativi poi procedere con captcha+limite di tempo tra un login e l'altro (errori sull'account+errori sull'ip)*1min
+		- Avviso email superati i 3 tentativi
+		- Blocco accessi dall'indirizzo IP per 30 minuti ogni 6 login sbagliati
+		- Non si può fare l'accesso quando si è bannati
+		- Non si può fare l'accesso quando non si ha ancora autenticato l'indirizzo email
+	- finire regole! (3/template.php)
+
+
+
+//PER MATTEO:
+	- Tradurre com/all_search/it.php

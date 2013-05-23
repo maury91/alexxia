@@ -35,6 +35,15 @@ class SECURE {
 		return self::$params!=NULL;
 	}
 	
+	static public function login() {
+
+	}
+
+	static public function is_secure($sess) {
+		
+
+	}
+
 	static public function init() {
 		if (isset($_POST['init']))
 			SECURE::start();

@@ -117,7 +117,7 @@ CLASS CAPTCHA {
 		$col = imageColorAllocate($img, rand()%256, rand()%256, rand()%256);
 		if ($pos==null)
 			$pos=array('x'=>$size+rand()%max(($this->w-$size*2),1),'y'=>$size+rand()%max(($this->h-$size*2),1));
-		imageellipse($img,$pos['x'],$pos['y'],$size,$size,$col);
+		imagearc($img,$pos['x'],$pos['y'],$size,$size,0,359,$col);
 	}
 	
 	public function draw_circle_open($img,$size,$pos=null) {

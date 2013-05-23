@@ -1,0 +1,24 @@
+#recipe_products_win {
+	position: fixed;
+	width: 400px;
+	height: 500px;
+	border: 5px solid #BBB;
+	left: 50%;
+	top: 50%;
+	margin: -250px -200px;
+	background: #FFF;
+	border-radius: 9px;
+	overflow-y: auto;
+	display: none;
+}
+#recipe_products_win li {
+	border: 1px solid #EEE;
+	padding: 10px;
+	display: block;
+	cursor: pointer;
+}
+#recipe_products_win li.title {
+	border: 0;
+	text-align: center;
+	margin-bottom: 10px;
+}

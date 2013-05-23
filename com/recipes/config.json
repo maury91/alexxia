@@ -1,0 +1,8 @@
+[
+	{
+		"page" : "recipes",
+		"name" : {"it-IT" : "Gestisci Ricette","en-US" : "Manage Recipes"},
+		"description" : {"it-IT" : "Gestisci le ricette che potranno essere viste sul tuo sito", "en-US" : ""},
+		"icon" : "icons/recipes.png"
+	}
+]

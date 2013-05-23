@@ -25,6 +25,31 @@
 **/
 .registration {
 	padding: 20px;
+	position: relative;
+}
+.registration .reg_loading {
+	width: 400px;
+	position: absolute;
+	left: 50%;
+	margin-left: -200px;
+	top: 60px;
+	height: 400px;
+	background: #000;
+	opacity: 0.3;
+	border-radius: 200px;
+	overflow: hidden;
+}
+.registration .reg_loading span {
+	font-size: 65px;
+	display: block;
+	width: 59px;
+	text-align: center;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -31px;
+	margin-top: -41px;
+	color: #EEE;
 }
 .registration input[type="text"],.registration input[type="password"],.registration input[type="email"],.registration select {
 	width: 100%;

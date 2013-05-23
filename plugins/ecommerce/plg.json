@@ -10,5 +10,9 @@
 	{
 		"file" : "reg_ins",
 		"connect" : "core/reg/insert_data"
+	},
+	{
+		"file" : "search",
+		"connect" : "com/all_search/search_data"
 	}
 ]

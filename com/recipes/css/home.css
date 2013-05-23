@@ -1,0 +1,58 @@
+.recipes {
+	padding: 0;
+}
+.recipes li {
+	display: block;
+	background: rgba(255,255,255,0.7);
+	padding: 20px;
+	border-bottom: 1px solid #FC9;
+	position: relative;
+	height: 70px;
+}
+ul.recipes li .image {
+	width: 100px;
+	height: 90px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center center;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+
+.title2 h2 {
+position: absolute;
+left: 133px;
+top: -13px;
+}
+
+
+.diff_left{
+	position: absolute;
+	right: 315px;
+	bottom: 18px;
+	font-size: 0.7em;
+	width: 60px;
+	text-align: right;
+}
+
+.diff_right{
+	float: right;
+	width: 101px;
+	position: absolute;
+	right: 200px;
+	bottom: 18px;
+}
+.time_left{
+	position: absolute;
+	left: 578px;
+	top: 77px;
+	font-size: 0.7em;
+}
+.time_right{
+	position: absolute;
+	left: 620px;
+	top: 77px;
+	font-size: 0.7em;
+}
+							

@@ -13,6 +13,11 @@ $__plugins = array(
 			'add_camps2' => array('ecommerce/reg_add2'),
 			'insert_data' => array('ecommerce/reg_ins')
 		)
+	),
+	'com' => array(
+		'all_search' => array(
+			'search_data' => array('ecommerce/search','recipes/search')
+		)
 	)
 );
 ?>

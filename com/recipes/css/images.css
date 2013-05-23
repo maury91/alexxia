@@ -1,0 +1,9 @@
+.img.hat {
+	width:20px;
+	height:20px;
+	background:url(images/hat.png);
+	display:block;
+	float:left;
+	background-size:100%;
+}
+

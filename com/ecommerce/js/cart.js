@@ -1,4 +1,10 @@
 $(function(){
+	$('#cart_next').button({
+        icons: {
+            primary: '', 
+            secondary: 'ui-icon-triangle-1-e'
+        }
+    })
 	$('.fp_cart_del').each(function() {
 		$(this).removeAttr('href').click(function() {
 			id = $(this).closest('.fp_cart_prod').attr('id');
