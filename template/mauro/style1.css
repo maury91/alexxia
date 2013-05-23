@@ -5,11 +5,11 @@
   src: local('Tangerine Bold'), local('Tangerine-Bold'), url(http://themes.googleusercontent.com/static/fonts/tangerine/v3/UkFsr-RwJB_d2l9fIWsx3nhCUOGz7vYGh680lGh-uXM.woff) format('woff');
 }
 body {
-	background-image: url('images/oliveoil.jpg'),url('images/farfalla1.png'),url('images/culurgiones2.jpg'),url('images/2.41.jpg'),url('images/2.41.png');
+	background-image: url('images/oliveoil.jpg'),url('images/manipasta41.jpg'),url('images/2.41.jpg'),url('images/2.41.png');
 	color: #777;
-	background-size: 384px,222px,271px,1383px,1383px;
+	background-size: 384px,271px,1383px,1383px;
 	background-repeat: no-repeat,no-repeat,no-repeat;
-	background-position: -10% 836px, 105% 969px, 106% 1000px,center -10px,center -10px;
+	background-position: -10% 836px, 106% 857px,center 0px,center 0px;
 }
 .wrapper {
 	width: 950px;
