@@ -1,6 +1,6 @@
 <?php
 /**
- *	English (lang file) for ALExxia
+ *	Groups names (lang file) for ALExxia
  *	
  *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
  *
@@ -24,7 +24,12 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-$short_name = 'en';
-$name = 'English';
-$accept = array('en','en-US');
+	$__group_base = array(
+		0 => 'Founder',
+		1 => 'Super-Administrator',
+		2 => 'Administrator',
+		3 => 'Half-Administrator',
+		9 => 'Registered User',
+		10 => 'Visitor',
+		11 => 'Just Visitor' );
 ?>

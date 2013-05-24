@@ -5,11 +5,11 @@
   src: local('Tangerine Bold'), local('Tangerine-Bold'), url(http://themes.googleusercontent.com/static/fonts/tangerine/v3/UkFsr-RwJB_d2l9fIWsx3nhCUOGz7vYGh680lGh-uXM.woff) format('woff');
 }
 body {
-	background-image: url('images/oliveoil.jpg'),url('images/farfalla1.png'),url('images/culurgiones2.jpg'),url('images/2.41.jpg'),url('images/2.41.png');
+	background-image: url('images/oliveoil.jpg'),url('images/manipasta41.jpg'),url('images/2.41.jpg'),url('images/2.41.png');
 	color: #777;
-	background-size: 384px,222px,271px,1383px,1383px;
+	background-size: 384px,271px,1383px,1383px;
 	background-repeat: no-repeat,no-repeat,no-repeat;
-	background-position: -10% 836px, 105% 969px, 106% 1000px,center -10px,center -10px;
+	background-position: -10% 836px, 106% 857px,center 0px,center 0px;
 }
 .wrapper {
 	width: 950px;
@@ -102,13 +102,13 @@ header nav li {
 	min-height: 700px;
 }
 .main .page {
-	width: 815px;
+	width: 845px;
 	display: table-cell;
 	background: url(images/sard.png);
 	background-repeat: no-repeat; 
 	background-position: right;
 	margin-right: 200px; 
-	padding: 15px;
+
 }
 .main .menu_r {
 	width: 250px;
@@ -117,7 +117,7 @@ header nav li {
 	vertical-align: top;
 }
 .page .list {
-	margin: 12px -15px 30px -15px;
+	margin: 12px 0 0 0;
 	padding: 0;
 	overflow-y: hidden;
 }
@@ -134,12 +134,10 @@ header nav li {
 	color: #722;
 	position: relative;
 	font-weight: bold;
-	margin: -15px;
-	margin-bottom: 15px;
 }
 .page .list-title.with-sardinia {
 	background-image: url(images/Sardegna_Carta2.png);
-	background-position: 363px -188px;
+	background-position: 363px -203px;
 	background-repeat: no-repeat;
 }
 .page .list-title:before {

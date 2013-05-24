@@ -1,6 +1,6 @@
 <?php
 /**
- *	English (lang file) for ALExxia
+ *	Logout (lang file) for ALExxia
  *	
  *	Copyright (c) 2013 Maurizio Carboni. All rights reserved.
  *
@@ -24,7 +24,6 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-$short_name = 'en';
-$name = 'English';
-$accept = array('en','en-US');
+$__no_logged	= 'Not already logged on';
+$__logged_out	= 'Logout successfully performed';
 ?>

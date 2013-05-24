@@ -25,5 +25,5 @@
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
 $__no_logged	= 'Non sei loggato';
-$__logged_out	= 'Logout effetuato con successo';
+$__logged_out	= 'Logout effettuato con successo';
 ?>
