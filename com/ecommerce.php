@@ -68,7 +68,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			$(".minicart").css({"left":"25%"});
 		</script>';
 		if (isset($_CRIPTED['shipment'])) {
-			$html = '<div class="payment_data">
+			$html .= '<div class="payment_data">
 			</div>';
 			SECURE::returns(array('content' => array(
 				'html'=>$html,
@@ -109,7 +109,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 		$state_list = '';
 		foreach ($__state_list as $k => $v)
 			$state_list .= '<option value="'.$k.'">'.$v.'</option>';
-		$html = '
+		$html .= '
 		<script type="text/javascript">
 			__invalid_fname = "'.$__invalid_fname.'";
 			__invalid_telephone = "'.$__invalid_telephone.'";
