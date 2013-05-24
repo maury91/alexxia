@@ -68,7 +68,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			$(".minicart").css({"left":"25%"});
 		</script>';
 		if (isset($_CRIPTED['shipment'])) {
-			$html .= '<div class="payment_data">
+			$html = '<div class="payment_data">
 			</div>';
 			SECURE::returns(array('content' => array(
 				'html'=>$html,
