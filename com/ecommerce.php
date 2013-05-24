@@ -39,11 +39,39 @@ else
 if (isset($_CRIPTED)) {	//Parte sicura
 	//Controllo dati
 	$ship_address = DB::select('*','nc__address',' WHERE users_ref = ',USER::data('id'));
-	if (($ship_address)&&($ship_data=DB::assoc($ship_address))) {
+	if ((($ship_address)&&($ship_data=DB::assoc($ship_address)))||isset($_CRIPTED['address'])) {
 		//Dati sulla spedizione già in possesso
-
+		if (isset($_CRIPTED['address'])) {
+			DB::insert('nc__address',array(
+				'fname'=>$_CRIPTED['address']['fname'],
+				'address'=>$_CRIPTED['address']['address'],
+				'address2'=>$_CRIPTED['address']['address2'],
+				'city'=>$_CRIPTED['address']['city'],
+				'province'=>$_CRIPTED['address']['province'],
+				'cap'=>$_CRIPTED['address']['cap'],
+				'state'=>$_CRIPTED['address']['state'],
+				'telephone'=>$_CRIPTED['address']['telephone'],
+				'users_ref'=>USER::data('id')
+				));
+				$html = '';
+		} else $html = '<ul class="cart_status">
+			<li class="minicart"></li>
+			<li>Indirizzo</li>
+			<li>Spedizione</li>
+			<li>Pagamento</li>
+			<li>Riepilogo</li>
+		</ul>
+		<script type="text/javascript">
+			$(".minicart").animate({"left":"25%"});
+		</script>';
+		//Richiesta metodo di spedizione
+		$html .= '
+		';
 	} else {
 		//Chiedi i dati sulla spedizione
+		$state_list = '';
+		foreach ($__state_list as $k => $v)
+			$state_list .= '<option value="'.$k.'">'.$v.'</option>';
 		$html = '
 		<script type="text/javascript">
 			__invalid_fname = "'.$__invalid_fname.'";
@@ -51,27 +79,28 @@ if (isset($_CRIPTED)) {	//Parte sicura
 		</script>
 		<ul class="cart_status">
 			<li class="minicart"></li>
-			<li>Indirizzo</li>
-			<li>Spedizione</li>
-			<li>Pagamento</li>
-			<li>Riepilogo</li>
+			<li>'.$__step_addr.'</li>
+			<li>'.$__step_ship.'</li>
+			<li>'.$__step_pay.'</li>
+			<li>'.$__step_sum.'</li>
 		</ul>
+		<h3 class="title">'.$__title_addr.'</h3>
 		<div class="address_data">
-			<div class="left">Nome e cognome</div>
+			<div class="left">'.$__fname.'</div>
 			<div class="right"><input id="fname" type="text"><span class="info"></span></div>
-			<div class="left">Indirizzo</div>
+			<div class="left">'.$__addr.'</div>
 			<div class="right"><input id="address" type="text" title="Esempio : Via roma 1"></div>
-			<div class="left">Indirizzo 2</div>
+			<div class="left">'.$__addr2.'</div>
 			<div class="right"><input id="address2" type="text" title="Esempio : Secondo piano, interno 1"></div>
-			<div class="left">Citt&agrave</div>
+			<div class="left">'.$__city.'</div>
 			<div class="right"><input id="city" type="text"></div>
-			<div class="left">Provincia</div>
+			<div class="left">'.$__province.'</div>
 			<div class="right"><input id="province" type="text"></div>
-			<div class="left">CAP</div>
+			<div class="left">'.$__cap.'</div>
 			<div class="right"><input id="cap" type="text"></div>
-			<div class="left">Stato</div>
-			<div class="right"><select id="state"><option value="IT">Italia</option></select></div>
-			<div class="left">Telefono (?)</div>
+			<div class="left">'.$__state.'</div>
+			<div class="right"><select id="state">'.$state_list.'</select></div>
+			<div class="left">'.$__telephone.'</div>
 			<div class="right"><input id="telephone" type="text"><span class="info"></span></div>
 		</div>
 		<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__next.'</a>';

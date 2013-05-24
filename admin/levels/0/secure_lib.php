@@ -84,6 +84,9 @@ class SECURE {
 			if (self::$params!=NULL) {
 				self::$session = $_POST['cr'];
 				switch((self::$params['action'])) {
+					case 'test' :
+						SECURE::returns(array('r'=>'y'));
+					break;
 					case 'lang' :
 						include(LANG::path().'login.php');
 						SECURE::returns(array('__login_success' => $__login_success,'__login_error'	=> $__login_error,'__login' => $__login,'__nick' => $__nick,'__pass' => $__pass,'__submit' => $__submit));
