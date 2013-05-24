@@ -159,7 +159,7 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 		$cats .= '<option value="'.$c['id'].'">'.$c['name'].'</option>';
 	$marcs='';
 	$marc = DB::select('*','nc__creators');
-	while ($m = DB::assoc($marc)) 
+	while ($m = @DB::assoc($marc)) 
 		$marcs .= '<option value="'.$m['id'].'">'.$m['name'].'</option>';
 	$media_id = MEDIA_MAN::make('./media',array('png','jpg'), true, true, true, true, true, true, '', '',true);
 	$content['html'] = '
