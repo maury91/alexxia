@@ -38,6 +38,14 @@ if (GET::exists('install'))
 else
 if (isset($_CRIPTED)) {	//Parte sicura
 	//Controllo dati
+	$html = '<ul class="cart_status">
+		<li class="binary"></li>
+		<li class="minicart"></li>
+		<li>'.$__step_addr.'</li>
+		<li>'.$__step_ship.'</li>
+		<li>'.$__step_pay.'</li>
+		<li>'.$__step_sum.'</li>
+	</ul>';
 	$ship_address = DB::select('*','nc__address',' WHERE users_ref = ',USER::data('id'));
 	if ((($ship_address)&&($ship_data=DB::assoc($ship_address)))||isset($_CRIPTED['address'])) {
 		//Dati sulla spedizione già in possesso
@@ -55,43 +63,48 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				));
 			$html = '';
 			$ship_data=$_CRIPTED['address'];
-		} else $html = '<ul class="cart_status">
-			<li class="minicart"></li>
-			<li>'.$__step_addr.'</li>
-			<li>'.$__step_ship.'</li>
-			<li>'.$__step_pay.'</li>
-			<li>'.$__step_sum.'</li>
-		</ul>
-		<h3 class="title">'.$__title_ship.'</h3>
+		} else $html .= '<h3 class="title">'.$__title_ship.'</h3>
 		<script type="text/javascript">
 			$(".minicart").css({"left":"25%"});
 		</script>';
-		//Richiesta metodo di spedizione
-		$html .= '<div class="shipment_data">
-			<div class="left">
-				<h3>'.$__sped_info.'</h3>
-				<span class="ship_to">'.str_replace(array('%fname%','%address%','%city%','%province%','%cap%','%state%'), array($ship_data['fname'],$ship_data['address'],$ship_data['city'],$ship_data['province'],$ship_data['cap'],$ship_data['state']), $__ship_to).'</span>
-				<ul>';
-		foreach($_SESSION['nc_cart'] as $v)
-			$html .= '<li>
-				<span class="sname">'.$v['name'].'</span>
-				<span class="sprice">'.$v['price'].' &euro;</span><span> - </span><span class="squantity">'.$__prod_q.': '.$v['tot'].'</span>
-			</li>';
-		$html .= '</ul>
-			</div>
-			<div class="right">
-				<h3>'.$__ship_mode.'</h3>
-				<ul>
-					<li><input type="radio" checked="checked" class="sped_mode" value="1"/>'.str_replace(array('%time%','%modal%'), array('3-5','corriere'), $__ship_det).'</li>
-				</ul>
-			</div>
-			<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__next.'</a></p>
-		</div>';
-		SECURE::returns(array('content' => array(
-			'html'=>$html,
-			'title'=>$__title_ship,
-			'js' => array(__base_path.'com/ecommerce/js/shipment.js'),
-			'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/shipment.css'))));
+		if (isset($_CRIPTED['shipment'])) {
+			$html = '<div class="payment_data">
+			</div>';
+			SECURE::returns(array('content' => array(
+				'html'=>$html,
+				'title'=>$__title_pay,
+				'js' => array(__base_path.'com/ecommerce/js/shipment.js'),
+				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/shipment.css'))));
+			}
+		} else {
+			//Richiesta metodo di spedizione
+			$html .= '<div class="shipment_data">
+				<div class="left">
+					<h3>'.$__sped_info.'</h3>
+					<span class="ship_to">'.str_replace(array('%fname%','%address%','%city%','%province%','%cap%','%state%'), array($ship_data['fname'],$ship_data['address'],$ship_data['city'],$ship_data['province'],$ship_data['cap'],$ship_data['state']), $__ship_to).'</span>
+					<ul>';
+			foreach($_SESSION['nc_cart'] as $v)
+				$html .= '<li>
+					<span class="sname">'.$v['name'].'</span>
+					<span class="sprice">'.$v['price'].' &euro;</span><span> - </span><span class="squantity">'.$__prod_q.': '.$v['tot'].'</span>
+				</li>';
+			$html .= '</ul>
+				<a class="edit_del" href="'.__http.'com/ecommerce/cart.html">'.$__edit_del.'</a>
+				</div>
+				<div class="right">
+					<h3>'.$__ship_mode.'</h3>
+					<ul>
+						<li><input type="radio" checked="checked" class="sped_mode" value="1"/>'.str_replace(array('%time%','%modal%'), array('3-5','corriere'), $__ship_det).'</li>
+					</ul>
+				</div>
+				<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__next.'</a></p>
+			</div>';
+			SECURE::returns(array('content' => array(
+				'html'=>$html,
+				'title'=>$__title_ship,
+				'js' => array(__base_path.'com/ecommerce/js/shipment.js'),
+				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/shipment.css'))));
+			}
 	} else {
 		//Chiedi i dati sulla spedizione
 		$state_list = '';
@@ -102,13 +115,6 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			__invalid_fname = "'.$__invalid_fname.'";
 			__invalid_telephone = "'.$__invalid_telephone.'";
 		</script>
-		<ul class="cart_status">
-			<li class="minicart"></li>
-			<li>'.$__step_addr.'</li>
-			<li>'.$__step_ship.'</li>
-			<li>'.$__step_pay.'</li>
-			<li>'.$__step_sum.'</li>
-		</ul>
 		<h3 class="title">'.$__title_addr.'</h3>
 		<div class="address_data">
 			<div class="left">'.$__fname.'</div>

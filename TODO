@@ -2,8 +2,7 @@ TODOS :
 
 	- Ecommerce
 		- FrontEnd
-			- Scegliere l'indirizzo di spedizione
-			- Mostrare le spese di spedizione
+			- Mostrare le spese di spedizione /*Dati insufficienti*/
 			- Procedere col pagamento
 		- Pagamenti
 			- Paypal bozza
