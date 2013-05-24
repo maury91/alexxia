@@ -6,6 +6,10 @@ TODOS :
 			- Procedere col pagamento
 		- Pagamenti
 			- Paypal bozza
+
+	- Traduzioni
+		- Gestire errore sottocartelle lingua
+		
 	- Gestione utenti
 		- Hint su tutti i campi
 		- Informazioni sull'utente
