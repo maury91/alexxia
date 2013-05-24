@@ -43,19 +43,33 @@ $geographic = DB::create('nc__geographic');
 $traduzioniG = DB::create('nc__translatesG');
 $shipments = DB::create('nc__shipments');
 $traduzioniS = DB::create('nc__translatesS');
+$address = DB::create('nc__address');
 $weights = DB::create('nc__weights');
+$creators = DB::create('nc__creators');
 $users
 	->property('founds')->type('float')->not_null()->end()
 	->property('nc_cat')->type('int')->unsigned()->not_null()->end()
 	->property('nc_nation')->dimension(3)->not_null()->set_default('IT')->end()
 	->property('nc_soc')->dimension(60)->not_null()->end()
 	->property('nc_piva')->dimension(20)->not_null()->end();
+$address
+	->belongs_to($users)
+	->property('fname')->dimension(120)->not_null()->end()
+	->property('address')->dimension(200)->not_null()->end()
+	->property('address2')->dimension(150)->not_null()->end()
+	->property('city')->dimension(60)->not_null()->end()
+	->property('province')->dimension(10)->not_null()->end()
+	->property('cap')->dimension(12)->not_null()->end()
+	->property('state')->dimension(6)->not_null()->end()
+	->property('telephone')->dimension(15)->not_null()->end();
 $categories
 	->belongs_to($categories);
 $traduzioniC
 	->property('name')->dimension(80)->end()
 	->property('lang')->dimension(5)->not_null()->end()
 	->belongs_to($categories);
+$creators
+	->property('name')->dimension(100)->end();
 $products
 	->property('stars')->type('int')->unsigned()->not_null()->end()
 	->property('sells')->type('int')->unsigned()->not_null()->end()
@@ -65,6 +79,7 @@ $products
 	->property('dimension_L')->type('int')->unsigned()->not_null()->end()
 	->property('peso')->type('float')->not_null()->end()
 	->belongs_to($categories)
+	->belongs_to($creators)
 	->has_many($images)
 	->has_many($orders)
 	->has_many($coupons)
@@ -143,6 +158,7 @@ $weights
 $users->save();
 $categories->save();
 $traduzioniC->save();
+$creators->save();
 $products->save();
 $sconti->save();
 $traduzioni->save();
@@ -159,6 +175,6 @@ $traduzioniG->save();
 $shipments->save();
 $traduzioniS->save();
 $weights->save();
-
+$address->save();
 DB::insert('nc__categoriesU',array('name'=>'Normale'));
 ?>

@@ -27,8 +27,10 @@
 if (isset($external['config'])) {
 	$content = array('html' => '','ext' => $external,'js' => array(),'css' => array());
 	if (file_exists(__base_path.'com/'.$external['config'])) {
-		SCRIPT::base_path(__http_host.__http_path.'com/');
+		SCRIPT::base_path(__base_path.'com/');
+		STYLE::base_path(__http_host.__http_path.'com/');
 		SCRIPT::rel_path(dirname($external['config']).'/');
+		STYLE::rel_path(dirname($external['config']).'/');
 		ob_start();
 		include(__base_path.'com/'.$external['config']);
 		$content['html'] .= ob_get_contents();

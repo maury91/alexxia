@@ -36,7 +36,72 @@ include(__base_path.'com/ecommerce/lang/'.LANG::short().'.php');
 if (GET::exists('install'))
 	include('ecommerce/install.php');
 else
-if (GET::exists('cart_edit')) { //Modifica elementi dal carrello
+if (isset($_CRIPTED)) {	//Parte sicura
+	//Controllo dati
+	$ship_address = DB::select('*','nc__address',' WHERE users_ref = ',USER::data('id'));
+	if (($ship_address)&&($ship_data=DB::assoc($ship_address))) {
+		//Dati sulla spedizione già in possesso
+
+	} else {
+		//Chiedi i dati sulla spedizione
+		$html = '
+		<script type="text/javascript">
+			__invalid_fname = "'.$__invalid_fname.'";
+			__invalid_telephone = "'.$__invalid_telephone.'";
+		</script>
+		<ul class="cart_status">
+			<li class="minicart"></li>
+			<li>Indirizzo</li>
+			<li>Spedizione</li>
+			<li>Pagamento</li>
+			<li>Riepilogo</li>
+		</ul>
+		<div class="address_data">
+			<div class="left">Nome e cognome</div>
+			<div class="right"><input id="fname" type="text"><span class="info"></span></div>
+			<div class="left">Indirizzo</div>
+			<div class="right"><input id="address" type="text" title="Esempio : Via roma 1"></div>
+			<div class="left">Indirizzo 2</div>
+			<div class="right"><input id="address2" type="text" title="Esempio : Secondo piano, interno 1"></div>
+			<div class="left">Citt&agrave</div>
+			<div class="right"><input id="city" type="text"></div>
+			<div class="left">Provincia</div>
+			<div class="right"><input id="province" type="text"></div>
+			<div class="left">CAP</div>
+			<div class="right"><input id="cap" type="text"></div>
+			<div class="left">Stato</div>
+			<div class="right"><select id="state"><option value="IT">Italia</option></select></div>
+			<div class="left">Telefono (?)</div>
+			<div class="right"><input id="telephone" type="text"><span class="info"></span></div>
+		</div>
+		<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__next.'</a>';
+		SECURE::returns(array('content' => array(
+			'html'=>$html,
+			'js' => array(__base_path.'com/ecommerce/js/address.js'),
+			'css' => array(__http.'com/ecommerce/css/address.css'))));
+
+	}
+
+	//1 : Chiedi l'indirizzo e l'indirizzo di pagamento
+	//2 : Scegli la modalità di spedizione
+	/*
+		Spedizione a: %fname%, %indirizzo%, %city%, %provincia%, %cap% %state
+		%Elenco prodotti%
+		--Nome prodotto
+		--Costo - Quantità
+
+		Modifica quantità o rimuovi
+
+	*/
+	//3 : Scegli la modalità di pagamento
+	//4 : Conferma (riepilogo)
+	/*$html = '<p>Scegli un metodo di spedizione (non ancora pronto)</p>
+<div id="ship-methods">
+</div>';*/
+	
+	exit(0);
+
+} elseif (GET::exists('cart_edit')) { //Modifica elementi dal carrello
 	@session_start();
 	$u_type = get_user_type();
 	$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,MIN(`'.(DB::$pre).'nc__prices`.`price`) as price',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE  `'.(DB::$pre).'nc__products`.`id` = ',GET::val('cart_edit'),'  AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<'.(GET::val('q')+1).' GROUP BY id');
@@ -62,49 +127,43 @@ if (GET::exists('cart_edit')) { //Modifica elementi dal carrello
 	HTML::add_script('com/ecommerce/js/cart.js');
 	if (!isset($_SESSION['nc_cart']))
 		$_SESSION['nc_cart']=array();
-	switch (GET::val('cart')) {
-		case '' :
-			echo '<div class="fp_cart"><h2>'.$__cart.'</h2>';
-			if (empty($_SESSION['nc_cart'])) {
-				echo '<h3>'.$__cart_emp.'</h3>
-		<p>'.$__cart_empt.'</p>';
-			} else {
-				echo '<script type="text/javascript">__cart_emp = "'.addcslashes($__cart_emp,'"').'";__cart_empt="'.addcslashes($__cart_empt,'"').'";__cart_removed = "'.$__cart_removed.'";cart='.json_encode($_SESSION['nc_cart']).'</script>';
-				if (GET::exists('del')) {
-					if (isset($_SESSION['nc_cart'][GET::val('del')])) {
-						echo '<p class="information">'.$_SESSION['nc_cart'][GET::val('del')]['name'].$__cart_rem.'</p>';
-						unset($_SESSION['nc_cart'][GET::val('del')]);
-					}
-				}
-				$tot=0;
-				foreach($_SESSION['nc_cart'] as $k=>$v) {
-					$tot += $v['price']*$v['tot'];
-					$url = __http.'com/ecommerce/show/'.$k.'-'.$v['name'];
-					echo '<div id="'.$k.'" class="fp_cart_prod">
-					<a class="fp_cart_img" style="background-image:url('.$v['img'].')" href="'.$url.'.html">&nbsp;</a>
-					<a class="fp_cart_name" href="'.$url.'.html">'.$v['name'].'</a>
-					<span class="fp_cart_price">'.$v['price'].' &euro;</span>
-					<input class="fp_cart_q" type="text" value="'.$v['tot'].'" />
-					<a class="fp_update">Aggiorna</a>
-					<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http.'com/ecommerce/cart.html?del='.$k.'">'.$__remove.'</a></div>
-				</div>';
-				}
-				echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> &euro;</p>
-				<p class="cart_buttons"><a href="'.__http.'com/ecommerce/cart/next.html" class="abutton special" id="cart_next">'.$__proced.'</a>';
+	//Use the secure modal
+	SECURE::libs();
+	echo '<div class="secure_status"><div class="points"></div><div class="img unsecure"></div></div>
+	<div class="fp_cart"><h2>'.$__cart.'</h2>';
+	if (empty($_SESSION['nc_cart'])) {
+		echo '<h3>'.$__cart_emp.'</h3>
+<p>'.$__cart_empt.'</p>';
+	} else {
+		echo '<script type="text/javascript">__cart_emp = "'.addcslashes($__cart_emp,'"').'";__cart_empt="'.addcslashes($__cart_empt,'"').'";__cart_removed = "'.$__cart_removed.'";cart='.json_encode($_SESSION['nc_cart']).'</script>';
+		if (GET::exists('del')) {
+			if (isset($_SESSION['nc_cart'][GET::val('del')])) {
+				echo '<p class="information">'.$_SESSION['nc_cart'][GET::val('del')]['name'].$__cart_rem.'</p>';
+				unset($_SESSION['nc_cart'][GET::val('del')]);
 			}
-			echo '</div>';
-		break;
-		case 'next' :
-			if (!isset($_SESSION['nc_cart']['secure']))
-				$secure = $_SESSION['nc_cart']['secure'] = '';
-			else
-				$secure = $_SESSION['nc_cart']['secure'];
-			if (SECURE::is_secure($secure)) {
-
-			} else
-				$_SESSION['nc_cart']['secure'] = SECURE::login();
-		break;
-	}	
+		}
+		$tot=0;
+		foreach($_SESSION['nc_cart'] as $k=>$v) {
+			$tot += $v['price']*$v['tot'];
+			$url = __http.'com/ecommerce/show/'.$k.'-'.$v['name'];
+			echo '<div id="'.$k.'" class="fp_cart_prod">
+			<a class="fp_cart_img" style="background-image:url('.$v['img'].')" href="'.$url.'.html">&nbsp;</a>
+			<a class="fp_cart_name" href="'.$url.'.html">'.$v['name'].'</a>
+			<span class="fp_cart_price">'.$v['price'].' &euro;</span>
+			<input class="fp_cart_q" type="text" value="'.$v['tot'].'" />
+			<a class="fp_update">Aggiorna</a>
+			<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http.'com/ecommerce/cart.html?del='.$k.'">'.$__remove.'</a></div>
+		</div>';
+		}
+		echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> &euro;</p>
+		<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__proced.'</a>';
+	}
+	echo '</div>';
+		/*case 'next' :
+			$_SESSION['nc_cart']['secure'] = SECURE::login(array(
+				'page' => array('com' => 'ecommerce'),
+				'params' => array()));
+		break;*/
 } elseif (GET::exists('cart_add_json')) {
 	@session_start();
 	if (!isset($_SESSION['nc_cart']))
