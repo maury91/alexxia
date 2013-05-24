@@ -48,7 +48,7 @@ $(function(){
 				console.log(data);
 				$('.address_data').replaceWith(data.content.html);
 				$('h3.title').html(data.content.title);
-				$('.minicart').animate({'left':'25%'});
+				$('.minicart').animate({'left':'25%'},2000);
 			}
 		});
     })
