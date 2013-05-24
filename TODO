@@ -1,6 +1,10 @@
 TODOS :
 
 	- Ecommerce
+		- FrontEnd
+			- Scegliere l'indirizzo di spedizione
+			- Mostrare le spese di spedizione
+			- Procedere col pagamento
 		- Pagamenti
 			- Paypal bozza
 	- Gestione utenti
@@ -13,11 +17,7 @@ TODOS :
 	- Ecommerce
 		- Spedizioni
 			- Inserire i metodi di spedizione
-			- Calcolo prezzo spese in base ai prodotti comprati
-		- FrontEnd
-			- Scegliere l'indirizzo di spedizione
-			- Mostrare le spese di spedizione
-			- Procedere col pagamento
+			- Calcolo prezzo spese in base ai prodotti comprati		
 		- Ordini
 			- Lista ordini evasi e il loro stato
 			- Aggiornare lo stato degli ordini

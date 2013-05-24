@@ -27,20 +27,6 @@
 window.onbeforeunload = function() {
 	return "Se ricaricherai la pagina dovrai rifare il login";
 }
-function load_home_sec(ret) {
-	$('.main').html(ret.content);
-	$('.main .secure_link').each(function(i,el) {
-		$(el).data('page',$(el).attr('href')).removeAttr('href').removeClass('secure_link').addClass('internal_link').click(function() {
-			$().secure({act:'load_page',page:$(this).data('page'),params:[]});
-		});
-	});
-	$('.admin_nav_bar li.com').click(load_com);
-	$('.admin_nav_bar li.usr').click(load_usr);
-	load_com();
-}
-function admin_home() {
-	$().secure({host:admin_host_path,act:'ajax_page',page:'home',params:[],user_func : "load_home_sec"});
-}
 function ajax_request(params) {
 	params.data['config'] = params.url;
 	$().secure({host:admin_host_path,act:'ajax_page',page:params.type+'s',params:params.data,user_func : params.success},"ajax_call");
@@ -289,3 +275,8 @@ function load_usr_sec(ret) {
 function load_usr() {
 	$().secure({host:admin_host_path,act:'ajax_page',page:'users',params:[],user_func : "load_usr_sec"});
 }
+$(function() {
+	load_com();
+	$('.admin_nav_bar li.com').click(load_com);
+	$('.admin_nav_bar li.usr').click(load_usr);
+})

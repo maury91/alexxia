@@ -24,8 +24,9 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-class INCLUDER {
+class SCRIPT {
 	protected static $bpath='',$rpath='';
+	private static $scripts=array();
 
 	public static function base_path($path) {
 		self::$bpath=$path;
@@ -34,10 +35,6 @@ class INCLUDER {
 	public static function rel_path($path) {
 		self::$rpath=$path;
 	}
-
-}
-class SCRIPT extends INCLUDER{
-	private static $scripts=array();
 	
 	public static function add($script,$rpath=null,$bpath=null) {
 		self::$scripts[] = (($bpath!=null)?$bpath:self::$bpath).(($rpath!=null)?$rpath:self::$rpath).$script;
@@ -47,8 +44,17 @@ class SCRIPT extends INCLUDER{
 		return self::$scripts;
 	}
 }
-class STYLE extends INCLUDER{
+class STYLE {
+	protected static $bpath='',$rpath='';
 	private static $styles=array();
+
+	public static function base_path($path) {
+		self::$bpath=$path;
+	}
+	
+	public static function rel_path($path) {
+		self::$rpath=$path;
+	}
 	
 	public static function add($style,$rpath=null,$bpath=null) {
 		self::$styles[] = (($bpath!=null)?$bpath:self::$bpath).(($rpath!=null)?$rpath:self::$rpath).$style;

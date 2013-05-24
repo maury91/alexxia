@@ -29,19 +29,50 @@ set_include_path(__base_path.'admin/levels/0/');
 require_once(__base_path.'admin/levels/0/Crypt/RSA.php');
 
 class SECURE {
-	static private $params;
+	static private $params,$session;
 
 	static public function active() {
 		return self::$params!=NULL;
 	}
 	
-	static public function login() {
-
+	static public function login($next) {
+		//Use the secure modal
+		SECURE::libs();
+		//Add style e script to the head of the page
+		HTML::add_style('css/login.css');
+		HTML::add_script('js/secure_login.js');
+		//Include the language file
+		include(LANG::path().'login.php');
+		//Generate secure key
+		$key = RAND::word(10);
+		//Print the page content
+		echo '<script type="text/javascript">
+			__login_success = "'.$__login_success.'";
+			__login_error	= "'.$__login_error.'";
+			__ext_key		= "'.$key.'";
+			__page			= '.json_encode($next['page']).';
+			__params		= '.json_encode($next['params']).';
+		</script>
+		<div title="'.$__secure.'" class="secure_status"><div class="points"></div><div class="img unsecure"></div></div>
+		<div class="secure login">
+			<h2>'.$__login.'</h2>
+			<div class="datas">
+				<span class="label">'.$__nick.'</span>
+				<input type="text" id="nick" />
+				<span class="label">'.$__pass.'</span>
+				<input type="password" id="pass" />
+				<input type="button" id="dologin" value="'.$__submit.'" />
+			</div>
+			'.$__no_accout.'
+		</div>';
+		return $key;
 	}
 
 	static public function is_secure($sess) {
-		
-
+		if (is_string($sess)&&($sess!=''))
+			return ((isset($_SESSION[self::$session]['ext_key']))&&($_SESSION[self::$session]['ext_key'] == $sess));
+		else
+			return false;
 	}
 
 	static public function init() {
@@ -50,8 +81,21 @@ class SECURE {
 		if (isset($_POST['cr'])&&isset($_POST['data'])) {
 			$data = SECURE::decrypt($_POST['cr'],$_POST['data']);
 			self::$params = json_decode($data,true);
-			if ((self::$params!=NULL)&&(self::$params['action']=='new_aes'))
-				SECURE::new_aes(self::$params['params']['rsa_key']);
+			if (self::$params!=NULL) {
+				self::$session = $_POST['cr'];
+				switch((self::$params['action'])) {
+					case 'lang' :
+						include(LANG::path().'login.php');
+						SECURE::returns(array('__login_success' => $__login_success,'__login_error'	=> $__login_error,'__login' => $__login,'__nick' => $__nick,'__pass' => $__pass,'__submit' => $__submit));
+					break;
+					case 'load_script' :
+						SECURE::returns(array('script' => base64_encode(file_get_contents(self::$params['params']['script']))));
+					break;
+					case 'new_aes' :
+						SECURE::new_aes(self::$params['params']['rsa_key']);
+					break;
+				}
+			}
 		}
 	}
 	

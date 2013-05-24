@@ -46,6 +46,8 @@ if (isset($_CRIPTED)) {
 						$_SESSION[$cookieCode]['key'] = md5($new_k);
 						$_SESSION[$cookieCode]['type'] = 'aes';
 						$_SESSION[$cookieCode]['id'] = $data['id'];
+						if (isset($_CRIPTED['ext_key']))
+							$_SESSION[$cookieCode]['ext_key'] = $_CRIPTED['ext_key'];
 						//Return secure data
 						$to_c = array('login'=>'ok','sess'=>$cookieCode,'tk'=>substr($new_k,0,29));
 					} else

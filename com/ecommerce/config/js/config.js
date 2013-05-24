@@ -25,7 +25,7 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-var p_cur_lang = 'it-IT';
+var p_cur_lang = 'it';
 var p_data = {};
 var langs = [];
 var prod_id = -1;
@@ -34,10 +34,14 @@ product_images=[];
 function choose_img(a) {
 	for (i in a) {
 		//inserisci immagine a[i].n
-		product_images.push(a[i].n);
-		$('.images .thumbs').append($('<span></span>').addClass('thumb').css('background-image','url('+a[i].n+')').mouseenter(function() {
+		id = product_images.push(a[i].n);
+		$('.images .thumbs').append($('<p></p>').data('id',id-1).addClass('thumb').css('background-image','url('+a[i].n+')').mouseenter(function() {
 			$('.images .image').css('background-image',$(this).css('background-image'));
-		}));
+		}).append($('<span></span>').addClass('del').text('x').click(function(){
+			product_images.splice($(this).closest('.thumb').data('id'),1);
+			$(this).closest('.thumb').fadeOut(500,function(){$(this).remove()});
+		})));
+		$('.images .thumbs .thumb:last').trigger('mouseenter');
 	}
 }
 function product_get_all_data() {
@@ -59,12 +63,14 @@ function save_product(save_new) {
 		if ($(el).val() != null)
 			cats.push($(el).val());
 	});
-	to_save = {prices : prices,conf_regalo : {enable : $('#pacco_regalo').is(':checked'),price : $('#regalo_p').html()},peso : $('#peso').html(),cats : cats,images : product_images,langs:p_data,dimensions : {'w' : $('#dimW').html(),'h' : $('#dimH').html(),'l' : $('#dimL').html()},duration : $('#duration').html()};
+	to_save = {prices : prices,conf_regalo : {enable : $('#pacco_regalo').is(':checked'),price : $('#regalo_p').html()},peso : $('#peso').html(),cats : cats,images : product_images,marc : $('.marc').val(),langs:p_data,dimensions : {'w' : $('#dimW').html(),'h' : $('#dimH').html(),'l' : $('#dimL').html()},duration : $('#duration').html()};
 	//COntrolli
 	for (i in prices)
 		for (j in prices[i])
 			if (parseFloat(prices[i][j].price)<=0)
 				return alert('Controlla i prezzi inseriti, i prezzi devono essere maggiori di 0');
+	if ($('.marc').val()==null)
+		return alert('Seleziona una marca');
 	if (cats.length<1)
 		return alert('Seleziona almeno una categoria');
 	if (product_images.length<1)
@@ -152,7 +158,7 @@ $(function() {
 				url : 'ecommerce/config/products.php',
 				success : function(d) {
 					if (d.content.r == 'y') {
-						$('.cat option[value="add"]').before($('<option></option>').val(d.content.id).text(d.content.name['it-IT']));
+						$('.cat option[value="add"]').before($('<option></option>').val(d.content.id).text(d.content.name['it']));
 						$(that).val(d.content.id);
 					}
 				}
@@ -160,6 +166,24 @@ $(function() {
 		}
 	};
 	$('.cat').on('change',cat_change);
+	$('.marc').bind('change',function() {
+		that=this;
+		if($(this).val()=='add') {
+			marc_name = prompt('Nome Marca  : ','nuova marca');
+			if (marc_name)
+				ajax_request({
+					type : 'component',
+					data : {new_marc : marc_name},
+					url : 'ecommerce/config/products.php',
+					success : function(d) {
+						if (d.content.r == 'y') {
+							$('.marc option[value="add"]').before($('<option></option>').val(d.content.id).text(d.content.name));
+							$(that).val(d.content.id);
+						}
+					}
+				});
+		}
+	});
 	$('#add_cat').click(function() {
 		$('.cat:first').clone().insertBefore($('#add_cat').parent());
 		$('.cat').on('change',cat_change);
@@ -236,6 +260,7 @@ function load_product() {
 		}
 	}
 	$('.cat').val(product_data.nc__categories_ref);
+	$('.marc').val(product_data.nc__creators_ref);
 	$('#peso').html(product_data.peso);
 	for (i in product_data.images)
 		choose_img([{n : product_data.images[i].url}])

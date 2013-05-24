@@ -1,0 +1,64 @@
+.cart_status {
+	margin: 5px 0 50px 0;
+	padding: 0;
+	overflow: hidden;
+	position:relative;
+}
+.cart_status li {
+	display: block;
+	float: left;
+	width: 25%;
+	text-align: center;
+	margin-top: 30px;
+	opacity: 0.7;
+}
+.cart_status li.minicart {
+	width: 25%;
+	display: block;
+	position: absolute;
+	height: 30px;
+	background: url(images/cart.png) center no-repeat;
+	top: 0;
+	left: 0;
+	margin: 0;
+	background-size: contain;
+	opacity: 1;
+}
+.address_data {
+	font-size: 1.1em;
+}
+.address_data .left {
+	float: left;
+	width: 150px;
+	padding: 7px 2px;
+	clear: left;
+}
+.right {
+	width: 300px;
+	float: left;
+}
+.address_data input[type="text"],.address_data select {
+	width: 100%;
+	font-size: 1em;
+	color: #555;
+	border-radius: 3px;
+	border: 1px solid #CCC;
+	padding: 3px;
+}
+.address_data select {
+	width: 102.7%;
+}
+.address_data .info {
+	display: block;
+	font-size: 0.7em;
+	width: 100%;
+	text-align: center;
+	background: #FFF;
+	opacity: 0.8;
+	position: relative;
+	top: -2px;
+	left: 2px;
+	padding: 3px 2px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}

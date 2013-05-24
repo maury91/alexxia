@@ -134,14 +134,9 @@ if (SECURE::active()) {
 		<script type="text/javascript" src="js/secure.js"></script>
 		<script type="text/javascript" src="js/isaac.js"></script>
 		<script type="text/javascript" src="js/bCrypt.js"></script>
-		<script type="text/javascript" src="js/admin.js"></script>
 		<script type="text/javascript" src="js/pad-zeropadding-min.js"></script>
 		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>editors/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>js/niiwin.js"></script>
 		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>zone_media_man.html?langvars"></script>
-		<script type="text/javascript" src="js/media_man.js"></script>
-		<script type="text/javascript" src="<?php echo __http_host.__http_path ?>js/jquery.mousewheel.min.js"></script>
-		
 		<script type="text/javascript">
 			host_path = '<?php echo __http_host.__http_path ?>';
 			admin_host_path = 'http://<?php echo $_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME']); ?>/';

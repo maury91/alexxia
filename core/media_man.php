@@ -26,7 +26,7 @@
 **/
 if (GET::exists('langvars')) {
 	header("Content-type: application/x-javascript");
-	include(__base_path.'langs/'.LANG::short().'/media_man.php');
+	include(LANG::path('media_man.php'));
 	echo 'var l__name = "'.$__name.' : ";
 var l__del = "'.$__del_file.'";
 var l__one_file = "'.$__one_file.'";

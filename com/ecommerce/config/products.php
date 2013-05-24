@@ -26,6 +26,7 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
+include(__base_path.'com/ecommerce/config/lang/'.LANG::short().'.php');
 if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 	if (isset($external['edit_offer'])) {
 		function date_convert($d) {
@@ -52,28 +53,28 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 	$content['html'] = '
 	<div class="ins_data">
 		<div class="left">
-			Sconto sui prodotti scelti
+			'.$__sales_on	.'
 		</div>
 		<div class="right">
 			<span contenteditable="true" id="sale">'.$sale.'</span>%
 		</div>
 		<div class="left">
-			Data inizio
+			'.$__start_date.'
 		</div>
 		<div class="right">
 			<input type="text" id="salesStart" value="'.$start.'"/>
 		</div>
 		<div class="left">
-			Data fine
+			'.$__end_date.'
 		</div>
 		<div class="right">
 			<input type="text" id="salesEnd" value="'.$end.'"/>
 		</div>
 		<div class="left">&nbsp;</div>
 		<div class="right">
-			<a class="abutton" id="save_sale">Salva</a>';
+			<a class="abutton" id="save_sale">'.$__save.'</a>';
 	if ($start)
-		$content['html'] .= '<a class="com config_link abutton" href="ecommerce/config/products.php?offer_del='.$sal_id.'">Elimina</a>';
+		$content['html'] .= '<a class="com config_link abutton" href="ecommerce/config/products.php?offer_del='.$sal_id.'">'.$__delete.'</a>';
 	$content['html'] .= '</div>
 	</div>
 	<script>
@@ -139,6 +140,12 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 		$content = array('r' => 'y','id' => $last,'name' => $external['new_cat']);
 	} else
 		$content = array('r' => 'n', 'err' => DB::error());
+} elseif (isset($external['new_marc'])) {
+	$last = DB::insert('nc__creators',array('name' => $external['new_marc']));
+	if ($last) 
+		$content = array('r' => 'y','id' => $last,'name' => $external['new_marc']);
+	else
+		$content = array('r' => 'n', 'err' => DB::error());
 } elseif (isset($external['new_catU'])) {
 	$last = DB::insert('nc__categoriesU',array('name'=>$external['new_catU']));
 	if ($last)
@@ -148,98 +155,109 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 } elseif (isset($external['add'])||isset($external['edit'])) {
 	$cats='';
 	$cat = DB::select(DB::$pre.'nc__categories.id,'.DB::$pre.'nc__translatesC.name',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id GROUP BY '.DB::$pre.'nc__categories.id');
-	while($c = DB::assoc($cat)) {
+	while($c = DB::assoc($cat))
 		$cats .= '<option value="'.$c['id'].'">'.$c['name'].'</option>';
-	}
+	$marcs='';
+	$marc = DB::select('*','nc__creators');
+	while ($m = DB::assoc($marc)) 
+		$marcs .= '<option value="'.$m['id'].'">'.$m['name'].'</option>';
 	$media_id = MEDIA_MAN::make('./media',array('png','jpg'), true, true, true, true, true, true, '', '',true);
 	$content['html'] = '
-	<a title="it-IT" class="img flag it-IT" style="border-bottom: 2px solid #69F;"> </a><a title="en-US" class="img flag en-US"> </a>Clicca sui campi per modificarli
+	<a title="it" class="img flag it-IT" style="border-bottom: 2px solid #69F;"> </a><a title="en" class="img flag en-US"> </a>'.$__click_to_edit.'
 	<div class="product_info">
 		<div class="images">
 			<div class="image"></div>
 			<div class="thumbs"></div>
-			<a class="abutton" style="clear: both;" onclick=\'media_manager({uid : "'.$media_id.'", onSelected : choose_img, dir : "./media/images/",base_path : "'.__http.'"})\'>Aggiungi</a>
+			<a class="abutton" style="clear: both;" onclick=\'media_manager({uid : "'.$media_id.'", onSelected : choose_img, dir : "./media/images/",base_path : "'.__http.'"})\'>'.$__add.'</a>
 		</div>
 		<div class="scheda">
-			<h1 contenteditable="true" id="prod_name">Nome Prodotto</h1>
+			<h1 contenteditable="true" id="prod_name">'.$__prod_name.'</h1>
 			<div id="price_accordion">';
 	$pcats = DB::select('*','nc__categoriesU');
 	while($pcat = DB::assoc($pcats)) {
 		if ($pcat['fixed_sale']=='0')
 			$content['html'] .= '
-				<h3>Prezzo Utente '.$pcat['name'].'</h3>
+				<h3>'.$__user_price.' '.$pcat['name'].'</h3>
 				<div>
-					<div class="left">Prezzo</div><div class="right price_group" id="pc_'.$pcat['id'].'">
-						<p><span class="price">&euro; <span contenteditable="true" class="n_price">0.0</span></span>/<span contenteditable="true" class="price_q">1-2</span> pezzi</p>
-						<p><a class="abutton add_price">Aggiungi</a></p>
+					<div class="left">'.$__price.'</div><div class="right price_group" id="pc_'.$pcat['id'].'">
+						<p><span class="price">&euro; <span contenteditable="true" class="n_price">0.0</span></span>/<span contenteditable="true" class="price_q">1-2</span> '.$__pezzi.'</p>
+						<p><a class="abutton add_price">'.$__add.'</a></p>
 					</div>
 				</div>';
 		else
 			$content['html'] .= '
-				<h3>Prezzo Utente '.$pcat['name'].'</h3>
+				<h3>'.$__user_price.' '.$pcat['name'].'</h3>
 				<div>
-					Sconto fisso : -'.$pcat['fixed_sale'].'% rispetto al prezzo della prima categoria.
+					'.$__fixed_discount.' : -'.$pcat['fixed_sale'].'% ('.$__fixed_discountNT.').
 				</div>
 		';
 	}
 	$content['html'] .= '
-				<h3 id="add_t_price">Aggiungi Tipologia di prezzi</h3>
+				<h3 id="add_t_price">'.$__add_price_type.'</h3>
 			</div>
 			<div class="left">
-				Dimensioni : <br/>
-				Larghezza
+				<b>'.$__dimensions.' : </b>
+			</div>
+			<div class="left">
+				'.$__width.'
 			</div>
 			<div class="right">
 				<span contenteditable="true" id="dimW">0.0</span> cm
 			</div>
 			<div class="left">
-				Altezza
+				'.$__height.'
 			</div>
 			<div class="right">
 				<span contenteditable="true" id="dimH">0.0</span> cm
 			</div>
 			<div class="left">
-				Profondit&agrave;
+				'.$__depth.'
 			</div>
 			<div class="right">
 				<span contenteditable="true" id="dimL">0.0</span> cm
 			</div>
 			<div class="left">
-				Durata (deteroriamento)
+				'.$__life.'
 			</div>
 			<div class="right">
 				<span contenteditable="true" id="duration">0</span> giorni
 			</div>
 			<div class="left">
-				<input type="checkbox" checked="checked" id="pacco_regalo" />Confezione regalo
+				<input type="checkbox" checked="checked" id="pacco_regalo" />'.$__gift.'
 			</div>
 			<div class="right">
 				&euro; <span contenteditable="true" id="regalo_p">0.0</span>
 			</div>
 			<div class="left">
-				Peso
+				'.$__weight.'
 			</div>
 			<div class="right">
 				<span contenteditable="true" id="peso">0.0</span> kg
 			</div>
 			<div class="left">
-				Categorie
+				'.$__category.'
 			</div>
 			<div class="right">
-				<select class="cat"><option disabled selected>Scegli una categoria</option>'.$cats.'<option value="add">Aggiungi</option></select>
+				<select class="cat"><option disabled selected>'.$__category_sel.'</option>'.$cats.'<option value="add">'.$__add.'</option></select>
 				<!--<p><a class="abutton" id="add_cat">Aggiungi un\'altra categoria</a></p>-->
 			</div>
+			<div class="left">
+				'.$__creator.'
+			</div>
+			<div class="right">
+				<select class="marc"><option disabled selected>'.$__creator_sel.'</option>'.$marcs.'<option value="add">'.$__add.'</option></select>
+			</div>
 			<div class="left">&nbsp;</div>
-			<div class="right"><br/><br/><a class="abutton special normal_save" id="prod_save">Salva</a><a class="abutton special special_save" id="prod_save_new">Salva come nuovo</a><a class="abutton special special_save" id="prod_save_over">Salva sul prodotto aperto</a></div>
+			<div class="right"><br/><br/><a class="abutton special normal_save" id="prod_save">'.$__save.'</a><a class="abutton special special_save" id="prod_save_new">'.$__save_new.'</a><a class="abutton special special_save" id="prod_save_over">'.$__save_open.'</a></div>
 		</div>
 		<div class="ale_bar">
 			<ul>
-				<li><a href="#prod_details">Dettagli Prodotto</a></li>
-				<li><a href="#prod_shipments">Spedizioni</a></li>
-				<li><a href="#prod_payments">Pagamenti</a></li>
+				<li><a href="#prod_details">'.$__details.'</a></li>
+				<li><a href="#prod_shipments">'.$__shipments.'</a></li>
+				<li><a href="#prod_payments">'.$__payments.'</a></li>
 			</ul>
 			<div id="prod_details" contenteditable="true">
-				Scrivi qui i dettagli del prodotto
+				'.$__details_here.'
 			</div>
 			<div id="prod_shipments">
 				Da fare...
@@ -268,9 +286,9 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 			$images = DB::select('*','nc__images','WHERE nc__products_ref = ',$prod_data['id']);
 			while ($image = DB::assoc($images))
 				$prod_data['images'][] = $image;
-			$content['html'] .= '<script>product_data = '.json_encode($prod_data).'; setTimeout("load_product()",600)</script>';
+			$content['html'] .= '<script type="text/javascript">product_data = '.json_encode($prod_data).'; setTimeout("load_product()",600)</script>';
 		} else
-			$content['html'] = 'Prodotto inesistente';
+			$content['html'] = $__no_product_found;
 	}
 	SCRIPT::add('js/config.js');
 	STYLE::add('css/style.css','ecommerce/');
@@ -278,7 +296,7 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 	//Eliminazione Offerte
 	if (isset($external['offer_del'])) {
 		if (DB::simple_delete('NxN__nc__productsxnc__sales_sxs',array('WHERE'=>array(array('nc__sales','=',$external['offer_del']))))&&DB::simple_delete('nc__sales',array('WHERE'=>array(array('id','=',$external['offer_del'])))))
-			echo 'Offerta Cancellata<br/>';
+			echo $__sales_del.'<br/>';
 		else
 			echo $GLOBALS['query'];
 	}
@@ -286,13 +304,13 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 	if (isset($external['new_offer'])) {
 		if ($external['new_offer']['id']!=-1) {
 			if (DB::update('nc__sales', array('sale' => $external['new_offer']['sale'],'start' => array('date' => @strtotime($external['new_offer']['start'])),'end' => array('date' => @strtotime($external['new_offer']['end']))),array('WHERE'=>array(array('id','=',$external['new_offer']['id']))))) 
-				echo 'Offerta Modificata<br/>';
+				echo $__sales_edit.'<br/>';
 		} else {
 			$sale_id = DB::insert('nc__sales', array('sale' => $external['new_offer']['sale'],'start' => array('date' => @strtotime($external['new_offer']['start'])),'end' => array('date' => @strtotime($external['new_offer']['end']))));
 			if ($sale_id) {
 				foreach ($external['prod'] as $v)
 					DB::insert('NxN__nc__productsxnc__sales_sxs',array('nc__sales' => $sale_id,'nc__products' => $v));
-				echo 'Offerta Inserita<br/>';
+				echo $__sales_ins.'<br/>';
 			} else
 				echo $GLOBALS['query'].DB::error();
 		}
@@ -300,9 +318,9 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 	//Eliminazione prodotti
 	if (isset($external['del'])) {
 		if (DB::delete('nc__prices','WHERE nc__products_ref = ',$external['del'])&&DB::delete('nc__translates','WHERE nc__products_ref = ',$external['del'])&&DB::delete('nc__images','WHERE nc__products_ref = ',$external['del'])&&DB::delete('nc__products','WHERE id = ',$external['del']))
-			echo 'Il prodotto &egrave; stato eliminato<br/><br/>';
+			echo $__prod_deleted.'<br/><br/>';
 		else
-			echo 'Problemi nell\'eliminazione del prodotto<br/><br/>';
+			echo $__prod_no_del.'<br/><br/>';
 	}
 	//Duplicazione prodotti
 	if (isset($external['double'])) {
@@ -320,14 +338,14 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 				$images = DB::select('*','nc__images','WHERE nc__products_ref = ',$external['double']);
 				while ($image = DB::assoc($images))
 					DB::insert('nc__images',array('nc__products_ref'=>$prod_id,'url'=>$image['url']));
-			} else echo 'Errore nella duplicazione<br/>';
-		} else echo 'Errore nella duplicazione<br/>';
+			} else echo $__copy_error.'<br/>';
+		} else echo $__copy_error.'<br/>';
 	}
 	//Aggiungi prodotto
 	SCRIPT::add('js/home.js');
 	STYLE::add('css/style.css','ecommerce/');
 	STYLE::add('css/icons.css','ecommerce/');
-	echo '<a class="com config_link abutton" href="ecommerce/config/products.php?add">Aggiungi Prodotto</a><a id="offer_add" class="abutton">Aggiungi Offerta</a><script type="text/javascript">$(".abutton").button();</script><br/><br/><table width="100%" cellpadding="0" cellspacing="0"><thead><tr><td>#</td><td>Nome</td><td>Categoria</td><td>Offerte</td><td></td></tr></thead>';
+	echo '<a class="com config_link abutton" href="ecommerce/config/products.php?add">'.$__prod_add.'</a><a id="offer_add" class="abutton">'.$__sales_add.'</a><script type="text/javascript">$(".abutton").button();</script><br/><br/><table width="100%" cellpadding="0" cellspacing="0"><thead><tr><td>#</td><td>'.$__name.'</td><td>'.$__category.'</td><td>'.$__sales.'</td><td></td></tr></thead>';
 	//Lista prodotti
 	$prods = DB::select(DB::$pre.'nc__products.id,'.DB::$pre.'nc__translates.name,'.DB::$pre.'nc__translatesC.name AS cat_name',array('nc__products','nc__translates','nc__translatesC'),'WHERE  `nc__products_ref` =  `'.DB::$pre.'nc__products`.id AND `'.DB::$pre.'nc__translatesC`.`nc__categories_ref` =  `'.DB::$pre.'nc__products`.`nc__categories_ref` GROUP BY id');
 	function date_convert($d) {
@@ -344,7 +362,7 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 			)));
 		while ($sale = DB::assoc($sales))
 			echo '<a class="com config_link" href="ecommerce/config/products.php?edit_offer='.$sale['id'].'">'.$sale['sale'].'% ('.date_convert($sale['start']).' - '.date_convert($sale['end']).')</a> ';
-		echo '</td><td><a title="Modifica prodotto" class="img pr edit"></a> <a title="Elimina prodotto" class="img del pr"></a> <a title="Duplica prodotto" class="img pr double"></a></tr>';
+		echo '</td><td><a title="'.$__prod_edit.'" class="img pr edit"></a> <a title="'.$__prod_del.'" class="img del pr"></a> <a title="'.$__prod_copy.'" class="img pr double"></a></tr>';
 	}
 	echo '</table>';
 }

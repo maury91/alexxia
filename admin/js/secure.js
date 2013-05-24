@@ -32,6 +32,14 @@ function sec_page_load(ret) {
 		});
 	});
 }
+function load_home_sec(ret) {
+	$('.main').html(ret.content.html);
+	$('.main .secure_link').each(function(i,el) {
+		$(el).data('page',$(el).attr('href')).removeAttr('href').removeClass('secure_link').addClass('internal_link').click(function() {
+			$().secure({act:'load_page',page:$(this).data('page'),params:[]});
+		});
+	});
+}
 function supports_history_api() {
 	return !!(window.history && history.pushState);
 }
@@ -132,6 +140,78 @@ var bcrypt=null;
 			call : function (opt,opt2) {
 				if (typeof opt=="string") {
 					switch (opt) {
+						case 'restore' :
+							if ((sessionStorage.ale_sess != undefined)&&(sessionStorage.ale_key != undefined)) {
+								sess = sessionStorage.ale_sess;
+								code = sessionStorage.ale_key;
+								$().secure({host:__http_base,act:'ajax_page',page:opt2.page,params : opt2.params, user_func : function (data) {
+									console.log(data);
+									$(opt2.target).html(data.content.html);
+								}},"ajax_call");
+							} else {
+								//Show login dialog
+								crypto_send({
+									data : {action : "lang",params : []},
+									success : function (e) {
+										data = decrypt(e.cr);
+										__lang = data;
+										$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href',host+'css/login.css')).append($('<link rel="stylesheet" type="text/css" />').attr('href',host+'css/slogin.css'));
+										$(opt2.target).css('position','relative')
+										$('<div></div>').addClass('secure login')
+											.append($('<h2></h2>').html(data.__login))
+											.append($('<div></div>').addClass('datas')
+												.append($('<span></span>').addClass('label').html(data.__nick))
+												.append($('<input/>').attr({'type':'text','id':'nick'}))
+												.append($('<span></span>').addClass('label').html(data.__pass))
+												.append($('<input/>').attr({'type':'password','id':'pass'}))
+												.append($('<input/>').attr({'type':'button','id':'dologin','value':data.__submit}).click(function() {
+														//Request the salt
+														$().secure({host:__http_base,act:'ajax_page',page:{zone:'login'},params:{act : 'salt_pass',nick : $('#nick').val()},
+															user_func:function (data) {
+																//Hash password
+																if (data.salt_a)
+																	bcrypt.hashpw($('#pass').val(), data.salt_a, function(pass_s) {
+																		bcrypt.hashpw($('#pass').val(),data.salt_b,function(pass_r) {
+																			//Send password hashed and do login
+																			$().secure({host:__http_base,act:'ajax_page',page:{zone:'login'},params:{act : 'login',nick : $('#nick').val(),pass : pass_s,pass2 : CryptoJS.MD5(pass_r+data.token).toString(),id : data.id},
+																				user_func:function (dat) {
+																					if (dat.login=='ok') {
+																						//Save key
+																						sessionStorage.ale_sess = dat.sess;
+																						bcrypt.hashpw(pass_r, dat.tk, function(to_aes) {
+																							$().secure('set_sess',{'sess' : dat.sess,'code' : CryptoJS.MD5(to_aes).toString()});
+																							$('.login').html(__lang.__login_success).fadeOut(1500,function(){$(this).remove()});
+																							var key = sessionStorage.ale_key = CryptoJS.MD5(to_aes).toString();
+																							$().secure('set_sess',{sess : dat.sess,code : key});
+																							//and get the next data
+																							$().secure({host:__http_base,act:'ajax_page',page:opt2.page,params : opt2.params, user_func : function (data) {
+																								$(opt2.target).html(data.content.html);
+																							}},"ajax_call");
+																						}, function() {});
+																					} else
+																						login_err();
+																				}
+																			},"ajax_call");
+																		}, function() {});
+																	}, function() {});
+															 	else
+																	login_err();
+															}
+														},"ajax_call");
+													})
+												)
+											).appendTo(opt2.target).hide().fadeIn(600);
+									},
+									error : function() {
+										//Nulla...
+									}
+								});
+							}
+						break;
+						case 'set_sess' :
+							sess = opt2.sess;
+							code = opt2.code;
+						break;
 						case 'session' :
 							return sess;
 						break;
@@ -166,7 +246,7 @@ var bcrypt=null;
 																	code=code.substr(0,16)+CryptoJS.MD5(to_aes).toString().substr(0,16);
 																	$('.main').removeClass('load').html('').show();
 																	$('.login,.logo').slideUp(600);
-																	admin_home();
+																	$().secure({host:admin_host_path,act:'ajax_page',page:'home',params:[],user_func : "load_home_sec"});
 																}, function() {});
 															} else {
 																$('#pass').val('');
@@ -225,8 +305,21 @@ var bcrypt=null;
 												$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href',data.content.css[i]));
 										}
 										if (typeof data.content.js == "object")
-											for (i in data.content.js)
-												$.getScript(data.content.js[i]);
+											for (i in data.content.js) {
+												crypto_send({
+													data : {action : "load_script",params : {script : data.content.js[i]}},
+													progress : pr_func,
+													success : function (e) {
+														var data = decrypt(e.cr);
+														if (data.script)
+															jQuery.globalEval(Base64.decode(data.script))
+													},
+													error : function() {
+														alert('303');
+														console.log('unable to complete operation');
+													}
+												});
+											}
 									}
 									if (opt2=='ajax_call')
 										opt.user_func(data);
@@ -251,7 +344,7 @@ var bcrypt=null;
 					bc_controller = setInterval(bc_enable,250);
 				}
 				$.ajax({
-					url : 'index.php',
+					url : host+'index.php',
 					data : {init : ''},
 					type : 'post',
 					dataType : 'json',

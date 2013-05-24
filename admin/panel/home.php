@@ -24,7 +24,7 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
-$content = '<div class="admin_nav_bar"><ul>
+$content = array('html' => '<div class="admin_nav_bar"><ul>
 <li class="com open">Componenti</li>
 <li class="pag">Pagine</li>
 <li class="men">Gestione Men&ugrave;</li>
@@ -33,5 +33,11 @@ $content = '<div class="admin_nav_bar"><ul>
 <li class="usr">Gestione Utenti</li>
 </ul></div>
 <div id="admin_page">
-</div>';
+</div>',
+	'js' => array(
+		__base_path.'admin/js/admin.js',
+		__base_path.'admin/js/niiwin.js',
+		__base_path.'admin/js/media_man.js',		
+		__base_path.'js/jquery.mousewheel.min.js'
+		));
 ?>

@@ -1,0 +1,11 @@
+.secure.login {
+	width: 400px;
+	position: absolute;
+	left: 50%;
+	margin-left: -200px;
+	top: 100px;
+	background: #FFF;
+	opacity: 0.9;
+	border-radius: 5px;
+	border: 1px solid #EEE;
+}

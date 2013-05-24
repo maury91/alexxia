@@ -113,8 +113,16 @@
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
-	margin-right: 4px;
+	margin: 0 4px 0 0;
 	float: left;
+	position: relative;
+}
+.images .thumbs .thumb .del{
+	color: red;
+	position: absolute;
+	right: 2px;
+	top: -2px;
+	cursor: pointer;
 }
 #recipe {
 	clear: left;
