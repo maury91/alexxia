@@ -17,6 +17,8 @@ $__cart_rem = ' &egrave; stato rimosso';
 $__remove 	= 'Rimuovi';
 $__cart 	= 'Carrello';
 $__proced	= 'Procedi all\'acquisto';
+$__next		= 'Continua';
 $__cart_removed = 'L\'articolo &egrave; stato rimosso';
-
+$__invalid_fname= 'Nome e cognome non validi';
+$__invalid_telephone= 'Numero non valido';
 ?>
