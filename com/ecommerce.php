@@ -53,20 +53,45 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				'telephone'=>$_CRIPTED['address']['telephone'],
 				'users_ref'=>USER::data('id')
 				));
-				$html = '';
+			$html = '';
+			$ship_data=$_CRIPTED['address'];
 		} else $html = '<ul class="cart_status">
 			<li class="minicart"></li>
-			<li>Indirizzo</li>
-			<li>Spedizione</li>
-			<li>Pagamento</li>
-			<li>Riepilogo</li>
+			<li>'.$__step_addr.'</li>
+			<li>'.$__step_ship.'</li>
+			<li>'.$__step_pay.'</li>
+			<li>'.$__step_sum.'</li>
 		</ul>
+		<h3 class="title">'.$__title_ship.'</h3>
 		<script type="text/javascript">
-			$(".minicart").animate({"left":"25%"});
+			$(".minicart").css({"left":"25%"});
 		</script>';
 		//Richiesta metodo di spedizione
-		$html .= '
-		';
+		$html .= '<div class="shipment_data">
+			<div class="left">
+				<h3>'.$__sped_info.'</h3>
+				<span class="ship_to">'.str_replace(array('%fname%','%address%','%city%','%province%','%cap%','%state%'), array($ship_data['fname'],$ship_data['address'],$ship_data['city'],$ship_data['province'],$ship_data['cap'],$ship_data['state']), $__ship_to).'</span>
+				<ul>';
+		foreach($_SESSION['nc_cart'] as $v)
+			$html .= '<li>
+				<span class="sname">'.$v['name'].'</span>
+				<span class="sprice">'.$v['price'].' &euro;</span><span> - </span><span class="squantity">'.$__prod_q.': '.$v['tot'].'</span>
+			</li>';
+		$html .= '</ul>
+			</div>
+			<div class="right">
+				<h3>'.$__ship_mode.'</h3>
+				<ul>
+					<li><input type="radio" checked="checked" class="sped_mode" value="1"/>'.str_replace(array('%time%','%modal%'), array('3-5','corriere'), $__ship_det).'</li>
+				</ul>
+			</div>
+			<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__next.'</a></p>
+		</div>';
+		SECURE::returns(array('content' => array(
+			'html'=>$html,
+			'title'=>$__title_ship,
+			'js' => array(__base_path.'com/ecommerce/js/shipment.js'),
+			'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/shipment.css'))));
 	} else {
 		//Chiedi i dati sulla spedizione
 		$state_list = '';
@@ -102,12 +127,12 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			<div class="right"><select id="state">'.$state_list.'</select></div>
 			<div class="left">'.$__telephone.'</div>
 			<div class="right"><input id="telephone" type="text"><span class="info"></span></div>
-		</div>
-		<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__next.'</a>';
+			<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__next.'</a></p>
+		</div>';
 		SECURE::returns(array('content' => array(
 			'html'=>$html,
 			'js' => array(__base_path.'com/ecommerce/js/address.js'),
-			'css' => array(__http.'com/ecommerce/css/address.css'))));
+			'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/address.css'))));
 
 	}
 

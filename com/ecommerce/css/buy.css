@@ -1,0 +1,26 @@
+.cart_status {
+	margin: 5px 0 50px 0;
+	padding: 0;
+	overflow: hidden;
+	position:relative;
+}
+.cart_status li {
+	display: block;
+	float: left;
+	width: 25%;
+	text-align: center;
+	margin-top: 30px;
+	opacity: 0.7;
+}
+.cart_status li.minicart {
+	width: 25%;
+	display: block;
+	position: absolute;
+	height: 30px;
+	background: url(images/cart.png) center no-repeat;
+	top: 0;
+	left: 0;
+	margin: 0;
+	background-size: contain;
+	opacity: 1;
+}

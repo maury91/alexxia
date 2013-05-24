@@ -1,0 +1,52 @@
+.shipment_data .left {
+	float: left;
+	width: 50%;
+}
+.shipment_data h3 {
+	font-size: 1em;
+}
+.shipment_data .ship_to {
+	font-size: 0.7em;
+	opacity: 0.8;
+}
+.shipment_data .left ul {
+	padding-left: 20px;
+	color: #888;
+}
+.shipment_data li {
+	display: block;
+}
+.shipment_data .left li {
+	display: block;
+	overflow: hidden;
+	height: 53px;
+	float: left;
+	clear: left;
+	border-left: 2px solid #AAA;
+	margin-bottom: 7px;
+	padding-left: 10px;
+}
+.shipment_data .left li span {
+	float: left;
+}
+.shipment_data li .sname {
+	color: #444;
+	font-size: 1.1em;
+}
+.shipment_data li .sprice {
+	clear: left;
+	margin-right: 4px;
+	color: #E66;
+	font-weight: bolder;
+	font-family: sans-serif;
+}
+.shipment_data li .squantity {
+	color: #AAA;
+	font-size: 0.9em;
+	margin-left: 3px;
+	margin-top: 1px;
+}
+.shipment_data .right {
+	float: right;
+	width: 50%;
+}

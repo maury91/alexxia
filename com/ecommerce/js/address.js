@@ -44,10 +44,11 @@ $(function(){
 					state : $('#state').val(),
 					telephone : $('#telephone').val()
 			}},
-			success : function() {
-
+			success : function(data) {
+				console.log(data);
+				$('.address_data').replaceWith(data.content.html);
+				$('.minicart').animate({'left':'25%'});
 			}
 		});
-    	$('.minicart').animate({'left':'25%'});
     })
 })

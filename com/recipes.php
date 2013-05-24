@@ -3,8 +3,6 @@ if (GET::exists('show')) {
 	HTML::add_style('com/ecommerce/css/style.css','com/recipes/css/images.css');
 	HTML::add_script('com/ecommerce/js/script.js');
 	$recipe = DB::select((DB::$pre).'nc__recipes.*,`'.(DB::$pre).'nc__translatesR`.`name`,`'.(DB::$pre).'nc__translatesR`.`ingredients`,`'.(DB::$pre).'nc__translatesR`.`preparation`',array('nc__recipes','nc__translatesR'),'WHERE nc__recipes_ref = '.(DB::$pre).'nc__recipes.id AND '.(DB::$pre).'nc__recipes.id = ',GET::val('show'));
-	
-	
 	if ($recipe) {
 		$recipe = DB::assoc($recipe);
 		echo '<div class="product_info">
@@ -40,10 +38,10 @@ if (GET::exists('show')) {
 			</div>
 			<div id="recip_buy"><ol class="list">';
 		//Lista prodotti
-		if (USER::logged()) {
-			//identificazione tipo
-		} else
-			$u_type=1;
+		if (USER::logged()) 
+			return (USER::data('nc_cat')==0)? 1 : intval(USER::data('nc_cat'));
+		else
+			return 1;
 		$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`',array('NxN__nc__recipesxnc__products_sxs','nc__products','nc__images','nc__translates','nc__prices'),'WHERE nc__products = '.(DB::$pre).'nc__products.id AND nc__recipes = ',$recipe['id'],' AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id');
 		while ($pr = DB::assoc($prods)) {
 			echo '<a href="com_ecommerce.html?show='.$pr['id'].'"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
