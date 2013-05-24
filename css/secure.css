@@ -41,7 +41,9 @@
 	top:50%;
 }
 .secure_status .img.unsecure,.secure_status .img.secure {
-	left: 11px;
-	top: 11px;
+	left: 0px;
+	top: 4px;
 	position: absolute;
 }
+
+

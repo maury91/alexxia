@@ -1,7 +1,7 @@
 <?php
 $__sales_on			= 'Discount on selected products';
 $__start_date		= 'Start date';
-$__end_date			= 'end date';
+$__end_date			= 'End date';
 $__save				= 'Save';
 $__delete			= 'Delete';
 $__add				= 'Add';
