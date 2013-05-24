@@ -50,3 +50,9 @@
 	float: right;
 	width: 50%;
 }
+.shipment_data .edit_del {
+	clear: both;
+	float: left;
+	text-decoration: none;
+	color: #66B;
+}

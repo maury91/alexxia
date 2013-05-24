@@ -75,7 +75,6 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				'title'=>$__title_pay,
 				'js' => array(__base_path.'com/ecommerce/js/shipment.js'),
 				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/shipment.css'))));
-			}
 		} else {
 			//Richiesta metodo di spedizione
 			$html .= '<div class="shipment_data">
