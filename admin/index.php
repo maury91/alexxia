@@ -170,7 +170,7 @@ if (SECURE::active()) {
 		<div class="login">
 			<form onsubmit="{$().secure('do_login');return false;}">
 				<h1>Admin</h1>
-				<p>Nick</p>
+				<p>Username</p>
 				<input type="text" id="nick" />
 				<p>Password</p>
 				<input type="password" id="pass" />
