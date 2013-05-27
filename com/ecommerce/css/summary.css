@@ -1,23 +1,30 @@
-.shipment_data .left {
+.summary_data .left {
 	float: left;
-	width: 48%;
-	padding: 10px;
+	width: 50%;
+	padding: 20px;
 }
-.shipment_data h3 {
+.summary_data h3 {
 	font-size: 1em;
+	clear: both;
 }
-.shipment_data .ship_to {
+.summary_data .ship_to {
 	font-size: 0.7em;
 	opacity: 0.8;
 }
-.shipment_data .left ul {
+.summary_data .left ul {
+	padding-left: 10px;
+}
+.summary_data .left ul.data_ship {
+	font-size: 0.9em;
+}
+.summary_data .left ul.data_cart {
 	padding-left: 20px;
 	color: #888;
 }
-.shipment_data li {
+.summary_data li {
 	display: block;
 }
-.shipment_data .left li {
+.summary_data .left ul.data_cart li {
 	display: block;
 	overflow: hidden;
 	height: 53px;
@@ -27,37 +34,35 @@
 	margin-bottom: 7px;
 	padding-left: 10px;
 }
-.shipment_data .left li span {
+.summary_data .left ul.data_cart li span {
 	float: left;
 }
-.shipment_data li .sname {
+.summary_data ul.data_cart li .sname {
 	color: #444;
 	font-size: 1.1em;
 }
-.shipment_data li .sprice {
+.summary_data ul.data_cart li .sprice {
 	clear: left;
 	margin-right: 4px;
 	color: #E66;
 	font-weight: bolder;
 	font-family: sans-serif;
 }
-.shipment_data li .squantity {
+.summary_data ul.data_cart li .squantity {
 	color: #AAA;
 	font-size: 0.9em;
 	margin-left: 3px;
 	margin-top: 1px;
 }
-.shipment_data .right {
+.summary_data .right {
 	float: right;
-	width: 49%;
-	padding: 10px 0;
+	width: 38%;
+	padding: 20px;
 }
-.shipment_data .right ul {
-	padding: 0 5px;
-}
-.shipment_data .edit_del {
+.summary_data .edit_del {
 	clear: both;
 	float: left;
 	text-decoration: none;
 	color: #66B;
+	margin-bottom: 30px;
 }

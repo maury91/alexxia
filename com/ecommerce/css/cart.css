@@ -86,8 +86,9 @@
 	text-align: center;
 }
 h3,p {
-	padding: 0 1em;
+	padding: 0;
 	color: #A22;
+	margin: 0.5em 0;
 }
 .cart_buttons {
 	text-align: right;
