@@ -25,6 +25,7 @@
  * @copyright   2013 Maurizio Carboni
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
+define('CURRENCY','&euro;');
 //Ritorna il tipo di utente
 function get_user_type() {
 	if (USER::logged()) 
@@ -50,7 +51,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 	if ((($ship_address)&&($ship_data=DB::assoc($ship_address)))||isset($_CRIPTED['address'])) {
 		//Dati sulla spedizione già in possesso
 		if (isset($_CRIPTED['address'])) {
-			DB::insert('nc__address',array(
+			$ship_id = DB::insert('nc__address',array(
 				'fname'=>$_CRIPTED['address']['fname'],
 				'address'=>$_CRIPTED['address']['address'],
 				'address2'=>$_CRIPTED['address']['address2'],
@@ -63,18 +64,68 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				));
 			$html = '';
 			$ship_data=$_CRIPTED['address'];
+			$ship_data['id'] = $ship_id;
 		} else $html .= '<h3 class="title">'.$__title_ship.'</h3>
 		<script type="text/javascript">
 			$(".minicart").css({"left":"25%"});
 		</script>';
-		if (isset($_CRIPTED['shipment'])) {
+		if (isset($_CRIPTED['payment'])) {
+			//Riepilogo
+			$_SESSION['nc_cart_send']['payment'] = $_CRIPTED['payment'];
+			$tot = 0;
+			$html = '<div class="summary_data">
+				<div class="left">
+					<h3>'.$__sped_info.'</h3>
+					<span class="ship_to">'.str_replace(array('%fname%','%address%','%city%','%province%','%cap%','%state%'), array($ship_data['fname'],$ship_data['address'],$ship_data['city'],$ship_data['province'],$ship_data['cap'],$ship_data['state']), $__ship_to).'</span>
+					<ul class="data_cart">';
+			foreach($_SESSION['nc_cart'] as $v) {
+				$tot += floatval($v['price'])*intval($v['tot']);
+				$html .= '<li>
+					<span class="sname">'.$v['name'].'</span>
+					<span class="sprice">'.$v['price'].' '.CURRENCY.'</span><span> - </span><span class="squantity">'.$__prod_q.': '.$v['tot'].'</span>
+				</li>';
+			}
+			$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$_SESSION['nc_cart_send']['payment']));
+			$tot += floatval($__pay['price']);
+			$html .= '</ul>
+					<a class="edit_del" href="'.__http.'com/ecommerce/cart.html">'.$__edit_del.'</a>
+					<h3>'.$__sum_ship.'</h3>
+					<ul class="data_ship">
+						<li>'.str_replace(array('%time%','%modal%'), array('3-5','corriere'), $__ship_det).'</li>
+					</ul>
+				</div>
+				<div class="right">
+					<h3>'.$__sum_pay.'</h3>
+					<span class="pay_meth">'.$__pay['name'].'</span>
+					<h3>'.$__tot.'</h3>
+					<span class="price">'.$tot.' '.CURRENCY.'</span>
+				</div>
+				<p class="cart_buttons"><a class="abutton special" id="cart_end">'.$__order.'</a></p>
+			</div>';
+			SECURE::returns(array('content' => array(
+				'html'=>$html,
+				'title'=>$__title_sum,
+				'js' => array(__base_path.'com/ecommerce/js/summary.js'),
+				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/summary.css'))));
+		} elseif (isset($_CRIPTED['shipment'])) {
+			//Dati pagamento
+			$_SESSION['nc_cart_send'] = array('ship' => $_CRIPTED['shipment']);
 			$html = '<div class="payment_data">
+				<ul>';
+			$pay_methods = DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id');
+			while ($pay_method = DB::assoc($pay_methods))
+				$html .= '<li id="'.$pay_method['id'].'">
+						<h3>'.$pay_method['name'].'</h3>
+						<span class="image" style="background-image:url('.$pay_method['image'].')"></span>'.
+						((floatval($pay_method['price'])>0)?'<span class="price">'.$pay_method['price'].' '.CURRENCY.'</span>':'')
+						.'</li>';
+			$html .= '</ul>
 			</div>';
 			SECURE::returns(array('content' => array(
 				'html'=>$html,
 				'title'=>$__title_pay,
-				'js' => array(__base_path.'com/ecommerce/js/shipment.js'),
-				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/shipment.css'))));
+				'js' => array(__base_path.'com/ecommerce/js/payment.js'),
+				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/payment.css'))));
 		} else {
 			//Richiesta metodo di spedizione
 			$html .= '<div class="shipment_data">
@@ -85,7 +136,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			foreach($_SESSION['nc_cart'] as $v)
 				$html .= '<li>
 					<span class="sname">'.$v['name'].'</span>
-					<span class="sprice">'.$v['price'].' &euro;</span><span> - </span><span class="squantity">'.$__prod_q.': '.$v['tot'].'</span>
+					<span class="sprice">'.$v['price'].' '.CURRENCY.'</span><span> - </span><span class="squantity">'.$__prod_q.': '.$v['tot'].'</span>
 				</li>';
 			$html .= '</ul>
 				<a class="edit_del" href="'.__http.'com/ecommerce/cart.html">'.$__edit_del.'</a>
@@ -208,13 +259,13 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			echo '<div id="'.$k.'" class="fp_cart_prod">
 			<a class="fp_cart_img" style="background-image:url('.$v['img'].')" href="'.$url.'.html">&nbsp;</a>
 			<a class="fp_cart_name" href="'.$url.'.html">'.$v['name'].'</a>
-			<span class="fp_cart_price">'.$v['price'].' &euro;</span>
+			<span class="fp_cart_price">'.$v['price'].' '.CURRENCY.'</span>
 			<input class="fp_cart_q" type="text" value="'.$v['tot'].'" />
 			<a class="fp_update">Aggiorna</a>
 			<div class="fp_cart_actions"><a class="fp_cart_del" href="'.__http.'com/ecommerce/cart.html?del='.$k.'">'.$__remove.'</a></div>
 		</div>';
 		}
-		echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> &euro;</p>
+		echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> '.CURRENCY.'</p>
 		<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__proced.'</a>';
 	}
 	echo '</div>';
@@ -265,7 +316,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			echo '<span class="off">';
 		$desc = substr(strip_tags($pr['descrizione']),0,40);
 		$desc = substr($desc,0,strrpos($desc,' '));
-		echo '</div></div><div class="desc">'.$desc.'</div><span class="price">'.$pr['price'].' &euro;</span></li></a>';
+		echo '</div></div><div class="desc">'.$desc.'</div><span class="price">'.$pr['price'].' '.CURRENCY.'</span></li></a>';
 	}
 	echo '</ol>';
 } elseif (GET::exists('show')) {
@@ -310,7 +361,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 		while ($price = DB::assoc($prices)) {
 			$price['price'] = floatval($price['price'])*(100-$c_sale)/100;
 			if ($first)$tprice=$price['price'];
-			echo '<p '.(($first)?'':'class="secondary"').'><span class="price">&euro; <b class="price_n">'.$price['price'].'</b></span>/<span class="price_q">'.(($price['q_max'])?$price['q_min'].'-'.$price['q_max']:$price['q_min'].'+').'</span> '.$__prod_pi.'</p>';
+			echo '<p '.(($first)?'':'class="secondary"').'><span class="price">'.CURRENCY.' <b class="price_n">'.$price['price'].'</b></span>/<span class="price_q">'.(($price['q_max'])?$price['q_min'].'-'.$price['q_max']:$price['q_min'].'+').'</span> '.$__prod_pi.'</p>';
 			if($first)$first=false;
 		}
 		echo '</div>
@@ -330,7 +381,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				'.$__prod_tp.'
 			</div>
 			<div class="right">
-				<span class="price">&euro; <b class="price_tot">'.$tprice.'</b></span>
+				<span class="price">'.CURRENCY.' <b class="price_tot">'.$tprice.'</b></span>
 			</div>
 			<div class="left">&nbsp;</div>
 			<div class="right"><br/><br/><a class="abutton special">'.$__prod_bn.'</a> <a id="addcart" class="abutton special">'.$__prod_cart.'</a></div>

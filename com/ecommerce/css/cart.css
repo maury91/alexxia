@@ -47,7 +47,7 @@
 	font-weight: bolder;
 	font-family: sans-serif;
 	font-size: 1.2em;
-	width: 60px;
+	width: 100px;
 	top: 15px;
 }
 .fp_cart_prod .fp_cart_q{
@@ -86,8 +86,9 @@
 	text-align: center;
 }
 h3,p {
-	padding: 0 1em;
+	padding: 0;
 	color: #A22;
+	margin: 0.5em 0;
 }
 .cart_buttons {
 	text-align: right;

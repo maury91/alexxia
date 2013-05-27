@@ -1,0 +1,34 @@
+.payment_data ul {
+	padding: 0 0px;
+	border-top: 1px solid #EEE;
+	margin: 0 20px;
+}
+.payment_data li {
+	display: block;
+	background: rgba(255,255,255,0.3);
+	border-bottom: 1px solid #EEE;
+	position: relative;
+	height: 130px;
+	cursor: pointer;
+}
+.payment_data li h3 {
+	margin: 0;
+	padding: 30px 0px 10px 210px;
+}
+.payment_data ul li .price {
+	left: 210px;
+	color: #C66;
+	top: 60px;
+}
+.payment_data ul li .image {
+	border: 1px dashed;
+	display: block;
+	width: 170px;
+	position: absolute;
+	left: 15px;
+	top: 15px;
+	height: 100px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
