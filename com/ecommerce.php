@@ -116,7 +116,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			while ($pay_method = DB::assoc($pay_methods))
 				$html .= '<li id="'.$pay_method['id'].'">
 						<h3>'.$pay_method['name'].'</h3>
-						<span class="image" style="background-image:url('.$pay_method['image'].')"></span>'.
+						<span class="image" style="background-image:url('.__http.'com/ecommerce/payments/'.$pay_method['image'].')"></span>'.
 						((floatval($pay_method['price'])>0)?'<span class="price">'.$pay_method['price'].' '.CURRENCY.'</span>':'')
 						.'</li>';
 			$html .= '</ul>
