@@ -88,7 +88,10 @@
 h3,p {
 	padding: 0;
 	color: #A22;
-	margin: 0.5em 0;
+	margin: 3em 0 0.4em 0;
+}
+.left h3:first-child,.right h3:first-child {
+	margin-top: 0.5em;
 }
 .cart_buttons {
 	text-align: right;

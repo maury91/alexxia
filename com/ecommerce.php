@@ -103,6 +103,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				<div class="left">
 					<h3>'.$__sped_info.'</h3>
 					<span class="ship_to">'.str_replace(array('%fname%','%address%','%city%','%province%','%cap%','%state%'), array($ship_data['fname'],$ship_data['address'],$ship_data['city'],$ship_data['province'],$ship_data['cap'],$ship_data['state']), $__ship_to).'</span>
+					<h3>'.$__prods.'</h3>
 					<ul class="data_cart">';
 			foreach($_SESSION['nc_cart'] as $v) {
 				$tot += floatval($v['price'])*intval($v['tot']);
@@ -114,17 +115,19 @@ if (isset($_CRIPTED)) {	//Parte sicura
 			$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$_SESSION['nc_cart_send']['payment']));
 			$tot += floatval($__pay['price']);
 			$html .= '</ul>
-					<a class="edit_del" href="'.__http.'com/ecommerce/cart.html">'.$__edit_del.'</a>
-					<h3>'.$__sum_ship.'</h3>
-					<ul class="data_ship">
-						<li>'.str_replace(array('%time%','%modal%'), array('3-5','corriere'), $__ship_det).'</li>
-					</ul>
+					<a class="edit_del" href="'.__http.'com/ecommerce/cart.html">'.$__edit_del.'</a>					
 				</div>
 				<div class="right">
 					<h3>'.$__sum_pay.'</h3>
 					<span class="pay_meth">'.$__pay['name'].'</span>
-					<h3>'.$__tot.'</h3>
-					<span class="price">'.$tot.' '.CURRENCY.'</span>
+					<h3>'.$__sum_ship.'</h3>
+					<ul class="data_ship">
+						<li>'.str_replace(array('%time%','%modal%'), array('3-5','corriere'), $__ship_det).'</li>
+					</ul>
+					<div class="tot">
+						<h3>'.$__tot.'</h3>
+						<span class="price">'.$tot.' '.CURRENCY.'</span>
+					</div>
 				</div>
 				<p class="cart_buttons"><a class="abutton special" id="cart_end">'.$__order.'</a></p>
 			</div>';
@@ -158,6 +161,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				<div class="left">
 					<h3>'.$__sped_info.'</h3>
 					<span class="ship_to">'.str_replace(array('%fname%','%address%','%city%','%province%','%cap%','%state%'), array($ship_data['fname'],$ship_data['address'],$ship_data['city'],$ship_data['province'],$ship_data['cap'],$ship_data['state']), $__ship_to).'</span>
+					<h3>'.$__prods.'</h3>
 					<ul>';
 			foreach($_SESSION['nc_cart'] as $v)
 				$html .= '<li>

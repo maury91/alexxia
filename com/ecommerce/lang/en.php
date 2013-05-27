@@ -46,6 +46,7 @@ $__order	= 'Order';
 $__sum_ship = 'Shipment modality';
 $__sum_pay	= 'Payment modality';
 $__tot		= 'Amount';
+$__prods 	= 'Prodotti';
 $__state_list = array(
 	'GB' => 'United Kingdom',
 	'US' => 'United States',
