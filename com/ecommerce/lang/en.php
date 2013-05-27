@@ -34,9 +34,10 @@ $__province = 'Province / district';
 $__cap 		= 'CAP';
 $__state	= 'State';
 $__telephone= 'Telephone';
-$__title_ship	= 'Scegli la modalit&agrave; di spedizione';
-$__sped_info	= 'Informazioni sulla spedizione';
+$__title_ship	= 'Choose the shipment modality';
+$__sped_info	= 'About shipment';
 $__ship_to	= 'Delivery to %fname%, %address%, %city%, %province%, %cap% %state%';
+<<<<<<< HEAD
 $__edit_del = 'Modifica o rimuovi';
 $__ship_mode= 'Scegli una modalit&agrave; di spedizione';
 $__ship_det	= '%time% giorni lavorativi (Spedizione via %modal%)';
@@ -47,6 +48,17 @@ $__sum_ship = 'Modalit&agrave; di spedizione';
 $__sum_pay	= 'Metodo di pagamento';
 $__tot		= 'Totale';
 $__redirect = 'Reindirizzamento a %s';
+=======
+$__edit_del = 'Modify or remove elements';
+$__ship_mode= 'Choose a shipment modality';
+$__ship_det	= '%time% working days (Shipment through %modal%)';
+$__title_pay= 'Payment modality';
+$__title_sum= 'Summary';
+$__order	= 'Order';
+$__sum_ship = 'Shipment modality';
+$__sum_pay	= 'Payment modality';
+$__tot		= 'Amount';
+>>>>>>> 82f975ce8bb3dafb13b0c88ebadec7f46ed8a153
 $__state_list = array(
 	'GB' => 'United Kingdom',
 	'US' => 'United States',

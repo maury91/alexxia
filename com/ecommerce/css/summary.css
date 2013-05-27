@@ -8,8 +8,10 @@
 	clear: both;
 }
 .summary_data .ship_to {
-	font-size: 0.7em;
+	font-size: 0.8em;
 	opacity: 0.8;
+	margin-left: 30px;
+	display: block;
 }
 .summary_data .left ul {
 	padding-left: 10px;
@@ -20,6 +22,7 @@
 .summary_data .left ul.data_cart {
 	padding-left: 20px;
 	color: #888;
+	margin-top: 40px;
 }
 .summary_data li {
 	display: block;
@@ -64,5 +67,19 @@
 	float: left;
 	text-decoration: none;
 	color: #66B;
-	margin-bottom: 30px;
+}
+.pay_meth {
+padding-left: 40px;
+}
+.tot {
+text-align: right;
+color: red;
+padding-top: 25px;
+}
+.price {
+font-size: 1.5em;
+text-align: right;
+margin-left: 215px;
+font-weight: bold;
+color: red;
 }
