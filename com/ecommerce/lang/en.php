@@ -37,21 +37,6 @@ $__telephone= 'Telephone';
 $__title_ship	= 'Choose the shipment modality';
 $__sped_info	= 'About shipment';
 $__ship_to	= 'Delivery to %fname%, %address%, %city%, %province%, %cap% %state%';
-<<<<<<< HEAD
-<<<<<<< HEAD
-$__edit_del = 'Modifica o rimuovi';
-$__ship_mode= 'Scegli una modalit&agrave; di spedizione';
-$__ship_det	= '%time% giorni lavorativi (Spedizione via %modal%)';
-$__title_pay= 'Come vuoi pagare?';
-$__title_sum= 'Riepilogo';
-$__order	= 'Ordina';
-$__sum_ship = 'Modalit&agrave; di spedizione';
-$__sum_pay	= 'Metodo di pagamento';
-$__tot		= 'Totale';
-$__redirect = 'Reindirizzamento a %s';
-=======
-=======
->>>>>>> 82f975ce8bb3dafb13b0c88ebadec7f46ed8a153
 $__edit_del = 'Modify or remove elements';
 $__ship_mode= 'Choose a shipment modality';
 $__ship_det	= '%time% working days (Shipment through %modal%)';
@@ -61,10 +46,6 @@ $__order	= 'Order';
 $__sum_ship = 'Shipment modality';
 $__sum_pay	= 'Payment modality';
 $__tot		= 'Amount';
-<<<<<<< HEAD
->>>>>>> 82f975ce8bb3dafb13b0c88ebadec7f46ed8a153
-=======
->>>>>>> 82f975ce8bb3dafb13b0c88ebadec7f46ed8a153
 $__state_list = array(
 	'GB' => 'United Kingdom',
 	'US' => 'United States',
