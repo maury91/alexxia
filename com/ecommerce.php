@@ -69,7 +69,33 @@ if (isset($_CRIPTED)) {	//Parte sicura
 		<script type="text/javascript">
 			$(".minicart").css({"left":"25%"});
 		</script>';
-		if (isset($_CRIPTED['payment'])) {
+		if (isset($_CRIPTED['end'])) {
+			//Redirect al pagamento
+			$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$_SESSION['nc_cart_send']['payment']));
+			$html='';
+			$js = $css = array();
+			$tot = 0;
+			foreach($_SESSION['nc_cart'] as $v)
+				$tot += floatval($v['price'])*intval($v['tot']);
+			$tot += floatval($__pay['price']);
+			$invoice = DB::insert('nc__orders',array('total' => $tot,'users_ref' => USER::data('id'),'nc__payments_ref' => $__pay['id']));
+			if ($invoice){
+				foreach($_SESSION['nc_cart'] as $k => $v)
+					DB::insert('NxN__quantity_nc__ordersxnc__products',array('nc__orders'=>$invoice,'quantity'=>$v['tot'],'nc__products' => $k));
+				//TODO : coupons
+				include(__base_path.'com/ecommerce/payments/'.$__pay['UNI_ID'].'/payment.php');
+				SECURE::returns(array('content' => array(
+					'html'=>$html,
+					'title'=>sprintf($__redirect,$__pay['name']),
+					'js' => $js,
+					'css' => $css)));
+			} else 
+				SECURE::returns(array('content' => array(
+					'html'=>'ERROR!'.var_export(DB::debug(),true) ,
+					'title'=>'error',
+					'js' => $js,
+					'css' => $css)));
+		} elseif (isset($_CRIPTED['payment'])) {
 			//Riepilogo
 			$_SESSION['nc_cart_send']['payment'] = $_CRIPTED['payment'];
 			$tot = 0;
@@ -106,7 +132,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				'html'=>$html,
 				'title'=>$__title_sum,
 				'js' => array(__base_path.'com/ecommerce/js/summary.js'),
-				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/summary.css'))));
+				'css' => array(__http.'com/ecommerce/css/summary.css'))));
 		} elseif (isset($_CRIPTED['shipment'])) {
 			//Dati pagamento
 			$_SESSION['nc_cart_send'] = array('ship' => $_CRIPTED['shipment']);
@@ -125,7 +151,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 				'html'=>$html,
 				'title'=>$__title_pay,
 				'js' => array(__base_path.'com/ecommerce/js/payment.js'),
-				'css' => array(__http.'com/ecommerce/css/buy.css',__http.'com/ecommerce/css/payment.css'))));
+				'css' => array(__http.'com/ecommerce/css/payment.css'))));
 		} else {
 			//Richiesta metodo di spedizione
 			$html .= '<div class="shipment_data">
@@ -351,7 +377,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 		while ($img=DB::assoc($images))
 			echo '<div class="thumb" style="background-image:url('.$img['url'].')"></div>';
 		echo '</div>
-			<div class="prod_id">'.$__prod_id.' : <span id="prod_id">'.$prod['id'].'</span></div>
+			<div class="prod_id">'.$__prod_id.' : <span id="prod_id">'. $prod['id'].'</span></div>
 		</div>
 		<div class="scheda">
 			<h1 id="prod_name">'.$prod['name'].'</h1>

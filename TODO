@@ -36,14 +36,12 @@ TODOS :
 	--> consegna sito <--
 
 	
-	- Modalità sicura a richiesta
-		- Possibilità di richiedere un nuovo login
 	- Permessi aggiuntivi (2/permissions.php)
 	- Profilo utente
 		- Cambiare informazioni utente (nome,cognome,etc..)
 		- Cambiare password
 	- Ecommerce
-		- Aggiunta produttore
+		- Aggiunta coupons
 		- Aggiunta permessi
 	- Gestione utenti
 		- Cambio di livello

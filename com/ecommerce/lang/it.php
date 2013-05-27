@@ -46,6 +46,7 @@ $__order	= 'Ordina';
 $__sum_ship = 'Modalit&agrave; di spedizione';
 $__sum_pay	= 'Metodo di pagamento';
 $__tot		= 'Totale';
+$__redirect = 'Reindirizzamento a %s';
 $__state_list = array(
 	'IT' => 'Italia',
 	'AF' => 'Afghanistan',
