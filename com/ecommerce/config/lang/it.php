@@ -1,4 +1,5 @@
 <?php
+//Products
 $__sales_on			= 'Sconto sui prodotti scelti';
 $__start_date		= 'Data inizio';
 $__end_date			= 'Data fine';
@@ -44,4 +45,8 @@ $__sales 			= 'Offerte';
 $__prod_edit		= 'Modifica prodotto';
 $__prod_del 		= 'Elimina prodotto';
 $__prod_copy		= 'Duplica prodotto';
+//Payments
+$__pay_add			= 'Aggiungi metodo di pagamento';
+$__pay_edit			= 'Configura metodo di pagamento';
+$__pay_del			= 'Elimina metodo di pagamento';
 ?>
