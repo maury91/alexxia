@@ -104,11 +104,14 @@ abstract class ALESQLDatabase extends ALEDatabase {
 				}
 				//ORDER
 				if (isset($v['ORDER'])) {
-					$nq .= ' ORDER BY ';
-					if (is_array($v['ORDER']))
+					$nq .= ' ORDER ';
+					if (is_array($v['ORDER'])) {
+						$nq .= 'BY ';
+						$last = array_pop($v['ORDER']);
 						$nq .= implode(',',array_map(array($this,'in_apices'),$v['ORDER']));
-					else
-						$nq .=  $this->in_apices($v['ORDER']);
+						$nq .= ' '.$last;
+					} else 
+						$nq .= (substr($v['ORDER'], 0,3) == 'BY ')?$v['ORDER']:'BY '.$this->in_apices($v['ORDER']);
 				}
 				//if is transformed, the array become a string
 				if ($nq!='')

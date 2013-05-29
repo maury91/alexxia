@@ -28,13 +28,11 @@
 function payment_config() {
 	//Carico la pagina
 	//config_load_page(@filename,@type[optional],@params[optional]);
-	console.log($(this).data('id'));
 	config_load_page('com/ecommerce/config/payments.php?pay_config='+$(this).data('id'));
 }
 function payment_del() {
 	//Carico la pagina
 	//config_load_page(@filename,@type[optional],@params[optional]);
-	console.log($(this).data('id'));
 	config_load_page('com/ecommerce/config/payments.php?del='+$(this).data('id'));
 }
 //Inizializzazione

@@ -49,4 +49,19 @@ $__prod_copy		= 'Duplica prodotto';
 $__pay_add			= 'Aggiungi metodo di pagamento';
 $__pay_edit			= 'Configura metodo di pagamento';
 $__pay_del			= 'Elimina metodo di pagamento';
+//Orders
+$__order_user		= 'Utente';
+$__order_pay		= 'Metodo di pagamento';
+$__order_ship		= 'Medoto di spedizione';
+$__order_tot		= 'Valore ordine';
+$__order_status		= 'Stato';
+$__order_data		= 'Data';
+$__order_change		= 'Lo stato dell\'ordine %ord_id% &egrave; cambiato da %old% a %new%';
+$__order_change_sub	= 'Stato ordine cambiato';
+$__order_stat 	= array(
+	0 => 'Non pagato',
+	1 => 'Pagato',
+	2 => 'Spedito',
+	3 => 'Completo'
+	)
 ?>

@@ -1,0 +1,38 @@
+.ajax_row .left {
+	float: left;
+	width: 70%;
+}
+.ajax_row .prod {
+	display: block;
+	height: 60px;
+	padding: 5px;
+	position: relative;
+}
+.ajax_row .prod .image {
+	display: block;
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	width: 50px;
+	height: 50px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.ajax_row .prod .name {
+	position: absolute;
+	left: 65px;
+	top: 5px;
+	color: #449;
+}
+.ajax_row .prod .price {
+	left: 250px;
+	position: absolute;
+	top: 5px;
+	color: #F66;
+}
+.ajax_row .prod .quantity {
+	position: absolute;
+	left: 65px;
+	top: 25px;
+	color: #666;
+}

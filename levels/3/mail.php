@@ -54,7 +54,12 @@ class MAIL {
 		$mail->AltBody = $alt;
 		foreach ($attachments as $v)
 			$mail->AddAttachment($v);
-		return $mail->Send();
+		try {
+			$send = $mail->Send();
+		} catch (phpmailerException $e) {
+		  	return $e->errorMessage(); //Pretty error messages from PHPMailer
+		}
+		return $send;
 	}
 }
 ?>

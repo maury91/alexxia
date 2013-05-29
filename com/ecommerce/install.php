@@ -122,13 +122,14 @@ $coupons
 	->has_many($orders);
 $orders
 	->property('total')->type('float')->not_null()->end()
-	->property('payed')->type('boolean')->not_null()->set_default(0)->end()
+	->property('status')->type('int')->dimension(1)->not_null()->set_default(0)->end()
 	->property('quantity')->type('int')->unsigned()->not_null()->set_default(1)->from($products)->end()
 	->belongs_to($users)
 	->has_many($coupons)
 	->has_many($products)
 	->belongs_to($payments)
-	->belongs_to($shipments);
+	->belongs_to($shipments)
+	->belongs_to($address);
 $payments
 	->property('price')->type('float')->not_null()->end()
 	->property('UNI_ID')->dimension(16)->not_null()->end() 
@@ -167,6 +168,7 @@ $categoriesU->save();
 $prices->save();
 $images->save();
 $coupons->save();
+$address->save();
 $orders->save();
 $payments->save();
 $traduzioniP->save();
@@ -175,6 +177,5 @@ $traduzioniG->save();
 $shipments->save();
 $traduzioniS->save();
 $weights->save();
-$address->save();
 DB::insert('nc__categoriesU',array('name'=>'Normale'));
 ?>

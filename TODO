@@ -1,8 +1,6 @@
 TODOS :
 
-	- Modifica del menu
-	- Login funzionante con INVIO
-	- Bottone avanti attivo quando la connessione sicura è pronta
+	- Modifica del menu					
 	- Ecommerce
 		- FrontEnd
 			- Mostrare le spese di spedizione /*Dati insufficienti*/
@@ -11,7 +9,8 @@ TODOS :
 			- Inviare una mail all'utente quando il pagamento è arrivato
 		- Pagamenti
 			- Paypal funzionante
-			- Configurare paypal
+			- Configurare paypal <--
+	- Bottone avanti attivo quando la connessione sicura è pronta
 	- Gestione utenti
 		- Hint su tutti i campi
 		- Informazioni sull'utente
@@ -22,11 +21,7 @@ TODOS :
 	- Ecommerce
 		- Spedizioni
 			- Inserire i metodi di spedizione
-			- Calcolo prezzo spese in base ai prodotti comprati		
-		- Ordini
-			- Lista ordini evasi e il loro stato
-			- Ordine in base al loro stato
-			- Aggiornare lo stato degli ordini
+			- Calcolo prezzo spese in base ai prodotti comprati			
 	- Titoli per tutte le pagine
 	- Ecommerce
 		- Pagamenti
