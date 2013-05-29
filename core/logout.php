@@ -26,12 +26,14 @@
 **/
 //Include the language file
 include(LANG::path().'logout.php');
-if (USER::logged()) {
+if (USER::logged(false)) {
 	//Destroy session data
 	unset($_SESSION[COOKIE::val('ale_auth')]);
 	//Destroy cookies
 	COOKIE::set('ale_user');
 	COOKIE::set('ale_auth');
+	//Destroy user
+	USER::logout();
 	echo $__logged_out.'<script type="text/javascript">setTimeout(function() { location.href = __http_base},2000);</script>';
 } else
 	echo $__no_logged;

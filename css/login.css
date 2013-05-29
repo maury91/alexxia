@@ -52,7 +52,7 @@
 	border: 1px solid #CCC;
 	text-align: center;
 }
-.login .datas input[type="button"] {
+.login .datas input[type="submit"] {
 	width: 150px;
 	color: #444;
 	background: #EEE;

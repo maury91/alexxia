@@ -140,7 +140,7 @@ class COOKIE extends External {
 		if ($duration)
 			return setcookie($name,$value,time()+$duration*60,'/',($_SERVER['SERVER_NAME']=='localhost')?'':$_SERVER['SERVER_NAME'],false,false);
 		else
-			return setcookie($name,$value,0);
+			return setcookie($name,$value,0,'/',($_SERVER['SERVER_NAME']=='localhost')?'':$_SERVER['SERVER_NAME']);
 	}
 	
 	public static function extend($name) {

@@ -187,12 +187,13 @@ var bcrypt=null;
 										$(opt2.target).css('position','relative')
 										$('<div></div>').addClass('secure login')
 											.append($('<h2></h2>').html(data.__login))
-											.append($('<div></div>').addClass('datas')
+											.append($('<form></form>').addClass('datas')
 												.append($('<span></span>').addClass('label').html(data.__nick))
 												.append($('<input/>').attr({'type':'text','id':'nick'}))
 												.append($('<span></span>').addClass('label').html(data.__pass))
 												.append($('<input/>').attr({'type':'password','id':'pass'}))
-												.append($('<input/>').attr({'type':'button','id':'dologin','value':data.__submit}).click(function() {
+												.append($('<input/>').attr({'type':'submit','value':data.__submit}))
+											).attr('id','dologin').bind('submit',function() {
 														//Request the salt
 														secure_ajax({
 															page:{zone:'login'},
@@ -234,9 +235,9 @@ var bcrypt=null;
 																	login_err();
 															}
 														});
+														return false;
 													})
-												)
-											).appendTo(opt2.target).hide().fadeIn(600);
+											.appendTo(opt2.target).hide().fadeIn(600);
 									},
 									error : function() {
 										//Nulla...

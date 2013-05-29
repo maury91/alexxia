@@ -48,7 +48,7 @@ $(function() {
 			$(".secure_status .img.unsecure").removeClass("unsecure").addClass("secure");
 		}
 	);
-	$('#dologin').click(function() {
+	$('#dologin').bind('submit',function() {
 		//Request the salt
 		$().secure({host:'',act:'ajax_page',page:{zone:'login'},params:{act : 'salt_pass',nick : $('#nick').val()},
 			user_func:function (data) {
@@ -80,5 +80,6 @@ $(function() {
 					login_err();
 			}
 		},"ajax_call");
+		return false;
 	})
 });

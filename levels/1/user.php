@@ -31,9 +31,9 @@ class USER {
 	protected static $user=null;
 
 	//Load the user
-	protected static function load() {
+	protected static function load($renew=true) {
 		//If is not loaded yet
-		if (self::$user==null) {
+		if (self::$user===null) {
 			//Search for a cookie of the user
 			if (COOKIE::exists('ale_user')) {
 				$nick = COOKIE::val('ale_user');
@@ -52,9 +52,11 @@ class USER {
 						DB::update('users',array('last'=>time()),'WHERE id = ',$user_data['id']);
 						//Set the data of the user
 						self::$user=$user_data;
-						//Extend the life of the cookies
-						COOKIE::extend('ale_user');
-						COOKIE::extend('ale_auth');
+						if ($renew) {
+							//Extend the life of the cookies
+							COOKIE::extend('ale_user');
+							COOKIE::extend('ale_auth');
+						}
 					} else {
 						//If is not valid delete the currents cookies
 						COOKIE::set('ale_user');
@@ -73,14 +75,14 @@ class USER {
 	}
 	
 	//Check if the user is logged
-	public static function logged() {
-		self::load();
+	public static function logged($renew=true) {
+		self::load($renew);
 		return (self::$user===false)?false:true;
 	}
 	
 	//Retrieve the level of the user
-	public static function level() {
-		self::load();
+	public static function level($renew=true) {
+		self::load($renew);
 		return (self::$user===false)?10:self::$user['level'];
 	}
 	
@@ -91,6 +93,11 @@ class USER {
 			return false;
 		else
 			return self::$user[$k];
+	}
+
+	//Logout user
+	public static function logout() {
+		self::$user=false;
 	}
 }
 ?>

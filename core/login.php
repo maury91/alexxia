@@ -88,7 +88,7 @@ if (isset($_CRIPTED)) {
 		SECURE::libs();
 		//Add style e script to the head of the page
 		HTML::add_style('css/login.css');
-		HTML::add_script('js/login.js');	
+		HTML::add_script('js/login.js');
 		//Print the page content
 		echo '<script type="text/javascript">
 			__login_success = "'.$__login_success.'";
@@ -97,13 +97,13 @@ if (isset($_CRIPTED)) {
 		<div title="'.$__secure.'" class="secure_status"><div class="points"></div><div class="img unsecure"></div></div>
 		<div class="login">
 			<h2>'.$__login.'</h2>
-			<div class="datas">
+			<form id="dologin" class="datas">
 				<span class="label">'.$__nick.'</span>
 				<input type="text" id="nick" />
 				<span class="label">'.$__pass.'</span>
 				<input type="password" id="pass" />
-				<input type="button" id="dologin" value="'.$__submit.'" />
-			</div>
+				<input type="submit" value="'.$__submit.'" />
+			</form>
 			'.$__no_accout.'
 		</div>';
 	}
