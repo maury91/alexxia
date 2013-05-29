@@ -1,4 +1,4 @@
-.img.pr {
+.img.pr,.img.pay {
 	width:48px;
 	height:48px;
 	background-size:100%;
@@ -15,4 +15,10 @@
 }
 .img.pr.edit {
 	background-image:url(images/edit.png);
+}
+.img.pay.del {
+	background-image:url(images/pay_del.png);
+}
+.img.pay.edit {
+	background-image:url(images/pay_edit.png);
 }

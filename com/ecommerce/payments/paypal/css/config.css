@@ -1,0 +1,14 @@
+.paypal_config .left {
+	width: 100px;
+	display: block;
+	float: left;
+	font-size: 1.2em;
+	clear: left;
+}
+.paypal_config .right {
+	float: left;
+	font-size: 1.2em;
+}
+.paypal_config .abutton {
+	font-size: 0.7em;
+}
