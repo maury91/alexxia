@@ -26,6 +26,7 @@ header .cerca {
 	right: 20px;
 	top: 87px;
 }
+
 header .cerca input[type="text"] {
 	padding: 3px;
 	border: 1px solid #EEE;
@@ -115,6 +116,9 @@ header nav li {
 	display: table-cell;
 	border-left: 1px solid #EB2;
 	vertical-align: top;
+}
+.main .menu_r nav {
+	margin-bottom: 40px;
 }
 .page .list {
 	margin: 12px -15px 30px -15px;
