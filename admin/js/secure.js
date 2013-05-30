@@ -44,7 +44,8 @@ function supports_history_api() {
 	return !!(window.history && history.pushState);
 }
 function secure_ajax(opt) {
-	$().secure({host:__http_base,act:'ajax_page',page:opt.page,params : opt.params, user_func : opt.success},"ajax_call");
+	if ($().secure('loaded'))
+		$().secure({host:__http_base,act:'ajax_page',page:opt.page,params : opt.params, user_func : opt.success},"ajax_call");
 }
 $(function() {
 	if (!supports_history_api()) { return; }
@@ -143,106 +144,108 @@ var bcrypt=null;
 			call : function (opt,opt2) {
 				if (typeof opt=="string") {
 					switch (opt) {
-						case 'restore' :
-							if ((sessionStorage.ale_sess != undefined)&&(sessionStorage.ale_key != undefined)) {
-								sess = sessionStorage.ale_sess;
-								code = sessionStorage.ale_key;
-								//Test is valid
-								crypto_send({
-									data : {action : "test",params : []},
-									success : function (e) {
-										secure_ajax({
-											page : opt2.page,
-											params : opt2.params,
-											success : function (data) {
-												$(opt2.target).html(data.content.html);
-											}
-										});
-									},
-									error : function() {
-										sessionStorage.removeItem('ale_sess');
-										sessionStorage.removeItem('ale_key');
-										//Reinit
-										$().secure_init(__http_base,
-											function(stat) {
-												$(".secure_status .points").html("");
-												for (i=0;i<4;i++) 
-													$(".secure_status .points").append($("<span></span>").text(".").css({"margin-left":Math.cos((stat+i)*0.17-1.57)*30,"margin-top":Math.sin((stat+i)*0.17-1.57)*30}));
-											},
-											function() {
-												$(".secure_status .points").html("");
-												$(".secure_status .img.unsecure").removeClass("unsecure").addClass("secure");
-											}
-										);
-									}
-								});
-							} else {
-								//Show login dialog
-								crypto_send({
-									data : {action : "lang",params : []},
-									success : function (e) {
-										data = decrypt(e.cr);
-										__lang = data;
-										$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href',host+'css/login.css')).append($('<link rel="stylesheet" type="text/css" />').attr('href',host+'css/slogin.css'));
-										$(opt2.target).css('position','relative')
-										$('<div></div>').addClass('secure login')
-											.append($('<h2></h2>').html(data.__login))
-											.append($('<form></form>').addClass('datas')
-												.append($('<span></span>').addClass('label').html(data.__nick))
-												.append($('<input/>').attr({'type':'text','id':'nick'}))
-												.append($('<span></span>').addClass('label').html(data.__pass))
-												.append($('<input/>').attr({'type':'password','id':'pass'}))
-												.append($('<input/>').attr({'type':'submit','value':data.__submit}))
-											).attr('id','dologin').bind('submit',function() {
-														//Request the salt
-														secure_ajax({
-															page:{zone:'login'},
-															params:{act : 'salt_pass',nick : $('#nick').val()},
-															success: function (data) {
-																//Hash password
-																if (data.salt_a)
-																	bcrypt.hashpw($('#pass').val(), data.salt_a, function(pass_s) {
-																		bcrypt.hashpw($('#pass').val(),data.salt_b,function(pass_r) {
-																			//Send password hashed and do login
-																			secure_ajax({
-																				page : {zone:'login'},
-																				params:{act : 'login',nick : $('#nick').val(),pass : pass_s,pass2 : CryptoJS.MD5(pass_r+data.token).toString(),id : data.id},
-																				success:function (dat) {
-																					if (dat.login=='ok') {
-																						//Save key
-																						sessionStorage.ale_sess = dat.sess;
-																						bcrypt.hashpw(pass_r, dat.tk, function(to_aes) {
-																							$().secure('set_sess',{'sess' : dat.sess,'code' : CryptoJS.MD5(to_aes).toString()});
-																							$('.login').html(__lang.__login_success).fadeOut(1500,function(){$(this).remove()});
-																							var key = sessionStorage.ale_key = CryptoJS.MD5(to_aes).toString();
-																							$().secure('set_sess',{sess : dat.sess,code : key});
-																							//and get the next data
-																							secure_ajax({
-																								page:opt2.page,
-																								params: opt2.params, 
-																								success: function (data) {
-																									$(opt2.target).html(data.content.html);
-																									}
-																							});
-																						}, function() {});
-																					} else
-																						login_err();
-																				}
-																			});
+						case 'restore' : {
+							if ($().secure('loaded')) 
+								if ((sessionStorage.ale_sess != undefined)&&(sessionStorage.ale_key != undefined)) {
+									sess = sessionStorage.ale_sess;
+									code = sessionStorage.ale_key;
+									//Test is valid
+									crypto_send({
+										data : {action : "test",params : []},
+										success : function (e) {
+											secure_ajax({
+												page : opt2.page,
+												params : opt2.params,
+												success : function (data) {
+													$(opt2.target).html(data.content.html);
+												}
+											});
+										},
+										error : function() {
+											sessionStorage.removeItem('ale_sess');
+											sessionStorage.removeItem('ale_key');
+											//Reinit
+											$().secure_init(__http_base,
+												function(stat) {
+													$(".secure_status .points").html("");
+													for (i=0;i<4;i++) 
+														$(".secure_status .points").append($("<span></span>").text(".").css({"margin-left":Math.cos((stat+i)*0.17-1.57)*30,"margin-top":Math.sin((stat+i)*0.17-1.57)*30}));
+												},
+												function() {
+													$(".secure_status .points").html("");
+													$(".secure_status .img.unsecure").removeClass("unsecure").addClass("secure");
+												}
+											);
+										}
+									});
+								} else {
+									//Show login dialog
+									crypto_send({
+										data : {action : "lang",params : []},
+										success : function (e) {
+											data = decrypt(e.cr);
+											__lang = data;
+											$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href',host+'css/login.css')).append($('<link rel="stylesheet" type="text/css" />').attr('href',host+'css/slogin.css'));
+											$(opt2.target).css('position','relative')
+											$('<div></div>').addClass('secure login')
+												.append($('<h2></h2>').html(data.__login))
+												.append($('<form></form>').addClass('datas')
+													.append($('<span></span>').addClass('label').html(data.__nick))
+													.append($('<input/>').attr({'type':'text','id':'nick'}))
+													.append($('<span></span>').addClass('label').html(data.__pass))
+													.append($('<input/>').attr({'type':'password','id':'pass'}))
+													.append($('<input/>').attr({'type':'submit','value':data.__submit}))
+												).attr('id','dologin').bind('submit',function() {
+															//Request the salt
+															secure_ajax({
+																page:{zone:'login'},
+																params:{act : 'salt_pass',nick : $('#nick').val()},
+																success: function (data) {
+																	//Hash password
+																	if (data.salt_a)
+																		bcrypt.hashpw($('#pass').val(), data.salt_a, function(pass_s) {
+																			bcrypt.hashpw($('#pass').val(),data.salt_b,function(pass_r) {
+																				//Send password hashed and do login
+																				secure_ajax({
+																					page : {zone:'login'},
+																					params:{act : 'login',nick : $('#nick').val(),pass : pass_s,pass2 : CryptoJS.MD5(pass_r+data.token).toString(),id : data.id},
+																					success:function (dat) {
+																						if (dat.login=='ok') {
+																							//Save key
+																							sessionStorage.ale_sess = dat.sess;
+																							bcrypt.hashpw(pass_r, dat.tk, function(to_aes) {
+																								$().secure('set_sess',{'sess' : dat.sess,'code' : CryptoJS.MD5(to_aes).toString()});
+																								$('.login').html(__lang.__login_success).fadeOut(1500,function(){$(this).remove()});
+																								var key = sessionStorage.ale_key = CryptoJS.MD5(to_aes).toString();
+																								$().secure('set_sess',{sess : dat.sess,code : key});
+																								//and get the next data
+																								secure_ajax({
+																									page:opt2.page,
+																									params: opt2.params, 
+																									success: function (data) {
+																										$(opt2.target).html(data.content.html);
+																										}
+																								});
+																							}, function() {});
+																						} else
+																							login_err();
+																					}
+																				});
+																			}, function() {});
 																		}, function() {});
-																	}, function() {});
-															 	else
-																	login_err();
-															}
-														});
-														return false;
-													})
-											.appendTo(opt2.target).hide().fadeIn(600);
-									},
-									error : function() {
-										//Nulla...
-									}
-								});
+																 	else
+																		login_err();
+																}
+															});
+															return false;
+														})
+												.appendTo(opt2.target).hide().fadeIn(600);
+										},
+										error : function() {
+											//Nulla...
+										}
+									});
+								}
 							}
 						break;
 						case 'set_sess' :

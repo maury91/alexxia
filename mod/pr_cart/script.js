@@ -1,7 +1,6 @@
 $(function(){
 	$('#cart_button').append(
 		$('<div></div>').addClass('cart_content').append($('<a></a>').addClass('cart_loading')).hide()
-	
 	).hover(function() {
 		that=this;
 		$.ajax({
@@ -31,9 +30,10 @@ $(function(){
 					carth.append($('<p></p>').addClass('cart_tot').html(__cart_tot_price+' : '+price_tot+' &euro;')).append($('<a></a>').text(__cart_go).button().css({'margin-bottom': 20,width: '90%'}).attr('href',__http_base+'com/ecommerce/cart.html'));
 				else
 					carth.html(__cart_empty);
+				carth.slideDown(600).removeAttr('style');
 			}
 		})
-		$(this).find('.cart_content').stop().slideDown().removeAttr('style');
+		$(this).find('.cart_content').stop().slideDown();
 	},function() {
 		$(this).find('.cart_content').stop().slideUp();
 	});

@@ -241,6 +241,10 @@ if (isset($_CRIPTED)) {	//Parte sicura
 	
 	exit(0);
 
+} elseif (GET::exists('pay_methods')) {
+	if ((strpos(GET::val('pay_methods'),'..') === false)&&(file_exists(__base_path.'com/ecommerce/payments/'.GET::val('pay_methods').'/callback.php')))
+	include(__base_path.'com/ecommerce/payments/'.GET::val('pay_methods').'/callback.php');
+	exit(0);
 } elseif (GET::exists('cart_edit')) { //Modifica elementi dal carrello
 	@session_start();
 	$u_type = get_user_type();
@@ -296,7 +300,7 @@ if (isset($_CRIPTED)) {	//Parte sicura
 		</div>';
 		}
 		echo '<p class="fp_cart_tot">Totale provvisorio : <span id="fp_cart_tot">'.$tot.'</span> '.CURRENCY.'</p>
-		<p class="cart_buttons"><a class="abutton special" id="cart_next">'.$__proced.'</a>';
+		<p class="cart_buttons"><a class="abutton inactive" id="cart_next">'.$__proced.'</a>';
 	}
 	echo '</div>';
 		/*case 'next' :

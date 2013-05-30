@@ -79,6 +79,7 @@ $(function(){
 		function() {
 			$(".secure_status .points").html("");
 			$(".secure_status .img.unsecure").removeClass("unsecure").addClass("secure");
+			$('#cart_next').removeClass('inactive').addClass('special');
 		}
 	);
 });

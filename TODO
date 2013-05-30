@@ -8,9 +8,8 @@ TODOS :
 			- Inviare una mail all'utente ogni giorno per ricordarli del pagamento
 			- Inviare una mail all'utente quando il pagamento è arrivato
 		- Pagamenti
-			- Paypal funzionante
+			- Paypal funzionante //Da testare sul server
 			- Configurare paypal <--
-	- Bottone avanti attivo quando la connessione sicura è pronta
 	- Gestione utenti
 		- Hint su tutti i campi
 		- Informazioni sull'utente
