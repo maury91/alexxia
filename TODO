@@ -11,7 +11,6 @@ TODOS :
 			- Paypal funzionante //Da testare sul server
 			- Configurare paypal <--
 	- Gestione utenti
-		- Hint su tutti i campi
 		- Informazioni sull'utente
 			- Tutti i prodotti comprati
 			- Pagamenti da effettuare (+2*giorni passati)
@@ -57,4 +56,9 @@ TODOS :
 
 
 //PER MATTEO:
-	- Tradurre com/all_search/it.php
+	- Icone \/ /\
+	- Icona magazzino
+	- Fare il CSS della mail
+	- Gestione utenti
+		- Hint su tutti i campi (scrivi delle variabili su langs/it/a_users.php ed langs/en/a_users.php con i valori per ogni icona)
+	- Scrivere i testi di tutte le mail, per variabili esterne usa %nome_variabile% (un nome compressibile)

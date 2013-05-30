@@ -1,4 +1,9 @@
 <?php
+/*
+	TODO : coupons
+
+*/
+
 //Controllo dati
 $html = '<ul class="cart_status">
 	<li class="binary"></li>
@@ -44,8 +49,8 @@ if ((($ship_address)&&($ship_data=DB::assoc($ship_address)))||isset($_CRIPTED['a
 			foreach($_SESSION['nc_cart'] as $k => $v)
 				DB::insert('NxN__quantity_nc__ordersxnc__products',array('nc__orders'=>$invoice,'quantity'=>$v['tot'],'nc__products' => $k));
 			//TODO : coupons
-			//TODO : email
-			//MAIL::send(USER::data('email'),$__order_conf_sub,);
+			/*$css = '';
+			MAIL::send(USER::data('email'),$__order_conf_sub,$ccs.str_replace(array('%sitename%','%fname%','%pay_link%','%prod_list%'), array(), $__order_conf_html));*/
 			include(__base_path.'com/ecommerce/payments/'.$__pay['UNI_ID'].'/payment.php');
 			SECURE::returns(array('content' => array(
 				'html'=>$html,

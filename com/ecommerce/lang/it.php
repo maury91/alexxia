@@ -48,6 +48,37 @@ $__sum_pay	= 'Metodo di pagamento';
 $__tot		= 'Totale';
 $__redirect = 'Reindirizzamento a %s';
 $__prods 	= 'Prodotti';
+$__order_conf_sub	= 'Conferma ordine';
+$__order_conf_html	= '<h1>%sitename</h1>
+<h3>Complimenti per l\'acquisto!</h3>
+<br/>
+<hr/>
+Gentile %fname%,<br/>
+<br/>
+Ci auguriamo che tu sia soddisfato dell\'acquisto. Adesso non ti resta che effettuare il pagamento. Paga subito in modo da riceve l\'ordine pi&ugrave; rapidamente.<br/>
+
+<a class="button" href="%pay_link%">Paga subito</a>
+
+<div class="order_details">
+	<h3>Info sull\'ordine</h3>
+	<hr/>
+	<ul>
+		%prod_list%
+	</ul>
+</div>';
+$__order_conf_prod_html = '<li><img src="%image%" width="60px"/><span class="name">%name%</span><span class="price">%price%</span><span class="quantity">Quantit&agrave; : %quantity%</span></li>';
+/*$__order_conf_html	= '<h1>%sitename%</h1>
+<h3>Ecco la conferma dell\'ordine</h3>
+<hr/>
+<br/>
+Gentile %fname%,<br/>
+<br/>
+di seguito un riepilogo del tuo recente ordine. Puoi vedere i <a href="%sum_link%">dettagli dell\'ordine</a> aggiorna anche nel tuo profilo personale.<br/>
+Grazie per aver fatto acquisti su %sitename%!<br/>
+
+%prods_list%
+
+<br/>'*/
 $__state_list = array(
 	'IT' => 'Italia',
 	'AF' => 'Afghanistan',

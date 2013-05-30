@@ -4,8 +4,8 @@ include(__base_path.'com/ecommerce/config/lang/'.LANG::short().'.php');
 if (isset($external['change_state'])) {
 	$cur = DB::assoc(DB::select('*','nc__orders',' WHERE id = ',$external['change_state']['key']));
 	if (DB::update('nc__orders',array('status'=>$external['change_state']['value']),' WHERE id = ',$external['change_state']['key'])) {
-		$content = array('r' => 'y','infos' => array('a' => intval($external['change_state']['value'])<2, 'b' => intval($cur['status'])<2));
-		if ((intval($external['change_state']['value'])<2)||(intval($cur['status'])<2)) {
+		$content = array('r' => 'y');
+		if ((intval($external['change_state']['value'])<1)||(intval($cur['status'])<1)) {
 			//Invio email
 			include(__base_path.'com/ecommerce/config/config.php');
 			$sended = MAIL::send($info_email,$__order_change_sub,str_replace(array('%ord_id%','%old%','%new%'), array($external['change_state']['key'],$__order_stat[$cur['status']],$__order_stat[$external['change_state']['value']]), $__order_change));
