@@ -25,4 +25,10 @@
  * @license     http://www.gnu.org/licenses/  GNU General Public License
 **/
 	$__new = 'New';
+	$__approve_hint	= 'Approve user\'s email';
+	$__ban_hint = 'Ban the user (the user will receive a notification email)';
+	$__privileges_hint = 'Modify user\'s privileges';
+	$__delete_hint = 'Delete user';
+	$__edit_hint = 'Edit user\'s account';
+	$__status_hint = 'User\'s status;
 ?>

@@ -9,14 +9,14 @@
     ),
     'description' => 
     array (
-      'it-IT' => 'Gestisci i prodotti del tuo ecommerce.Le offerte a essi collegati e le categorie di prodotti',
-      'en-US' => '',
+      'it-IT' => 'Gestisci i prodotti del tuo ecommerce, le offerte a essi collegati e le categorie di prodotti',
+      'en-US' => 'Manage the products, discounts and categories of your ecommerce',
     ),
     'icon' => 'ecommerce/config/icons/products.png',
   ),
   1 => 
   array (
-    'page' => 'ecommerce/config/shipmenents.php',
+    'page' => 'ecommerce/config/shipments.php',
     'name' => 
     array (
       'it-IT' => 'Gestisci Spedizioni',
@@ -25,7 +25,7 @@
     'description' => 
     array (
       'it-IT' => 'Gestisci i metodi di spedizione dei tuoi prodotti',
-      'en-US' => '',
+      'en-US' => 'Manage shipment options',
     ),
     'icon' => 'ecommerce/config/icons/shipments.png',
   ),
@@ -39,12 +39,27 @@
     ),
     'description' => 
     array (
-      'it-IT' => 'Visualizza gli ordini dei clienti, imposta lo stato degli ordini e quali notifiche ricevere alla tua casella email',
-      'en-US' => '',
+      'it-IT' => 'Visualizza gli ordini dei clienti, imposta lo stato degli ordini e scegli quali notifiche ricevere alla tua casella email',
+      'en-US' => 'View customer orders, set the status of orders and choose which notifications to receive in your email',
     ),
     'icon' => 'ecommerce/config/icons/orders.png',
   ),
   3 => 
+  array (
+    'page' => 'ecommerce/config/mauriziorompicojoni.php',
+    'name' => 
+    array (
+      'it-IT' => 'Gestisci Magazzino',
+      'en-US' => 'Manage Stock',
+    ),
+    'description' => 
+    array (
+      'it-IT' => 'Gestisci i prodotti in magazzino',
+      'en-US' => 'Manage the items in stock',
+    ),
+    'icon' => 'ecommerce/config/icons/stock.png',
+  ),
+  4 => 
   array (
     'page' => 'ecommerce/config/payments.php',
     'name' => 
@@ -59,7 +74,7 @@
     ),
     'icon' => 'ecommerce/config/icons/payments.png',
   ),
-  4 => 
+  5 => 
   array (
     'page' => 'recipes/config/recipes.php',
     'name' => 
