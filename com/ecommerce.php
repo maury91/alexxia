@@ -39,7 +39,54 @@ if (GET::exists('install'))
 elseif (isset($_CRIPTED)) {
 	//Parte sicura
 	include(__base_path.'com/ecommerce/modules/secure_zone.php');
-} elseif (GET::exists('pay_methods')) {
+} elseif (GET::exists('pay')) {
+	$q = DB::select('*','nc__orders',' WHERE id = ',GET::val('pay'));
+	if ($q&&($data = DB::assoc($q))) {
+		$invoice = $data['id'];
+		$js = $css = array();
+		$cart=array();
+		$prods = DB::simple_select(
+			array(
+				array('nc__products','*'),
+				array('nc__translates','name'),
+				array('NxN__quantity_nc__ordersxnc__products','quantity','tot'),
+				array('nc__images','url','image'),
+				array('nc__prices','price','price','MIN')
+				),
+			array('nc__products','nc__translates','NxN__quantity_nc__ordersxnc__products','nc__images','nc__prices'),
+			array('WHERE' =>
+				array(
+					array('id','=','nc__products_ref','nc__products','nc__translates'),
+					'AND',
+					array('id','=','nc__products_ref','nc__products','nc__images'),
+					'AND',
+					array('id','=','nc__products','nc__products','NxN__quantity_nc__ordersxnc__products'),
+					'AND',
+					array('nc__orders','=',$data['id'],'NxN__quantity_nc__ordersxnc__products'),
+					'AND',
+					array('nc__categoriesU_ref','=',get_user_type()),
+					'AND',
+					array('nc__products_ref','=','id','nc__prices','nc__products'),
+					'AND',
+					array('q_min','<=','quantity','nc__prices','NxN__quantity_nc__ordersxnc__products'),
+					'AND',
+					array('lang','=',LANG::short(),'nc__translates')
+					),
+				'GROUP' => 'id'));
+		$payment=DB::assoc(DB::select('*','nc__payments',' WHERE id = ',$data['nc__payments_ref']));
+		while ($prod=DB::assoc($prods))
+			$cart[$prod['id']] = $prod;
+		include(__base_path.'com/ecommerce/payments/'.$payment['UNI_ID'].'/payment.php');
+		echo $html;
+		foreach($js as $v)
+			HTML::add_script($v);
+		foreach($css as $v)
+			HTML::add_style($v);
+	}
+	/*if ((strpos(GET::val('pay_methods'),'..') === false)&&(file_exists(__base_path.'com/ecommerce/payments/'.GET::val('pay_methods').'/callback.php')))
+	
+	exit(0);*/
+}  elseif (GET::exists('pay_methods')) {
 	if ((strpos(GET::val('pay_methods'),'..') === false)&&(file_exists(__base_path.'com/ecommerce/payments/'.GET::val('pay_methods').'/callback.php')))
 	include(__base_path.'com/ecommerce/payments/'.GET::val('pay_methods').'/callback.php');
 	exit(0);

@@ -49,24 +49,24 @@ $__tot		= 'Totale';
 $__redirect = 'Reindirizzamento a %s';
 $__prods 	= 'Prodotti';
 $__order_conf_sub	= 'Conferma ordine';
-$__order_conf_html	= '<h1>%sitename</h1>
+$__order_conf_html	= '<h1>%sitename%</h1>
 <h3>Complimenti per l\'acquisto!</h3>
 <br/>
 <hr/>
 Gentile %fname%,<br/>
 <br/>
 Ci auguriamo che tu sia soddisfato dell\'acquisto. Adesso non ti resta che effettuare il pagamento. Paga subito in modo da riceve l\'ordine pi&ugrave; rapidamente.<br/>
+<br/><br/>
+<a href="%pay_link%" target="_blank" %button_style%>Paga subito</a>
 
-<a class="button" href="%pay_link%">Paga subito</a>
 
 <div class="order_details">
 	<h3>Info sull\'ordine</h3>
 	<hr/>
-	<ul>
-		%prod_list%
-	</ul>
+	%prod_list%
 </div>';
-$__order_conf_prod_html = '<li><img src="%image%" width="60px"/><span class="name">%name%</span><span class="price">%price%</span><span class="quantity">Quantit&agrave; : %quantity%</span></li>';
+$__order_conf_prod_html = '<table height="60px"><tr><td rowspan="3" width="60px"><img src="%image%" width="60px" style="max-height:60px"/></td><td><span %name_style%>%name%</span></tr>
+<tr><td><span %price_style%>%price%</span></td></tr><tr><td><span %quantity_style%>Quantit&agrave; : %quantity%</span></td></tr></table>';
 /*$__order_conf_html	= '<h1>%sitename%</h1>
 <h3>Ecco la conferma dell\'ordine</h3>
 <hr/>

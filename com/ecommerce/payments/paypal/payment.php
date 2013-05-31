@@ -10,7 +10,7 @@ $html = '<form action="https://www.paypal.com/cgi-bin/webscr" id="redir_paypal" 
 <input type="hidden" name="shipping" value="1.00">
 <input type="hidden" name="no_shipping" value="1">';
 $i=0;
-foreach($_SESSION['nc_cart'] as $k => $v) {
+foreach($cart as $k => $v) {
 	$i++;
 	$html .= '<input type="hidden" name="item_name_'.$i.'" value="'.$v['name'].'">
 <input type="hidden" name="amount_'.$i.'" value="'.$v['price'].'">

@@ -1,15 +1,12 @@
 TODOS :
 
 	- Modifica del menu					
-	- Ecommerce
-		- FrontEnd
-			- Mostrare le spese di spedizione /*Dati insufficienti*/
-			- Inviare una mail all'utente quando viene rendirizzato a paypal
-			- Inviare una mail all'utente ogni giorno per ricordarli del pagamento
-			- Inviare una mail all'utente quando il pagamento è arrivato
+	- Ecommerce		
 		- Pagamenti
 			- Paypal funzionante //Da testare sul server
 			- Configurare paypal <--
+		- FrontEnd
+			- Inviare una mail all'utente quando il pagamento è arrivato
 	- Gestione utenti
 		- Informazioni sull'utente
 			- Tutti i prodotti comprati
@@ -26,6 +23,9 @@ TODOS :
 		- Gestione categorie utenti
 		- Scelte di oggi personalizzabili
 		- Animazione inserimento nel carrello
+		- FrontEnd
+			- Mostrare le spese di spedizione /*Dati insufficienti*/
+			- Inviare una mail all'utente ogni giorno per ricordarli del pagamento
 
 	--> consegna sito <--
 
