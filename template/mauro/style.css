@@ -20,6 +20,7 @@ body {
 header {
 	height: 270px;
 	position: relative;
+	margin-bottom: 10px;
 }
 header .cerca {
 	position: absolute;
@@ -57,7 +58,7 @@ header nav {
 	margin-left: -3px;
 	height: 26px;
 }
-header nav:before {
+/*header nav:before {
 	content: " ";
 	display: block;
 	height: 68px;
@@ -66,7 +67,7 @@ header nav:before {
 	position: absolute;
 	top: 0;
 	left: -17px;
-}
+}*/
 nav ul {
 	margin: 0;
 	padding: 0;
@@ -87,35 +88,35 @@ header nav li {
 }
 .main {
 	position: relative;
-	border-left: 1px solid;
-	border-right: 1px solid;
-	border-color: #CECE68;
-	background: #FEFE92;
-	padding-top:1px;
 }
 .main .banner {
 	height: 290px;
 	overflow: hidden;
-	margin: 10px;
+	padding: 10px;
+	background: #FEFE92;
+	margin-bottom: 10px;
 }
 .second_wrapper {
-	display: table;
 	min-height: 700px;
+	margin-bottom: 15px;
+	overflow: hidden;
+	width: 950px;
+	position: relative;
 }
 .main .page {
-	width: 815px;
-	display: table-cell;
-	background: url(images/sard.png);
-	background-repeat: no-repeat; 
+	width: 720px;
+	background: #FEFE92 url(images/sard.png);
+	background-repeat: no-repeat;
 	background-position: right;
-	margin-right: 200px; 
-	padding: 15px;
+	padding: 15px 0 15px 15px;
+	float: left;
 }
 .main .menu_r {
-	width: 250px;
-	display: table-cell;
-	border-left: 1px solid #EB2;
-	vertical-align: top;
+	width: 200px;
+	background: #FEFE92;
+	height: 100%;
+	position: absolute;
+	right: 0;
 }
 .main .menu_r nav {
 	margin-bottom: 40px;
@@ -133,20 +134,20 @@ header nav li {
 }
 .page .list-title {
 	background: #F77820;
-	padding: 5px 2px;
+	padding: 5px 0 5px 10px;
 	font-size: 16px;
 	color: #722;
 	position: relative;
 	font-weight: bold;
-	margin: -15px;
+	margin: -15px 0px 0 -15px;
 	margin-bottom: 15px;
 }
 .page .list-title.with-sardinia {
 	background-image: url(images/Sardegna_Carta2.png);
-	background-position: 363px -188px;
+	background-position: 369px -191px;
 	background-repeat: no-repeat;
 }
-.page .list-title:before {
+/*.page .list-title:before {
 	content: " ";
 	display: block;
 	height: 60px;
@@ -155,7 +156,7 @@ header nav li {
 	position: absolute;
 	top: 0;
 	left: -20px;
-}
+}*/
 ul.list li {
 	padding: 10px;
 	width: 150px;
@@ -254,7 +255,7 @@ ul.list li.first {
 	position: relative;
 	font-weight: bold;
 }
-.menu_r .list-title:before {
+/*.menu_r .list-title:before {
 	content: " ";
 	display: block;
 	height: 60px;
@@ -263,7 +264,7 @@ ul.list li.first {
 	position: absolute;
 	top: 0;
 	right: -20px;
-}
+}*/
 .menu_r nav li {
 	font-size: 0.9em;
 	margin: 3px 0px 0 10px;
@@ -279,9 +280,7 @@ ul.list li.first {
 	padding-left: 39px;
 }
 footer {
-	border: 1px solid #CECE68;
 	height: 100px;
-	border-top-color: #EB2;
 	margin-bottom: 60px;
 	background: #FEFE92;
 }
@@ -295,9 +294,9 @@ header nav li a {
 }
 li.cart {
 	float: right;
-	border-left: 1px solid #FF9830;
 	position:relative;
 	height: 30px;
+	border: 0;
 }
 .nivo-directionNav,.nivo-controlNav {
 	display:none;

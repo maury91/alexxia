@@ -1,6 +1,5 @@
 TODOS :
-
-	- Modifica del menu					
+				
 	- Ecommerce		
 		- Pagamenti
 			- Paypal funzionante //Da testare sul server
@@ -57,7 +56,6 @@ TODOS :
 
 //PER MATTEO:
 	- Icone \/ /\
-	- Icona magazzino
 	- Fare il CSS della mail
 	- Gestione utenti
 		- Hint su tutti i campi (scrivi delle variabili su langs/it/a_users.php ed langs/en/a_users.php con i valori per ogni icona)
