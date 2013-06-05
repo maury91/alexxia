@@ -14,8 +14,8 @@ function log10 (arg) {
 $(function(){
 	$('body').mousemove(function(e) {
 		var off=$('.title_text').offset();
-		var xx = e.clientX-(off.left+200);
-		var yy = e.clientY-(off.top+43);
+		var xx = e.clientX-(off.left+234);
+		var yy = e.clientY-(off.top+52);
 		if (xx>1)
 			xx=-log10(xx);
 		else if (xx<-1)
@@ -28,6 +28,7 @@ $(function(){
 			yy=log10(-yy);
 		else
 			yy=0;
-		$('.title_text').css('text-shadow',xx*2+'px '+yy*2+'px 2px #777');
+		//$('.title_text').css('text-shadow',xx*2+'px '+yy*2+'px 2px #777');
+		$('.title_text .shadow').css({left:xx*2,top:yy*2});
 	});
 });
