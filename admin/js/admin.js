@@ -253,17 +253,17 @@ function load_usr_sec(ret) {
 		actions = $('<div></div>').addClass('actions');
 		if (parseInt(ret.content.users[i].level)>parseInt(ret.content.self.level)) {
 			if (!parseInt(ret.content.users[i].actived))
-				actions.append($('<span></span>').addClass('approve').click(approve_user));
+				actions.append($('<span></span>').addClass('approve').attr('title',ret.content.lang._approve_hint).click(approve_user));
 			if (parseInt(ret.content.users[i].banned))
-				actions.append($('<span></span>').addClass('unban').click(unban_user));
+				actions.append($('<span></span>').addClass('unban').attr('title',ret.content.lang._unban_hint).click(unban_user));
 			else
-				actions.append($('<span></span>').addClass('ban').click(ban_user));
-			actions.append($('<span></span>').addClass('level').click(level_user))
-			.append($('<span></span>').addClass('del').click(del_user))
-			.append($('<span></span>').addClass('edit').click(edit_user))
+				actions.append($('<span></span>').addClass('ban').attr('title',ret.content.lang._ban_hint).click(ban_user));
+			actions.append($('<span></span>').addClass('level').attr('title',ret.content.lang._privileges_hint).click(level_user))
+			.append($('<span></span>').addClass('del').attr('title',ret.content.lang._delete_hint).click(del_user))
+			.append($('<span></span>').addClass('edit').attr('title',ret.content.lang._edit_hint).click(edit_user))
 		}
 		actions.append(
-			$('<span></span>').addClass('info').addClass('i'+ret.content.users[i].info));
+			$('<span></span>').addClass('info').attr('title',ret.content.lang._status_hint).addClass('i'+ret.content.users[i].info));
 		usr_div.append(
 			$('<div></div>').addClass('usr').data('id',ret.content.users[i].id)
 				.append($('<span></span>').addClass('name').text(ret.content.users[i].nick+' ('+ret.content.users[i].email+')'))

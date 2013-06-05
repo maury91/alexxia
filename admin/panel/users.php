@@ -83,7 +83,7 @@ if (PERMISSION::has('users_access')) {
 		} else {
 			include(LANG::path('a_users.php'));
 			$users = DB::select('*','users',' WHERE level >= ',USER::level(),' LIMIT 201');
-			$content=array('lang' => array('_new' => $__new),'self' => array('level' => USER::level()),'users' => array());
+			$content=array('lang' => array('_new' => $__new,'_approve_hint' => $__approve_hint,'_ban_hint' => $__ban_hint,'_unban_hint' => $__unban_hint,'_privileges_hint' => $__privileges_hint,'_delete_hint' => $__delete_hint,'_edit_hint' => $__edit_hint,'_status_hint' => $__status_hint),'self' => array('level' => USER::level()),'users' => array());
 			$i=0;
 			while ($user = DB::assoc($users)) {
 				$user['password'] = '';
