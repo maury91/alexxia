@@ -28,7 +28,7 @@
 **/
 include(__base_path.'com/ecommerce/config/lang/'.LANG::short().'.php');
 if (isset($external['pay_config'])) {
-	$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$external['pay_config']));
+	$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesP'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$external['pay_config']));
 	include(__base_path.'com/ecommerce/payments/'.$__pay['UNI_ID'].'/config.php');
 } else {
 	if (isset($external['del'])) {
@@ -39,7 +39,7 @@ if (isset($external['pay_config'])) {
 	STYLE::add('css/style.css','ecommerce/');
 	STYLE::add('css/icons.css','ecommerce/');
 	echo '<a class="com config_link abutton" href="ecommerce/config/payments.php?add">'.$__pay_add.'</a><script type="text/javascript">$(".abutton").button();</script><br/><br/><table width="100%" cellpadding="0" cellspacing="0"><thead><tr><td>#</td><td>'.$__name.'</td><td></td></tr></thead>';
-	$pay_methods = DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id');
+	$pay_methods = DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesP'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id');
 	while ($pay_method = DB::assoc($pay_methods)) 
 		echo '<tr><td>'.$pay_method['id'].'</td><td>'.$pay_method['name'].'</td><td><a title="'.$__pay_edit.'" class="img pay edit"></a> <a title="'.$__pay_del.'" class="img pay del"></a></tr>';
 	echo '</table>';

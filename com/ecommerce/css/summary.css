@@ -67,18 +67,17 @@
 	text-decoration: none;
 	color: #66B;
 }
-.pay_meth {
-padding-left: 40px;
+.summary_data .pay_meth {
+	padding-left: 40px;
 }
-.tot {
-text-align: right;
-color: red;
-padding-top: 25px;
+.summary_data .tot {
+	text-align: right;
+	color: red;
+	padding-top: 25px;
 }
-.price {
-font-size: 1.5em;
-text-align: right;
-margin-left: 215px;
-font-weight: bold;
-color: red;
+.summary_data .price {
+	font-size: 1.5em;
+	text-align: right;
+	font-weight: bold;
+	color: red;
 }

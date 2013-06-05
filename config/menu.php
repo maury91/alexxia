@@ -134,10 +134,8 @@ $menu = array(
 				6 => array('text'=>'Carrello','href'=>'com/ecommerce/cart.html','lang'=>'it','class'=>'cart','image'=>'','html'=>'id="cart_button"','level' => 10),
 				7 => array('text'=>'Cart','href'=>'com/ecommerce/cart.html','lang'=>'en','class'=>'cart','image'=>'','html'=>'id="cart_button"','level' => 10),
 				8 => array('text'=>'Il mio profilo','href'=>'zone_profile.html','lang'=>'it','class'=>'cart','image'=>'','html'=>'','level' => 9),
-				9 => array('text'=>'My Account','href'=>'zone_profile.html','lang'=>'en','class'=>'cart','image'=>'','html'=>'','level' => 9),
-				10 => array('text'=>'Accedi','href'=>'zone_login.html','lang'=>'it','class'=>'cart','image'=>'','html'=>'','level' => 11),
-				11 => array('text'=>'Sign-in','href'=>'zone_login.html','lang'=>'en','class'=>'cart','image'=>'','html'=>'','level' => 11)
-			)
+				9 => array('text'=>'My Account','href'=>'zone_profile.html','lang'=>'en','class'=>'cart','image'=>'','html'=>'','level' => 9)
+				)
 		)
 	),
 	'user1' => array(),

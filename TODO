@@ -1,15 +1,11 @@
 TODOS :
-
-	- Modifica del menu					
-	- Ecommerce
-		- FrontEnd
-			- Mostrare le spese di spedizione /*Dati insufficienti*/
-			- Inviare una mail all'utente quando viene rendirizzato a paypal
-			- Inviare una mail all'utente ogni giorno per ricordarli del pagamento
-			- Inviare una mail all'utente quando il pagamento è arrivato
+				
+	- Ecommerce		
 		- Pagamenti
 			- Paypal funzionante //Da testare sul server
 			- Configurare paypal <--
+		- FrontEnd
+			- Inviare una mail all'utente quando il pagamento è arrivato
 	- Gestione utenti
 		- Informazioni sull'utente
 			- Tutti i prodotti comprati
@@ -26,6 +22,9 @@ TODOS :
 		- Gestione categorie utenti
 		- Scelte di oggi personalizzabili
 		- Animazione inserimento nel carrello
+		- FrontEnd
+			- Mostrare le spese di spedizione /*Dati insufficienti*/
+			- Inviare una mail all'utente ogni giorno per ricordarli del pagamento
 
 	--> consegna sito <--
 
@@ -57,7 +56,6 @@ TODOS :
 
 //PER MATTEO:
 	- Icone \/ /\
-	- Icona magazzino
 	- Fare il CSS della mail
 	- Gestione utenti
 		- Hint su tutti i campi (scrivi delle variabili su langs/it/a_users.php ed langs/en/a_users.php con i valori per ogni icona)
