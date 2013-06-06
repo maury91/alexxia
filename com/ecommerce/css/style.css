@@ -23,6 +23,7 @@
 	overflow: hidden;
 	color: #922;
 	background: rgba(255,255,255,0.7);
+	margin-right: 15px;
 }
 .product_info .scheda .left {
 	width: 150px;
@@ -211,4 +212,5 @@ table tbody td input[type="checkbox"] {
 	border-width: 0;
 	padding: 1em 1.4em;
 	background: rgba(255,255,255,0.7);
+	margin-right: 11px;
 }
