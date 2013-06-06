@@ -365,35 +365,27 @@ header .social {
 	left: 148px;
 	top: 184px;
 }
-
 .social a{
-
 	display:block;
-
 	float:left;
-
 	width:30px;
-
 	height:30px;
-
 	background-size:100%;
-
 	-moz-background-size:100%;
-
 	margin-right: 7px;
-
 	background-repeat: no-repeat;
-
 }
-
 .social .face{
-
 	background-image:url(images/soc_face30.png);
-
 }
-
 .social .tweet{
-
 	background-image:url(images/soc_tweet30.png);
-
+}
+.page ol.list li.title {
+	width: 100%;
+	padding: 0;
+	height: auto;
+	margin: 0;
+	background: transparent;
+	border: 0;
 }

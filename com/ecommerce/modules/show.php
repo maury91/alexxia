@@ -1,7 +1,7 @@
 <?php
 HTML::add_style('com/ecommerce/css/style.css');
 HTML::add_script('com/ecommerce/js/script.js');
-$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`',array('nc__products','nc__translates'),'WHERE `nc__products_ref` = `'.(DB::$pre).'nc__products`.id AND `'.(DB::$pre).'nc__products`.id = ',GET::val('show'),' AND lang = ',LANG::short());
+$prod = DB::select('`'.(DB::$pre).'nc__products`.*,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__creators`.`name` as creator',array('nc__products','nc__translates','nc__creators'),'WHERE `'.(DB::$pre).'nc__creators`.id = nc__creators_ref AND `nc__products_ref` = `'.(DB::$pre).'nc__products`.id AND `'.(DB::$pre).'nc__products`.id = ',GET::val('show'),' AND lang = ',LANG::short());
 if ($prod) {
 	$u_type=get_user_type();
 	$prod = DB::assoc($prod);
@@ -34,6 +34,7 @@ if ($prod) {
 	</div>
 	<div class="scheda">
 		<h1 id="prod_name">'.$prod['name'].'</h1>
+		<div class="left">'.$__creator.'</div><div class="right">'.$prod['creator'].'</div>
 		<div class="left">'.$__prod_p.'</div><div class="right">';
 	$prices = DB::select('*','nc__prices','WHERE nc__products_ref = ',$prod['id'],' AND nc__categoriesU_ref = ',$u_type,' ORDER BY price DESC');
 	$first=true;

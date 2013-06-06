@@ -100,11 +100,38 @@ elseif (isset($_CRIPTED)) {
 			echo '<li><a href="'.__http.'com/ecommerce/category/'.$d['id'].'-'.$d['name'].'.html">'.$d['name'].'</a></li>';
 		echo '</ul>';
 	}
+} elseif (GET::exists('creator')) {
+	$u_type=get_user_type();
+	$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`,'.DB::$pre.'nc__translatesC.name AS cat_name',array('nc__products','nc__images','nc__translates','nc__prices','nc__translatesC'),'WHERE   `nc__creators_ref` = ',GET::val('creator'),' AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.DB::$pre.'nc__translatesC.lang = ',LANG::short(),' AND '.DB::$pre.'nc__translates.lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.DB::$pre.'nc__translatesC.nc__categories_ref =  `'.(DB::$pre).'nc__products`.nc__categories_ref AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id ORDER BY `'.(DB::$pre).'nc__products`.nc__categories_ref');
+	echo '<ol class="list">';
+	$first_pr=-1;
+	while ($pr = DB::assoc($prods)) {
+		if ($first_pr!=$pr['nc__categories_ref']) {
+			$first_pr=$pr['nc__categories_ref'];
+			//$productor=DB::assoc(DB::select('*','nc__creators','WHERE id = ',$first_pr));
+			echo '<li class="title"><h3>'.$pr['cat_name'].'</h3></li>';
+		}
+		echo '<a href="'.__http.'com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
+		for ($i=0;$i<intval($pr['stars']);$i++)
+			echo '<span class="on">';
+		for ($i=intval($pr['stars']);$i<5;$i++)
+			echo '<span class="off">';
+		$desc = substr(strip_tags($pr['descrizione']),0,40);
+		$desc = substr($desc,0,strrpos($desc,' '));
+		echo '</div></div><div class="desc">'.$desc.'</div><span class="price">'.$pr['price'].' '.CURRENCY.'</span></li></a>';
+	}
+	echo '</ol>';
 } elseif (GET::exists('category')) {
 	$u_type=get_user_type();
 	$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`',array('nc__products','nc__images','nc__translates','nc__prices'),'WHERE  `nc__categories_ref` IN ((SELECT id FROM  `'.(DB::$pre).'nc__categories`  WHERE  `nc__categories_ref` = ',GET::val('category'),'),',GET::val('category'),')  AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id ORDER BY nc__creators_ref');
 	echo '<ol class="list">';
+	$first_pr=-1;
 	while ($pr = DB::assoc($prods)) {
+		if ($first_pr!=$pr['nc__creators_ref']) {
+			$first_pr=$pr['nc__creators_ref'];
+			$productor=DB::assoc(DB::select('*','nc__creators','WHERE id = ',$first_pr));
+			echo '<h3>'.$productor['name'].'</h3>';
+		}
 		echo '<a href="'.__http.'com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
 		for ($i=0;$i<intval($pr['stars']);$i++)
 			echo '<span class="on">';
