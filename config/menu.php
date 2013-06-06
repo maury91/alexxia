@@ -46,6 +46,16 @@ $menu = array(
 			'lang'=>'all',
 			'html'=>'',
 			'module' => 'pr_cart'
+		),
+		3 => array(
+			'type' => false,
+			'level' => 10,
+			'class' => '',
+			'image' => '',
+			'text' => '',
+			'lang'=>'all',
+			'html'=>'',
+			'module' => 'social'
 		)
 	),
 	'left' => array(),
@@ -100,7 +110,28 @@ $menu = array(
 			'lang'=>'en',
 			'html'=>'',
 			'module' => 'pr_cats'
+		),
+		4 => array(		
+			'type' => false,
+			'level' => 10,
+			'class' => '',
+			'image' => '',
+			'text' => 'Produttori',
+			'lang'=>'it',
+			'html'=>'',
+			'module' => 'pr_manuf'
+		),
+		5 => array(
+			'type' => false,
+			'level' => 10,
+			'class' => '',
+			'image' => '',
+			'text' => 'Manufacturers',
+			'lang'=>'en',
+			'html'=>'',
+			'module' => 'pr_manuf'
 		)
+
 	),
 	'search' => array(),
 	'slider' => array(
