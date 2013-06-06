@@ -87,10 +87,10 @@ if (isset($external['offer'])||isset($external['edit_offer'])) { //edit_offer
 	SCRIPT::add('js/sales.js');
 } elseif (isset($external['add_prod'])) {
 	if (isset($external['edit'])) {
-		if (DB::delete('nc__prices','WHERE nc__products_ref = ',$external['edit'])&&DB::delete('nc__translates','WHERE nc__products_ref = ',$external['edit'])&&DB::delete('nc__images','WHERE nc__products_ref = ',$external['edit'])&&DB::update('nc__products',array('nc__categories_ref' => $external['add_prod']['cats'][0]),'WHERE id = ',$external['edit'])&&DB::update('nc__products',array('peso'=>$external['add_prod']['peso'],'duration'=>$external['add_prod']['duration'],'dimension_H'=>$external['add_prod']['dimensions']['h'],'dimension_W'=>$external['add_prod']['dimensions']['w'],'dimension_L'=>$external['add_prod']['dimensions']['l']),'WHERE id = ',$external['edit']))
+		if (DB::delete('nc__prices','WHERE nc__products_ref = ',$external['edit'])&&DB::delete('nc__translates','WHERE nc__products_ref = ',$external['edit'])&&DB::delete('nc__images','WHERE nc__products_ref = ',$external['edit'])&&DB::update('nc__products',array('nc__categories_ref' => $external['add_prod']['cats'][0]),'WHERE id = ',$external['edit'])&&DB::update('nc__products',array('nc__creators_ref' => $external['add_prod']['marc']),'WHERE id = ',$external['edit'])&&DB::update('nc__products',array('peso'=>$external['add_prod']['peso'],'duration'=>$external['add_prod']['duration'],'dimension_H'=>$external['add_prod']['dimensions']['h'],'dimension_W'=>$external['add_prod']['dimensions']['w'],'dimension_L'=>$external['add_prod']['dimensions']['l']),'WHERE id = ',$external['edit']))
 			$prod_id = $external['edit'];
 	} else
-		$prod_id = DB::insert('nc__products',array('nc__categories_ref' => $external['add_prod']['cats'][0],'peso'=>$external['add_prod']['peso'],'duration'=>$external['add_prod']['duration'],'dimension_H'=>$external['add_prod']['dimensions']['h'],'dimension_W'=>$external['add_prod']['dimensions']['w'],'dimension_L'=>$external['add_prod']['dimensions']['l']));
+		$prod_id = DB::insert('nc__products',array('nc__creators_ref' => $external['add_prod']['marc'],'nc__categories_ref' => $external['add_prod']['cats'][0],'peso'=>$external['add_prod']['peso'],'duration'=>$external['add_prod']['duration'],'dimension_H'=>$external['add_prod']['dimensions']['h'],'dimension_W'=>$external['add_prod']['dimensions']['w'],'dimension_L'=>$external['add_prod']['dimensions']['l']));
 	$other=array();
 	if ($prod_id) {
 		//Collegamento prezzi

@@ -1,7 +1,7 @@
 <?php
-$cat = DB::select(DB::$pre.'nc__translatesC.name,'.DB::$pre.'nc__categories.*',array('nc__categories','nc__translatesC'),'WHERE '.DB::$pre.'nc__translatesC.nc__categories_ref = '.DB::$pre.'nc__categories.id AND '.DB::$pre.'nc__categories.nc__categories_ref IS NULL AND lang = ',LANG::short());
+$cat = DB::select('*',array('nc__creators'));
 echo '<nav><ul>';
 while($c = DB::assoc($cat))
-	echo '<li><a href="'.__http.'com/ecommerce/category/'.$c['id'].'-'.$c['name'].'.html">'.$c['name'].'</a></li>';
+	echo '<li><a href="'.__http.'com/ecommerce/creator/'.$c['id'].'-'.$c['name'].'.html">'.$c['name'].'</a></li>';
 echo '</ul></nav>';
 ?>

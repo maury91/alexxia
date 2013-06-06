@@ -48,6 +48,7 @@ $__sum_pay	= 'Metodo di pagamento';
 $__tot		= 'Totale';
 $__redirect = 'Reindirizzamento a %s';
 $__prods 	= 'Prodotti';
+$__creator	= 'Produttore';
 $__order_conf_sub	= 'Conferma ordine';
 $__order_conf_html	= '<h1>%sitename%</h1>
 <h3>Complimenti per l\'acquisto!</h3>
