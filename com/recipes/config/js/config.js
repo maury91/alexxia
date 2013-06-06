@@ -1,4 +1,4 @@
-var r_cur_lang = 'it-IT';
+var r_cur_lang = 'it';
 recipes_images=[];
 recipe_prods=[];
 var recipe_id = -1;

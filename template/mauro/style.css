@@ -38,7 +38,7 @@ header .cerca input[type="text"] {
 	background-position: 98% 2px;
 	background-size: 6%;
 }
-header .logo {
+/*header .logo {
 	display: block;
 	width: 500px;
 	height: 125px;
@@ -48,12 +48,12 @@ header .logo {
 	background-position: 0 0, 128px 34px;
 	background-size: 120px 120px,370px 0px;
 	margin-top: 29px;
-}
+}*/
 header nav {
 	position: absolute;
 	bottom: 0;
 	padding: 4px 2px;
-	background: #F77820;
+	background: #E75910;
 	width: 100%;
 	margin-left: -3px;
 	height: 26px;
@@ -77,11 +77,11 @@ nav li {
 }
 header nav li {
 	float: left;
-	border-right: 1px solid #FF9830;
+	border-right: 1px solid #DD6830;
 	padding: 3px 20px;
 	min-width: 100px;
 	text-align: center;
-	color: #722;
+	color: #FFF;
 	cursor: pointer;
 	font-weight: bold;
 	/*text-shadow: -1px -1px 0px #FFF;*/
@@ -133,10 +133,10 @@ header nav li {
 	overflow: hidden;
 }
 .page .list-title {
-	background: #F77820;
+	background: #E75910;
 	padding: 5px 0 5px 10px;
 	font-size: 16px;
-	color: #722;
+	color: #FFF;
 	position: relative;
 	font-weight: bold;
 	margin: -15px 0px 0 -15px;
@@ -247,9 +247,9 @@ ul.list li.first {
 	color: #F55;
 }
 .menu_r .list-title {
-	background: #F77820;
+	background: #E75910;
 	padding: 5px 2px;
-	color: #722;
+	color: #FFF;
 	padding-left: 10px;
 	margin-bottom: 6px;
 	position: relative;
@@ -285,7 +285,7 @@ footer {
 	background: #FEFE92;
 }
 header nav li a {
-	color: #722;
+	color: #FFF;
 	text-decoration: none;
 }
 .menu_r nav li a {
@@ -328,10 +328,25 @@ header .langs {
 	font-size: 80px;
 	color: #F77820;
 	position: absolute;
-	top: 56px;
-	left: 12px;
+	top: 20px;
+	left: 6px;
 	font-weight: bolder;
 	text-shadow: 1px 1px 5px #AAA;
+}
+.title_text .logo,.title_text .shadow{
+	background-image: url(images/bronzetto_logo.png);
+	width: 467px;
+	height: 105px;
+	display: block;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+.title_text .shadow{
+	background-image: url(images/bronzetto_logo_gray.png);
+	position: absolute;
+	z-index: -1;
+	left:0;
+	top:0;
 }
 #cart_button{
 	background-image: url("http://tradizionesarda.it///media/images/cart.png");

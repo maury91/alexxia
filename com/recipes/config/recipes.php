@@ -40,7 +40,7 @@ if (isset($external['show_cats'])) {
 } elseif (isset($external['add'])||isset($external['edit'])) {
 	$media_id = MEDIA_MAN::make('./media',array('png','jpg'), true, true, true, true, true, true, '', '',true);	
 	$content['html'] = '
-	<a title="it-IT" class="img flag it-IT" style="border-bottom: 2px solid #69F;"> </a><a title="en-US" class="img flag en-US"> </a>
+	<a title="it" class="img flag it-IT" style="border-bottom: 2px solid #69F;"> </a><a title="en" class="img flag en-US"> </a>
 	Clicca sui campi per modificarli
 	<div class="product_info">
 		<div class="images">
