@@ -53,7 +53,7 @@ header nav {
 	position: absolute;
 	bottom: 0;
 	padding: 4px 2px;
-	background: #E75910;
+	background: #E7592C;
 	width: 100%;
 	margin-left: -3px;
 	height: 26px;
@@ -134,7 +134,7 @@ header nav li {
 	overflow: hidden;
 }
 .page .list-title {
-	background: #E75910;
+	background: #E7592C;
 	padding: 5px 0 5px 10px;
 	font-size: 16px;
 	color: #FFF;
@@ -144,9 +144,11 @@ header nav li {
 	margin-bottom: 15px;
 }
 .page .list-title.with-sardinia {
-	background-image: url(images/Sardegna_Carta2.png);
+	/*background-image: url(images/Sardegna_Carta2.png);
 	background-position: 369px -191px;
-	background-repeat: no-repeat;
+	background-repeat: no-repeat;*/
+	opacity: 0.7;
+	background: #DD1200;
 }
 /*.page .list-title:before {
 	content: " ";
@@ -248,7 +250,7 @@ ul.list li.first {
 	color: #F55;
 }
 .menu_r .list-title {
-	background: #E75910;
+	background: #E7592C;
 	padding: 5px 2px;
 	color: #FFF;
 	padding-left: 10px;
