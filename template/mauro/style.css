@@ -56,8 +56,9 @@ header nav {
 	padding: 4px 2px;
 	background: #E7592C;
 	width: 100%;
-	margin-left: -3px;
+	left: -2px;
 	height: 26px;
+	border-radius: 3px;
 }
 /*header nav:before {
 	content: " ";
@@ -96,6 +97,7 @@ header nav li {
 	padding: 10px;
 	background: #FEFE92;
 	margin-bottom: 10px;
+	border-radius: 3px;
 }
 .second_wrapper {
 	min-height: 700px;
@@ -112,6 +114,7 @@ header nav li {
 	padding: 15px 0 15px 15px;
 	float: left;
 	min-height: 700px;
+	border-radius: 3px;
 }
 .main .menu_r {
 	width: 200px;
@@ -119,6 +122,7 @@ header nav li {
 	height: 100%;
 	position: absolute;
 	right: 0;
+	border-radius: 3px;
 }
 .main .menu_r nav {
 	margin-bottom: 40px;
@@ -133,6 +137,7 @@ header nav li {
 	position: relative;
 	background: rgba(255,255,255,0.6);
 	overflow: hidden;
+	border-radius: 3px;
 }
 .page .list-title {
 	background: #E7592C;
@@ -143,6 +148,8 @@ header nav li {
 	font-weight: bold;
 	margin: -15px 0px 0 -15px;
 	margin-bottom: 15px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 .page .list-title.with-sardinia {
 	/*background-image: url(images/Sardegna_Carta2.png);
@@ -258,6 +265,8 @@ ul.list li.first {
 	margin-bottom: 6px;
 	position: relative;
 	font-weight: bold;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 /*.menu_r .list-title:before {
 	content: " ";
@@ -287,6 +296,7 @@ footer {
 	height: 100px;
 	margin-bottom: 60px;
 	background: #FEFE92;
+	border-radius: 3px;
 }
 header nav li a {
 	color: #FFF;
