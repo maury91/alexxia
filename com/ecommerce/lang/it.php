@@ -59,13 +59,68 @@ Gentile %fname%,<br/>
 Ci auguriamo che tu sia soddisfato dell\'acquisto. Adesso non ti resta che effettuare il pagamento. Paga subito in modo da riceve l\'ordine pi&ugrave; rapidamente.<br/>
 <br/><br/>
 <a href="%pay_link%" target="_blank" %button_style%>Paga subito</a>
+<div class="order_details">
+	<h3>Info sull\'ordine</h3>
+	<hr/>
+	%prod_list%<br/>
+indirizzo di spedizione:
+	%shipment_address%
+</div>';
 
 
+$__invoice_html	= '<h1>%sitename%</h1>
+<h3>Complimenti per l\'acquisto!<br/>
+Non dimenticare di pagare l\'ordine.</h3><br/>
+<hr/>
+Gentile %fname%,<br/>
+<br/><br/>
+Ci auguriamo che tu sia soddisfato dell\'acquisto. Paga subito in modo da riceve l\'ordine pi&ugrave; rapidamente.<br/>
+Ricorda di pagare entro %num% giorni, altrimenti l\'ordine verrà automaticamente annullato.
+<br/>
+<br/><br/>
+<a href="%pay_link%" target="_blank" %button_style%>Paga subito</a>
 <div class="order_details">
 	<h3>Info sull\'ordine</h3>
 	<hr/>
 	%prod_list%
+	<br/>
+indirizzo di spedizione:
+	%shipment_address%
 </div>';
+
+$__receive_payment_html	= '<h1>%sitename%</h1>
+<h3>Complimenti per l\'acquisto!<br/>
+Il pagamento è stato effettuato con successo.</h3><br/>
+<hr/>
+Gentile %fname%,<br/>
+<br/><br/>
+abbiamo ricevuto il pagamento di €%tot%<br/>
+Pagato tramite %paym_metod%
+<br/>
+La spedizione verrà processata entro 3 giorni lavorativi all\'indirizzo
+<br/>
+	%shipment_address%.<hr/>';
+
+$__shipment_html	= '<h1>%sitename%</h1>
+<h3>I prodotti sono stati spediti!</h3><br/>
+<hr/>
+Gentile %fname%,<br/>
+<br/><br/>
+il suo ordine è stato conrassegnato come spedito,<br/>
+riceverà  
+<br/>
+La spedizione verrà processata entro 3 giorni lavorativi.<hr/>';
+
+
+$__mail_footer='
+Questa email ti è stata inviata tramite la piattaforma %sitename%. <br/>
+Per qualsiasi domanda al riguardo, consulta le Regole sulla Privacy e l\'Accordo per gli utenti.<br/>
+Puoi segnalare questo messaggio come email non richiesta (di spamming/contraffatta).<br/>
+Quest\'email è stata inviata da %sitename%, che si riserva il diritto di utilizzare i propri affiliati per la fornitura dei servizi.<br/>
+Copyright © 2013 %sitename%. Tutti i diritti riservati. I marchi registrati e i segni distintivi sono di proprietà dei rispettivi titolari.<br/>
+';
+
+
 $__order_conf_prod_html = '<table height="60px"><tr><td rowspan="3" width="60px"><img src="%image%" width="60px" style="max-height:60px"/></td><td><span %name_style%>%name%</span></tr>
 <tr><td><span %price_style%>%price%</span></td></tr><tr><td><span %quantity_style%>Quantit&agrave; : %quantity%</span></td></tr></table>';
 /*$__order_conf_html	= '<h1>%sitename%</h1>
