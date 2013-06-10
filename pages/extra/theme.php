@@ -5,8 +5,10 @@
 		<style type="text/css">
 			@import url(http://fonts.googleapis.com/css?family=Lobster);
 			body {
-				background:url('media/images/back.jpg') repeat-x #1f1f1f;
+				background:url('media/offline/back.jpg') repeat-x #1f1f1f;
 				text-align:center;
+				color:white;
+				overflow: hidden;
 			}
 			h1 {
 				font-family: 'Lobster', cursive;
@@ -24,5 +26,6 @@
 	<body>
 		<?php echo HTML::get_body(); ?>	
 		<?php echo $html; ?>
+		<img src="media/offline/underconstruction.png" alt="in costruzione"/>
 	</body>
 </html>

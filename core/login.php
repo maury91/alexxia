@@ -96,7 +96,7 @@ if (isset($_CRIPTED)) {
 		</script>
 		<div title="'.$__secure.'" class="secure_status"><div class="points"></div><div class="img unsecure"></div></div>
 		<div class="login">
-			<h2>'.$__login.'</h2>
+			'.((GLOBALS::val('offline'))?'':'<h2>'.$__login.'</h2>').'
 			<form id="dologin" class="datas">
 				<span class="label">'.$__nick.'</span>
 				<input type="text" id="nick" />
@@ -104,7 +104,7 @@ if (isset($_CRIPTED)) {
 				<input type="password" id="pass" />
 				<input type="submit" value="'.$__submit.'" />
 			</form>
-			'.$__no_accout.'
+			'.((GLOBALS::val('offline'))?'':$__no_accout).'
 		</div>';
 	}
 }

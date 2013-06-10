@@ -1,1 +1,1 @@
-<center><h1>Site temporarily offline.</h1></center><br/><br/>
+<center><h1><?php echo GLOBALS::val('sitename'); ?></h1></center>
