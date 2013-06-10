@@ -6,6 +6,7 @@ $__permissions=array(
 	'mediamanager_navigate' => 2,
 	'mediamanager_upload' => 1,
 	'mediamanager_del' => 1,
+	'view_offile' => 4,
 
 
 

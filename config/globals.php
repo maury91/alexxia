@@ -17,7 +17,7 @@
 	$advanced = true;
 	$niiupdate = false;
 	$tooltips = true;
-	$offline = false;
+	$offline = true;
 	$max_backups = 10;
 	$tab_mode = 0;
 	$cms_mode = 0;

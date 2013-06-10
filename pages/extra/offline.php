@@ -1,1 +1,1 @@
-<h2>Site temporarily offline.</h2>
+<center><h1>Site temporarily offline.</h1></center><br/><br/>

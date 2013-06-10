@@ -56,21 +56,6 @@ if (file_exists('install/make.php')) {
 	} else
 		include('install/make.php');
 }
-//Offline mode
-if (GLOBALS::val('offline')) {
-	//The site is visible only for who have the permission
-	if (!PERMISSION::has('view_offile')) {
-		//If not have the permission (or is not logged)
-		//Show a user defined page and the login
-		include('pages/extra/offline.php');
-		if (GET::exists('zone')&&(GET::val('zone')=='lostp')) {
-			echo '<center>';
-			include('core/lostp.php');
-		} else
-			include('core/login.php');
-		exit(0);
-	}
-}
 //Localize script to call (secure mode)
 if (SECURE::active()) {
 	$params = SECURE::get('params');
@@ -93,6 +78,31 @@ else
 	$pag = ($com != '')?'com/'.$com : 'core/'.$zone;
 if ($pag == 'core/') $pag = 'pages/home';
 $pag .= '.php';
+//Offline mode
+if (GLOBALS::val('offline')) {
+	//The site is visible only for who have the permission
+	if (!PERMISSION::has('view_offile')) {
+		HTML::add_script('js/jquery.js','js/jquery-ui.js');
+		HTML::add_style('css/jquery-ui.css');
+		ob_start();
+		//If not have the permission (or is not logged)
+		//Show a user defined page and the login
+		if ($pag=='core/login.php')
+			include(__base_path.'core/login.php');
+		elseif ($pag=='core/lostp.php') 
+			include(__base_path.'core/lostp.php');
+		else {
+			include(__base_path.'pages/extra/offline.php');
+			include(__base_path.'core/login.php');
+		}
+		//Get the data send in output
+		$html = ob_get_contents();
+		//Clear output
+		ob_end_clean();
+		include(__base_path.'pages/extra/theme.php');
+		exit(0);
+	}
+}
 //If the user are using a mobile phone show the mobile mode
 /*
 if (MOBILE::is_mobile()) {
@@ -122,7 +132,7 @@ if(strpos($pag,'..') === false) {
 	if (file_exists($pag)) {
 		//Plug-ins inclusion
 		foreach (PLUGINS::in('core','index','before_page') as $p) include($p);
-		include($pag);
+		include(__base_path.$pag);
 		//Plug-ins inclusion
 		foreach (PLUGINS::in('core','index','after_page') as $p) include($p);
 	}

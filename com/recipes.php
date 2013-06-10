@@ -44,7 +44,7 @@ if (GET::exists('show')) {
 			$u_type = 1;
 		$prods = DB::select('`'.(DB::$pre).'nc__products`.*,`url` as `image`,`'.(DB::$pre).'nc__translates`.`name`,`'.(DB::$pre).'nc__translates`.`descrizione`,`'.(DB::$pre).'nc__prices`.`price`',array('NxN__nc__recipesxnc__products_sxs','nc__products','nc__images','nc__translates','nc__prices'),'WHERE nc__products = '.(DB::$pre).'nc__products.id AND nc__recipes = ',$recipe['id'],' AND '.(DB::$pre).'nc__images.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND '.(DB::$pre).'nc__translates.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND lang = ',LANG::short(),' AND '.(DB::$pre).'nc__prices.`nc__products_ref` = `'.(DB::$pre).'nc__products`.`id` AND nc__categoriesU_ref = ',$u_type,' AND q_min<2 GROUP BY id');
 		while ($pr = DB::assoc($prods)) {
-			echo '<a href="com_ecommerce.html?show='.$pr['id'].'"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
+			echo '<a href="'.__http.'com/ecommerce/show/'.$pr['id'].'-'.$pr['name'].'.html"><li><span class="title">'.$pr['name'].'</span><div class="image" style="background-image:url('.$pr['image'].')"><div class="stars">';
 			for ($i=0;$i<intval($pr['stars']);$i++)
 				echo '<span class="on">';
 			for ($i=intval($pr['stars']);$i<5;$i++)
@@ -60,27 +60,22 @@ if (GET::exists('show')) {
 			$(\'.abutton\').button();
 		</script>
 	</div>';
-	} else echo 'Prodotto non trovato!';
+	} else echo 'Ricetta non trovata!';
 } else {
 	//Lista ricette
 	HTML::add_style('com/recipes/css/home.css','com/recipes/css/images.css');
 	$ricette = DB::select((DB::$pre).'nc__recipes.*,`'.(DB::$pre).'nc__translatesR`.`name`,url as image',array('nc__recipes','nc__r_images','nc__translatesR'),'WHERE `'.(DB::$pre).'nc__translatesR`.nc__recipes_ref = '.(DB::$pre).'nc__recipes.id AND `'.(DB::$pre).'nc__r_images`.nc__recipes_ref = '.(DB::$pre).'nc__recipes.id GROUP BY id');
 	echo '<ul class="recipes">';
 	while($ric = DB::assoc($ricette)) {
-		echo '<li><a href="com/recipes/show/'.$ric['id'].'-'.urlencode($ric['name']).'.html"><span class="image" style="background-image:url('.$ric['image'].')"></span><span class="title2"><h2>'.$ric['name'].'</h2></span></a>';
-		
-		
-		
-							echo '<div class="scheda">
-								<div class="diff_left">Difficolt&agrave; </div>
-								<div class="diff_right">';
-							for ($i=0;$i<$ric['difficulty'];$i++)
-								echo '<a class="img hat"></a>';
-							echo '</div>
-								<div class="time_left">Tempo:  </div>
-								<div class="time_right">circa '.$ric['tempo'].' minuti</div></li>';
-		
-		
+		echo '<li><a href="com/recipes/show/'.$ric['id'].'-'.urlencode($ric['name']).'.html"><span class="image" style="background-image:url('.$ric['image'].')"></span><span class="title2"><h2>'.$ric['name'].'</h2></span></a>';		
+		echo '<div class="scheda">
+			<div class="diff_left">Difficolt&agrave; </div>
+			<div class="diff_right">';
+		for ($i=0;$i<$ric['difficulty'];$i++)
+			echo '<a class="img hat"></a>';
+		echo '</div>
+			<div class="time_left">Tempo:  </div>
+			<div class="time_right">circa '.$ric['tempo'].' minuti</div></li>';
 	}
 	echo '</ul>';
 }
