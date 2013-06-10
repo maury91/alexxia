@@ -37,7 +37,7 @@ if ((($ship_address)&&($ship_data=DB::assoc($ship_address)))||isset($_CRIPTED['a
 	</script>';
 	if (isset($_CRIPTED['end'])) {
 		//Redirect al pagamento
-		$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$_SESSION['nc_cart_send']['payment']));
+		$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesP'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$_SESSION['nc_cart_send']['payment']));
 		$html='';
 		$js = $css = array();
 		$tot = 0;
@@ -80,7 +80,7 @@ if ((($ship_address)&&($ship_data=DB::assoc($ship_address)))||isset($_CRIPTED['a
 				<span class="sprice">'.$v['price'].' '.CURRENCY.'</span><span> - </span><span class="squantity">'.$__prod_q.': '.$v['tot'].'</span>
 			</li>';
 		}
-		$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$_SESSION['nc_cart_send']['payment']));
+		$__pay = DB::assoc(DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesP'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id AND '.DB::$pre.'nc__payments.id = ',$_SESSION['nc_cart_send']['payment']));
 		$tot += floatval($__pay['price']);
 		$html .= '</ul>
 				<a class="edit_del" href="'.__http.'com/ecommerce/cart.html">'.$__edit_del.'</a>					
@@ -109,7 +109,7 @@ if ((($ship_address)&&($ship_data=DB::assoc($ship_address)))||isset($_CRIPTED['a
 		$_SESSION['nc_cart_send'] = array('ship' => $_CRIPTED['shipment']);
 		$html = '<div class="payment_data">
 			<ul>';
-		$pay_methods = DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesp'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id');
+		$pay_methods = DB::select(array(array('nc__payments','*'),array('nc__translatesP','name')),array('nc__payments','nc__translatesP'),' WHERE lang = ',LANG::short(),' AND nc__payments_ref = '.DB::$pre.'nc__payments.id');
 		while ($pay_method = DB::assoc($pay_methods))
 			$html .= '<li id="'.$pay_method['id'].'">
 					<h3>'.$pay_method['name'].'</h3>

@@ -178,4 +178,5 @@ $shipments->save();
 $traduzioniS->save();
 $weights->save();
 DB::insert('nc__categoriesU',array('name'=>'Normale'));
+TASK::create('niicommerce','com/ecommerce/task_receiver.php','*','*','0');//Una volta al giorno
 ?>

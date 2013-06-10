@@ -37,6 +37,7 @@ header .cerca input[type="text"] {
 	background: #EBEBEB url("images/lens.png") no-repeat;
 	background-position: 98% 2px;
 	background-size: 10%;
+	border-radius: 4px;
 }
 /*header .logo {
 	display: block;
