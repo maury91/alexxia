@@ -34,7 +34,7 @@ class META_TAGS {
 	static protected $tags=array();
 	
 	//All avaible meta tags
-	static protected $meta_tags = array('description' => array('name','Description'),'keywords' => array('name','Keywords'),'generator' => array('name','Generator'),'lang' => array('http-equiv','content-language'));
+	static protected $meta_tags = array('description' => array('name','Description'),'keywords' => array('name','Keywords'),'generator' => array('name','Generator'),'lang' => array('http-equiv','content-language'), 'favicon' => array('itemprop','image'));
 	
 	//Default values for the meta tags
 	static protected function default_tags() {
@@ -43,6 +43,7 @@ class META_TAGS {
 				'title' => HTML::get_title(),
 				'site_name' => GLOBALS::val('sitename'),
 				'description' => GLOBALS::val('sitedesc'),
+				'favicon' => __http.GLOBALS::val('favicon'),
 				'generator' => 'Alexxia V'.__ALE_version);
 			if(isset($GLOBALS['__lang']))
 				self::$tags['lang'] = $GLOBALS['__lang'];
@@ -150,6 +151,7 @@ class HTML {
 		return
 		'<title>'.(self::get_title()).'</title>'."\n"
 		.(META_TAGS::get_html())
+		."\t\t".'<link rel="shortcut icon" type="image/x-icon" href="'.__http.GLOBALS::val('favicon').'" />'."\n"
 		.'<script type="text/javascript">__http_base = "'.__http.'"</script>'
 		.implode('',array_merge(array_map('HTML::style_form',array_unique(self::$styles)),array_map('HTML::script_form',array_unique(self::$scripts))));
 	}

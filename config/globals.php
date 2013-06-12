@@ -1,6 +1,6 @@
 <?php
 	$logo = 'media/images/Logo mhf2.png';
-	$favicon = 'media/images/favicon.png';
+	$favicon = 'media/images/favicon.ico';
 	$sitemail = 'noreply@mysite.com';
 	$sitemailn = 'NoReply My Site';
 	$sitesmtp = true;
