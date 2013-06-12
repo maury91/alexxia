@@ -2,16 +2,18 @@ TODO LO MUNDO ES EN FIESTA! :
 
 		- newsletters
 		- gestione categorie
-	- Modifica del menu			
-
-
+	- Modifica del menu		<--zanda	
+		- Aggiungere Esci al menu utente ( zone_logout.html)
 	- Ecommerce
 		- FrontEnd
 			- Mostrare le spese di spedizione /*Dati insufficienti*/
 			- Inviare una mail all'utente ogni giorno per ricordargli del pagamento
 			- Inviare una mail all'utente quando il pagamento è arrivato
 		- Pagamenti
-			- Configurare paypal <--
+			- Configurare paypal <--maurizio
+	- Profilo utente <--maurizio
+		- Cambiare informazioni utente (nome,cognome,etc..)
+		- Cambiare password
 	- Gestione utenti
 		- Informazioni sull'utente
 			- Tutti i prodotti comprati
@@ -33,11 +35,7 @@ TODO LO MUNDO ES EN FIESTA! :
 
 	--> consegna sito <--
 
-	- Bottone lente barra cerca
 	- Permessi aggiuntivi (2/permissions.php)
-	- Profilo utente
-		- Cambiare informazioni utente (nome,cognome,etc..)
-		- Cambiare password
 	- Ecommerce
 		- Aggiunta coupons
 		- Aggiunta permessi

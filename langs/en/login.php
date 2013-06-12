@@ -30,6 +30,7 @@ $__login	= 'Login';
 $__nick		= 'Username';
 $__pass		= 'Password';
 $__submit	= 'Submit';
+$__login_load		= 'Loading...';
 $__login_success	= 'access successfully carried out!';
 $__login_error		= 'incorrect credentials';
 $__already_logged	= 'You are already logged in, if you want to sign in with another account please <a href="zone_logout.html">Logout</a> before';

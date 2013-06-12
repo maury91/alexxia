@@ -282,13 +282,13 @@ ul.list li.first {
 	font-size: 0.9em;
 	margin: 3px 0px 0 10px;
 }
-.menu_r nav li:before {
+/*.menu_r nav li:before {
 	content: ">";
 	margin-right : 6px;
 	color: #611;
 	font-weight: bold;
 	font-size:1em;
-}
+}*/
 .page ol.list {
 	padding-left: 39px;
 }

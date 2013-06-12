@@ -9,7 +9,6 @@ $(function(){
 			dataType : 'json',
 			success : function(d) {
 				carth=$(that).find('.cart_content');
-				console.log(d);
 				added=0;
 				carth.html('');
 				price_tot=0;
@@ -30,12 +29,11 @@ $(function(){
 					carth.append($('<p></p>').addClass('cart_tot').html(__cart_tot_price+' : '+price_tot+' &euro;')).append($('<a></a>').text(__cart_go).button().css({'margin-bottom': 20,width: '90%'}).attr('href',__http_base+'com/ecommerce/cart.html'));
 				else
 					carth.html(__cart_empty);
-				carth.slideDown(600).removeAttr('style');
 			}
 		})
-		$(this).find('.cart_content').stop().slideDown();
+		$(this).find('.cart_content').stop().fadeIn();
 	},function() {
-		$(this).find('.cart_content').stop().slideUp();
+		$(this).find('.cart_content').stop().fadeOut();
 	});
 
 });

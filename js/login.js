@@ -49,6 +49,7 @@ $(function() {
 		}
 	);
 	$('#dologin').bind('submit',function() {
+		log_load = $('<div></div>').addClass('info').html(__login_load).appendTo('.login').hide().fadeIn(400);
 		//Request the salt
 		$().secure({host:'',act:'ajax_page',page:{zone:'login'},params:{act : 'salt_pass',nick : $('#nick').val()},
 			user_func:function (data) {
@@ -59,6 +60,9 @@ $(function() {
 							//Send password hashed and do login
 							$().secure({host:'',act:'ajax_page',page:{zone:'login'},params:{act : 'login',nick : $('#nick').val(),pass : pass_s,pass2 : CryptoJS.MD5(pass_r+data.token).toString(),id : data.id},
 								user_func:function (dat) {
+									log_load.fadeOut(300,function() {
+										$(this).remove();
+									});
 									if (dat.login=='ok') {
 										//Save key
 										sessionStorage.ale_sess = dat.sess;

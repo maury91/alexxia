@@ -93,6 +93,7 @@ if (isset($_CRIPTED)) {
 		echo '<script type="text/javascript">
 			__login_success = "'.$__login_success.'";
 			__login_error	= "'.$__login_error.'";
+			__login_load	= "'.$__login_load.'";
 		</script>
 		<div title="'.$__secure.'" class="secure_status"><div class="points"></div><div class="img unsecure"></div></div>
 		<div class="login">
