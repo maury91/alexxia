@@ -96,7 +96,7 @@ if (POST::exists('check')) {		//Ajax control for existent users and emails
 		</div>
 		<div class="extra_data">';
 	//Plug-ins inclusion (if a developer want to make a plug-in that add some data in the registration)
-	foreach (PLUGINS::in('core','reg','add_camps1') as $p) include($p);
+	foreach (PLUGINS::in('core','reg','add_fields1') as $p) include($p);
 echo	'</div>
 		<div class="left">'.$__nick.'*</div>
 		<div class="right"><input type="text" class="required" id="nick" /><span class="info"></span></div>		
@@ -114,7 +114,7 @@ echo	'</div>
 		<div class="right"><input type="text" id="lname" /></div>
 		<div class="extra_data">';
 	//Plug-ins inclusion (if a developer want to make a plug-in that add some data in the registration)
-	foreach (PLUGINS::in('core','reg','add_camps2') as $p) include($p);
+	foreach (PLUGINS::in('core','reg','add_fields2') as $p) include($p);
 echo	'</div>
 		<div class="left"><br/><br/><br/></div>
 		<div class="left">'.$captcha->text().'</div>

@@ -107,11 +107,11 @@ header nav li {
 	position: relative;
 }
 .main .page {
-	width: 720px;
+	width: 705px;
 	background: #FEFE92 url(images/sard.png);
 	background-repeat: no-repeat;
 	background-position: right;
-	padding: 15px 0 15px 15px;
+	padding: 15px;
 	float: left;
 	min-height: 700px;
 	border-radius: 3px;
@@ -146,8 +146,7 @@ header nav li {
 	color: #FFF;
 	position: relative;
 	font-weight: bold;
-	margin: -15px 0px 0 -15px;
-	margin-bottom: 15px;
+	margin: -15px -15px 15px -15px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 }
@@ -177,7 +176,7 @@ ul.list li {
 	border-left: 1px solid #ED8;
 }
 ul.list li.first {
-	margin-left:20px;
+	margin-left:25px;
 	border-left:0;
 }
 .page ul li .image {
