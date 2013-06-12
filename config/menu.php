@@ -73,7 +73,7 @@ $menu = array(
 				0 => array('text'=>'Accedi','href'=>'zone_login.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 11),
 				1 => array('text'=>'Registrati','href'=>'zone_reg.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 11),
 				2 => array('text'=>'Il mio account','href'=>'zone_account.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9),
-				3 => array('text'=>'Riepilogo attività','href'=>'com/ecommerce/my/summary.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9),
+				3 => array('text'=>'Esci','href'=>'zone_logout.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9)			
 			)
 		),
 		1 => array(
@@ -88,7 +88,7 @@ $menu = array(
 				0 => array('text'=>'Login','href'=>'zone_login.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 11),
 				1 => array('text'=>'Sign-up','href'=>'zone_reg.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 11),
 				2 => array('text'=>'My account','href'=>'zone_account.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 9),
-				3 => array('text'=>'Activity summary','href'=>'com/ecommerce/my/summary.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 9)
+				3 => array('text'=>'Logout','href'=>'zone_logout.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9)	
 			)
 		),
 		2 => array(		
