@@ -1,0 +1,50 @@
+.data {
+	border: 1px solid rgba(0,0,0,0.1);
+	overflow: hidden;
+	padding: 10px;
+	border-radius: 3px;
+}
+.photo {
+	float: left;
+	width: 130px;
+	height: 130px;
+	border: 1px solid;
+	position: relative;
+	z-index: 2;
+}
+.info {
+	padding: 5px 0 0 140px;
+	position: relative;
+	margin-bottom: 20px;
+}
+.photo .img.edit {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	display: none;
+	width: 20px;
+	height: 20px;
+	border: 1px solid;
+	cursor: pointer;
+}
+.photo:hover .img.edit {
+	display: block;
+}
+.ui-button {
+	font-size: 0.7em;
+}
+#change_user_info {	
+	position: absolute;
+	right: 5px;
+	display: none;
+}
+.info:hover #change_user_info {
+	display: block;
+}
+#change_user_pass {
+	margin-left: 10px;
+	font-size: 0.55em;
+}
+#change_user_pass .ui-button-text-only .ui-button-text {
+	padding: .2em 1em;
+}

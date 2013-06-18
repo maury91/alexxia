@@ -12,6 +12,10 @@ TODO LO MUNDO ES EN FIESTA! :
 			- Mostrare le spese di spedizione /*Dati insufficienti*/
 			- Inviare una mail all'utente ogni giorno per ricordargli del pagamento
 			- Inviare una mail all'utente quando il pagamento è arrivato
+			- Mostrare il prezzo non scontato
+		- Back Office
+			- Tag prodotto
+			- Descrizione breve
 	- Gestione utenti
 		- Informazioni sull'utente
 			- Tutti i prodotti comprati
