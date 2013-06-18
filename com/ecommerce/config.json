@@ -1,32 +1,32 @@
 [
 	{
 		"page" : "products",
-		"name" : {"it-IT" : "Gestisci Prodotti","en-US" : "Manage Products"},
-		"description" : {"it-IT" : "Gestisci i prodotti del tuo ecommerce, le offerte a essi collegati e le categorie di prodotti", "en-US" : "Manage the products, discounts and categories of your ecommerce"},
+		"name" : {"it" : "Gestisci Prodotti","en" : "Manage Products"},
+		"description" : {"it" : "Gestisci i prodotti del tuo ecommerce, le offerte a essi collegati e le categorie di prodotti", "en" : "Manage the products, discounts and categories of your ecommerce"},
 		"icon" : "icons/products.png"
 	},
 	{
 		"page" : "shipments",
-		"name" : {"it-IT" : "Gestisci Spedizioni","en-US" : "Manage Shipments"},
-		"description" : {"it-IT" : "Gestisci i metodi di spedizione dei tuoi prodotti","en-US" : "Manage shipment options"},
+		"name" : {"it" : "Gestisci Spedizioni","en" : "Manage Shipments"},
+		"description" : {"it" : "Gestisci i metodi di spedizione dei tuoi prodotti","en" : "Manage shipment options"},
 		"icon" : "icons/shipments.png"
 	},
 	{
 		"page" : "orders",
-		"name" : {"it-IT" : "Gestisci Ordini","en-US" : "Manage Orders"},
-		"description" : {"it-IT" : "Visualizza gli ordini dei clienti, imposta lo stato degli ordini e scegli quali notifiche ricevere alla tua casella email","en-US" : "View customer orders, set the status of orders and choose which notifications to receive in your email"},
+		"name" : {"it" : "Gestisci Ordini","en" : "Manage Orders"},
+		"description" : {"it" : "Visualizza gli ordini dei clienti, imposta lo stato degli ordini e scegli quali notifiche ricevere alla tua casella email","en" : "View customer orders, set the status of orders and choose which notifications to receive in your email"},
 		"icon" : "icons/orders.png"
 	},
 	{
 		"page" : "mauriziorompicojoni",
-		"name" : {"it-IT" : "Gestisci Magazzino","en-US" : "Manage Stock"},
-		"description" : {"it-IT" : "Gestisci i prodotti in magazzino","en-US" : "Manage the items in stock"},
+		"name" : {"it" : "Gestisci Magazzino","en" : "Manage Stock"},
+		"description" : {"it" : "Gestisci i prodotti in magazzino","en" : "Manage the items in stock"},
 		"icon" : "icons/stock.png"
 	},
 	{
 		"page" : "payments",
-		"name" : {"it-IT" : "Metodi di pagamento","en-US" : ""},
-		"description" : {"it-IT" : "Gestisci i metodi di pagamento supportarti.","en-US" : ""},
+		"name" : {"it" : "Metodi di pagamento","en" : ""},
+		"description" : {"it" : "Gestisci i metodi di pagamento supportarti.","en" : ""},
 		"icon" : "icons/payments.png"
 	}
 ]
