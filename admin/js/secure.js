@@ -144,6 +144,8 @@ var bcrypt=null;
 			call : function (opt,opt2) {
 				if (typeof opt=="string") {
 					switch (opt) {
+						case 'force_login' :
+							delete(sessionStorage.ale_sess);
 						case 'restore' : {
 							if ($().secure('loaded')) 
 								if ((sessionStorage.ale_sess != undefined)&&(sessionStorage.ale_key != undefined)) {
@@ -158,6 +160,8 @@ var bcrypt=null;
 												params : opt2.params,
 												success : function (data) {
 													$(opt2.target).html(data.content.html);
+													if (typeof opt2.success == 'function')
+														opt2.success(data);
 												}
 											});
 										},
@@ -191,7 +195,7 @@ var bcrypt=null;
 												.append($('<h2></h2>').html(data.__login))
 												.append($('<form></form>').addClass('datas')
 													.append($('<span></span>').addClass('label').html(data.__nick))
-													.append($('<input/>').attr({'type':'text','id':'nick'}))
+													.append($('<input/>').attr({'type':'text','id':'nick','value':(opt2.nick == undefined)?'':opt2.nick,'disabled' : (opt2.nick != undefined)}))
 													.append($('<span></span>').addClass('label').html(data.__pass))
 													.append($('<input/>').attr({'type':'password','id':'pass'}))
 													.append($('<input/>').attr({'type':'submit','value':data.__submit}))
@@ -224,7 +228,9 @@ var bcrypt=null;
 																									params: opt2.params, 
 																									success: function (data) {
 																										$(opt2.target).html(data.content.html);
-																										}
+																										if (typeof opt2.success == 'function')
+																											opt2.success(data);
+																									}
 																								});
 																							}, function() {});
 																						} else
@@ -239,7 +245,7 @@ var bcrypt=null;
 															});
 															return false;
 														})
-												.appendTo(opt2.target).hide().fadeIn(600);
+												.appendTo('body').hide().fadeIn(600);
 										},
 										error : function() {
 											//Nulla...

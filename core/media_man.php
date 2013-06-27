@@ -58,7 +58,7 @@ if (!PERMISSION::has('mediamanager_navigate')) {
 				if (!$data['del']) { echo '{"r" : "407"}'; exit(0);}
 				break;
 			case 'upl' :
-				if (!$data['upload']) { echo '{"r" : "407"}'; exit(0);}
+				if ((!$data['upload'])||(((!(strpos(GET::val('d'),'..')===false))||(strpos('!'.GET::val('d'),$data['dir'])!=1)))) { echo json_encode(array('r'=>406,'data'=>$data)); exit(0);}
 				break;
 			case 'list' :
 				//Controllo che la directory richiesta sia valida
@@ -72,13 +72,15 @@ if (!PERMISSION::has('mediamanager_navigate')) {
 	}
 } else {
 	if (GET::exists('uid')) {
-		session_start();
+		@session_start();
 		$data = $_SESSION['media_man'][GET::val('uid')];
 	} else 
 		$data = array('dir' => '', 'extensions' => 'all', 'multiple' => true,'navigable' => true);
 	$data['upload'] =  PERMISSION::has('mediamanager_upload');
 	$data['del'] =  PERMISSION::has('mediamanager_del');
 }
+if (GET::exists('d')&&(GET::val('d')==''))
+	$_GET['d'] = $data['dir'];
 switch (GET::val('act')) {
 	case 'list' : 
 		function get_perms($filename)
@@ -258,14 +260,14 @@ switch (GET::val('act')) {
 			$extra = '('.$exnum.')';
 			$exnum++;
 		}         
-        if (save_file($dir . $filename . $extra . '.' . $ext)) {
+        if (save_file(__base_path.$dir . $filename . $extra . '.' . $ext)) {
 			$fname = $filename. $extra.'.'.$ext;
 			$changed = $extra!='';
 			if ($data['onupload'] != '') {
 				$point = 'onupload';
-				include($data['onupload']);
+				include(__base_path.$data['onupload']);
 			}
-			echo htmlspecialchars(json_encode(array('success'=>true,'filename'=>$fname,'changed'=>$changed)), ENT_NOQUOTES);
+			echo htmlspecialchars(json_encode(array('success'=>true,'filename'=>$fname,'changed'=>$changed,'path'=>$dir)), ENT_NOQUOTES);
 	    } else 
             echo '{ error : 7 }';
 		exit(0);

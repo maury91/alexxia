@@ -35,7 +35,7 @@ class MEDIA_MAN {
 		if (self::$first&&!$admin) {
 			self::$first=false;
 			//Add the scripts of the media manager
-			HTML::add_script('js/media_man.js','zone_media_man.html?langvars"');
+			HTML::add_script('js/media_man.js','js/lang/mediam.'.LANG::short().'.js');
 			//Print the script
 			echo '<script type="text/javascript">__media_man_base_path = "'.__http.'"</script>';
 		}
@@ -44,6 +44,8 @@ class MEDIA_MAN {
 		//Add avaibles extensions
 		if (gettype($extensions) == 'array')
 			$extensions = array_map("strtolower", $extensions);
+		if ($extensions=='images')
+			$extensions = array('png','jpg','jpeg','bmp','gif');
 		@session_start();
 		//Create the session
 		$_SESSION['media_man'][$media_id] = array('dir' => $dir, 'extensions' => $extensions, 'multiple' => $multiple, 'upload' => $upload,'del' => $del,'navigable' => $navigable,'onupload' => $onupload,'ondelete' => $ondelete,'show_files'=>$show_files,'show_folder'=>$show_folder);

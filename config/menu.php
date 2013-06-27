@@ -70,10 +70,10 @@ $menu = array(
 			'lang'=>'it',
 			'html'=>'',
 			'links' => array(
-				0 => array('text'=>'Accedi','href'=>'zone_login.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 11),
-				1 => array('text'=>'Registrati','href'=>'zone_reg.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 11),
-				2 => array('text'=>'Il mio account','href'=>'zone_account.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9),
-				3 => array('text'=>'Esci','href'=>'zone_logout.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9)			
+				0 => array('text'=>'Accedi','href'=>'my/login.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 11),
+				1 => array('text'=>'Registrati','href'=>'my/reg.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 11),
+				2 => array('text'=>'Il mio profilo','href'=>'my/profile.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9),
+				3 => array('text'=>'Esci','href'=>'my/logout.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9)			
 			)
 		),
 		1 => array(
@@ -85,10 +85,10 @@ $menu = array(
 			'lang'=>'en',
 			'html'=>'',
 			'links' => array(
-				0 => array('text'=>'Login','href'=>'zone_login.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 11),
-				1 => array('text'=>'Sign-up','href'=>'zone_reg.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 11),
-				2 => array('text'=>'My account','href'=>'zone_account.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 9),
-				3 => array('text'=>'Logout','href'=>'zone_logout.html','lang'=>'it','class'=>'','image'=>'','html'=>'','level' => 9)	
+				0 => array('text'=>'Login','href'=>'my/login.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 11),
+				1 => array('text'=>'Sign-up','href'=>'my/reg.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 11),
+				2 => array('text'=>'My profile','href'=>'my/profile.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 9),
+				3 => array('text'=>'Logout','href'=>'my/logout.html','lang'=>'en','class'=>'','image'=>'','html'=>'','level' => 9)	
 			)
 		),
 		2 => array(		

@@ -4,18 +4,26 @@
 	padding: 10px;
 	border-radius: 3px;
 }
-.photo {
+.data .photo {
 	float: left;
 	width: 130px;
 	height: 130px;
-	border: 1px solid;
 	position: relative;
 	z-index: 2;
+	background: url(images/usr150.jpg);
+	background-size: cover;
+	border-radius: 4px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-color: #000;
 }
 .info {
 	padding: 5px 0 0 140px;
 	position: relative;
 	margin-bottom: 20px;
+}
+.info .infos {
+	display:block;
 }
 .photo .img.edit {
 	position: absolute;
@@ -47,4 +55,38 @@
 }
 #change_user_pass .ui-button-text-only .ui-button-text {
 	padding: .2em 1em;
+}
+.data input[type="text"],.data input[type="password"],.data input[type="email"],.data select {
+	width: 100%;
+	border: 1px solid #CCC;
+	padding: 3px;
+	font-size: 1em;
+	color: #777;
+	border-radius: 3px;
+}
+.data select {
+	width: 103.5%;
+}
+.data input[type="text"].error, .data input[type="password"].error, .data input[type="email"].error {
+	outline-color: #E66;
+	outline-offset: -2px;
+	outline-style: auto;
+	outline-width: 5px;
+}
+.data input[type="text"].ok, .data input[type="password"].ok, .data input[type="email"].ok {
+	outline-color: #3A3;
+	outline-offset: -2px;
+	outline-style: auto;
+	outline-width: 5px;
+}
+.data .left {
+	float: left;
+	clear: left;
+	font-size: 1.04em;
+	padding: 5px 0;
+	width:150px;
+}
+.data .right {
+	width: 250px;
+	float: left;
 }
